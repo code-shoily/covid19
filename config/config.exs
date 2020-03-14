@@ -17,6 +17,9 @@ config :covid19, Covid19Web.Endpoint,
   render_errors: [view: Covid19Web.ErrorView, accepts: ~w(html json)],
   pubsub: [name: Covid19.PubSub, adapter: Phoenix.PubSub.PG2]
 
+config :covid19, :data_source,
+  daily_dir: "data/covid19/csse_covid_19_data/csse_covid_19_daily_reports"
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
