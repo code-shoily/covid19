@@ -35,8 +35,19 @@ defmodule Covid19.DataSource.DailyCSV do
     end
   end
 
+  @doc """
+  Reads all files and stores them as a single list
+  """
+  @spec read_all() :: [row()]
+  def read_all do
+    PathHelpers.dates
+    |> Enum.flat_map(&read/1)
+  end
+
   defp as_map([heading | body]) do
     heading = Enum.map(heading, &Sanitizer.sanitize_heading/1)
+    body = Enum.map(body, fn row -> Enum.map(row, &String.trim/1) end)
+
     body
     |> Enum.map(fn row ->
       Enum.zip(heading, row) |> Enum.into(%{})
