@@ -6,15 +6,17 @@ defmodule Covid19.DataSource.DailyCSV do
   alias Covid19.Helpers.{PathHelpers, Sanitizer}
 
   @typep value() :: String.t()
-  @type row :: %{
-          required(:confirmed) => value(),
-          required(:country) => value(),
-          required(:deaths) => value(),
-          required(:recovered) => value(),
-          required(:province_or_state) => value(),
-          optional(:latitude) => value(),
-          optional(:longitude) => value()
-        } | [value()]
+  @type row ::
+          %{
+            required(:confirmed) => value(),
+            required(:country) => value(),
+            required(:deaths) => value(),
+            required(:recovered) => value(),
+            required(:province_or_state) => value(),
+            optional(:latitude) => value(),
+            optional(:longitude) => value()
+          }
+          | [value()]
   @type parsed_content :: [row()]
 
   @doc """

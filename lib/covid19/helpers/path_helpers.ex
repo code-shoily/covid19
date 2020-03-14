@@ -25,7 +25,7 @@ defmodule Covid19.Helpers.PathHelpers do
     |> File.ls!()
     |> Enum.sort()
     |> Enum.map(&filename_to_date/1)
-    |> Enum.reject(& &1 == :error)
+    |> Enum.reject(&(&1 == :error))
   end
 
   defp date_to_string(date) do
