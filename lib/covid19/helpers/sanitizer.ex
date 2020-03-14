@@ -72,4 +72,36 @@ defmodule Covid19.Helpers.Sanitizer do
   def sanitize_country("Vietnam"), do: "Viet Nam"
 
   def sanitize_country(country), do: country
+
+  @doc """
+  Converts str into `NaiveDateTime`, the file has two different formats of time,
+  this one accommodates both.
+  """
+  def to_datetime(str) do
+    case NaiveDateTime.from_iso8601(str) do
+      {:ok, result} ->
+        result
+
+      _ ->
+        with [date, time] <- String.split(str, " "),
+             [month, day, year] <- String.split(date, "/"),
+             [hour, minute] <- String.split(time, ":"),
+             {year, _} <- Integer.parse(year),
+             {month, _} <- Integer.parse(month),
+             {day, _} <- Integer.parse(day),
+             {hour, _} <- Integer.parse(hour),
+             {minute, _} <- Integer.parse(minute) do
+          %NaiveDateTime{
+            year: year,
+            month: month,
+            day: day,
+            hour: hour,
+            minute: minute,
+            second: 0
+          }
+        else
+          _ -> :error
+        end
+    end
+  end
 end
