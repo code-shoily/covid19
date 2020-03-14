@@ -7,7 +7,7 @@ defmodule Covid19.Helpers.Sanitizer do
           :confirmed
           | :country
           | :deaths
-          | :updated_at
+          | :timestamp
           | :recovered
           | :province_or_state
           | :latitude
@@ -18,9 +18,9 @@ defmodule Covid19.Helpers.Sanitizer do
   """
   @spec sanitize_heading(String.t()) :: heading
   def sanitize_heading("Confirmed"), do: :confirmed
-  def sanitize_heading("Country/Region"), do: :country
+  def sanitize_heading("Country/Region"), do: :country_or_region
   def sanitize_heading("Deaths"), do: :deaths
-  def sanitize_heading("Last Update"), do: :updated_at
+  def sanitize_heading("Last Update"), do: :timestamp
   def sanitize_heading("Recovered"), do: :recovered
   def sanitize_heading("\uFEFFProvince/State"), do: :province_or_state
   def sanitize_heading("Province/State"), do: :province_or_state

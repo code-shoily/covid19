@@ -57,7 +57,7 @@ defmodule Covid19.Helpers.Inspector do
   defp get_mentioned_countries do
     DailyCSV.read_all(true)
     |> Enum.flat_map(& &1)
-    |> Enum.map(& &1.country)
+    |> Enum.map(& &1.country_or_region)
     |> Enum.uniq()
     |> Enum.sort()
     |> Enum.map(&Sanitizer.sanitize_country/1)

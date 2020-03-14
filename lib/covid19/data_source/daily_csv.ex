@@ -9,12 +9,13 @@ defmodule Covid19.DataSource.DailyCSV do
   @type row ::
           %{
             required(:confirmed) => value(),
-            required(:country) => value(),
+            required(:country_or_region) => value(),
             required(:deaths) => value(),
             required(:recovered) => value(),
             required(:province_or_state) => value(),
             optional(:latitude) => value(),
-            optional(:longitude) => value()
+            optional(:longitude) => value(),
+            optional(:timestamp) => value()
           }
           | [value()]
   @type parsed_content :: [row()]
