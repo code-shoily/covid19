@@ -44,7 +44,8 @@ defmodule Covid19.MixProject do
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:csv, "~> 2.3"},
-      {:countries, "~> 1.5"}
+      {:countries, "~> 1.5"},
+      {:credo, "~> 1.2", only: [:dev, :test], runtime: false}
     ]
   end
 
