@@ -12,6 +12,7 @@ defmodule Covid19.DataSource.DailyCSV do
 
   @type sanitized_row ::
           %{
+            required(:date) => Date.t(),
             optional(:uid) => text(),
             required(:country_or_region) => text(),
             required(:province_or_state) => text(),
@@ -51,7 +52,7 @@ defmodule Covid19.DataSource.DailyCSV do
         |> CSV.decode!()
         |> Enum.to_list()
 
-      (sanitized? && as_map(data, src: path)) || data
+      (sanitized? && as_map(data, path, date)) || data
     else
       false -> {:error, :nofile}
     end
@@ -70,7 +71,7 @@ defmodule Covid19.DataSource.DailyCSV do
   end
 
   @drop_keys ~w/fips combined_key iso3/a
-  defp as_map([heading | body], opts) do
+  defp as_map([heading | body], src, date) do
     heading = Enum.map(heading, &Sanitizer.sanitize_heading/1)
     body = Enum.map(body, fn row -> Enum.map(row, &String.trim/1) end)
 
@@ -92,7 +93,8 @@ defmodule Covid19.DataSource.DailyCSV do
       |> Map.update(:latitude, nil, &Converters.to_decimal/1)
       |> Map.update(:longitude, nil, &Converters.to_decimal/1)
       |> Map.update(:timestamp, nil, &Converters.to_datetime!/1)
-      |> Map.put_new(:src, opts[:src])
+      |> Map.put_new(:src, src)
+      |> Map.put_new(:date, date)
       |> Map.drop(@drop_keys)
     end)
   end

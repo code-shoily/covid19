@@ -5,6 +5,7 @@ defmodule Covid19.Schemas.DailyData do
 
   schema "daily_data" do
     field :src, :string
+    field :date, :date
     field :country_or_region, :string
     field :province_or_state, :string
     field :county, :string
@@ -23,7 +24,7 @@ defmodule Covid19.Schemas.DailyData do
     src country_or_region province_or_state county latitude
     longitude active confirmed deaths recovered timestamp
   /a
-  @required_fields ~w/src country_or_region timestamp/a
+  @required_fields ~w/src country_or_region date/a
   def changeset(daily_data, params) do
     daily_data
     |> cast(params, @fields)

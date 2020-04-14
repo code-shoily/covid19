@@ -3,7 +3,7 @@ defmodule Covid19.Repo.Migrations.AddCountyToDailyData do
 
   def change do
     alter table(:daily_data) do
-      add :county, :string
+      add :county, :string, default: ""
     end
   end
 end

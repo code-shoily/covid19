@@ -11,7 +11,7 @@ defmodule Covid19.Operations do
     schema = (us? && DailyUSData) || DailyData
 
     date
-    |> DailyCSV.read()
+    |> DailyCSV.read(us?: us?)
     |> Enum.map(&schema.changeset(schema.new(), &1))
     |> Enum.with_index()
     |> Enum.reduce(Multi.new(), fn {changeset, idx}, multi ->

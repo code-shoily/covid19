@@ -3,7 +3,8 @@ defmodule Covid19.Repo.Migrations.CreateDailyDataTable do
 
   def change do
     create table(:daily_data) do
-      add :src, :string
+      add :src, :string, null: false
+      add :date, :date, null: false
       add :country_or_region, :string
       add :province_or_state, :string
       add :latitude, :decimal

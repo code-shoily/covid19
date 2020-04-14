@@ -6,6 +6,7 @@ defmodule Covid19.Schemas.DailyUSData do
   schema "daily_data" do
     field :uid, :string
     field :src, :string
+    field :date, :date
     field :country_or_region, :string
     field :province_or_state, :string
     field :county, :string
@@ -32,7 +33,7 @@ defmodule Covid19.Schemas.DailyUSData do
     people_tested people_hospitalized testing_rate incident_rate
     hospitalization_rate mortality_rate uid
   /a
-  @required_fields ~w/src country_or_region timestamp/a
+  @required_fields ~w/src country_or_region date/a
   def changeset(daily_data, params) do
     daily_data
     |> cast(params, @fields)

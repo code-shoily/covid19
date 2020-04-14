@@ -6,7 +6,8 @@ defmodule Covid19.Repo.Migrations.CreateDailyDataUs do
   def change do
     create table(:daily_data_us) do
       add :uid, :string
-      add :src, :string
+      add :src, :string, null: false
+      add :date, :date, null: false
       add :country_or_region, :string
       add :province_or_state, :string
       add :latitude, :decimal
