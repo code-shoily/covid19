@@ -30,14 +30,16 @@ defmodule Covid19.DataSource.DailyCSV do
   @spec read(Date.t(), boolean()) :: parsed_content()
   def read(%Date{} = date, sanitized? \\ true) do
     with path <- PathHelpers.get_data_file(date),
+         src <- Path.basename(path),
          true <- File.exists?(path) do
+
       data =
         path
         |> File.stream!()
         |> CSV.decode!()
         |> Enum.to_list()
 
-      (sanitized? && as_map(data)) || data
+      (sanitized? && as_map(data, src: src)) || data
     else
       false -> {:error, :nofile}
     end
@@ -53,7 +55,7 @@ defmodule Covid19.DataSource.DailyCSV do
   end
 
   @drop_keys ~w/fips combined_key admin/a
-  defp as_map([heading | body]) do
+  defp as_map([heading | body], opts) do
     heading = Enum.map(heading, &Sanitizer.sanitize_heading/1)
     body = Enum.map(body, fn row -> Enum.map(row, &String.trim/1) end)
 
@@ -69,6 +71,7 @@ defmodule Covid19.DataSource.DailyCSV do
       |> Map.update(:latitude, nil, &Converters.to_decimal/1)
       |> Map.update(:longitude, nil, &Converters.to_decimal/1)
       |> Map.update(:timestamp, nil, &Converters.to_datetime!/1)
+      |> Map.put_new(:src, opts[:src])
       |> Map.drop(@drop_keys)
     end)
   end

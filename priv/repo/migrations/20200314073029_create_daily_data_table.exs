@@ -5,8 +5,12 @@ defmodule Covid19.Repo.Migrations.CreateDailyDataTable do
 
   def change do
     create table(:daily_data) do
+      add :src, :string
       add :country_or_region, :string
       add :province_or_state, :string
+      add :latitude, :decimal
+      add :longitude, :decimal
+      add :active, :integer
       add :confirmed, :integer
       add :deaths, :integer
       add :recovered, :integer
@@ -14,18 +18,5 @@ defmodule Covid19.Repo.Migrations.CreateDailyDataTable do
 
       timestamps()
     end
-  end
-
-  @fields ~w/
-    country_or_region
-    province_or_state
-    confirmed
-    deaths
-    recovered
-    timestamp
-  /a
-  def changeset(schema, params) do
-    schema
-    |> cast(params, @fields)
   end
 end
