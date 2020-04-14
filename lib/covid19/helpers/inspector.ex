@@ -54,12 +54,20 @@ defmodule Covid19.Helpers.Inspector do
     end)
   end
 
-  defp get_mentioned_countries do
+  def get_mentioned_countries do
     DailyCSV.read_all(true)
-    |> Enum.flat_map(& &1)
-    |> Enum.map(& &1.country_or_region)
-    |> Enum.uniq()
+    |> Stream.flat_map(& &1)
+    |> Stream.map(& &1.country_or_region)
+    |> Stream.uniq()
+    |> Stream.map(&Sanitizer.sanitize_country/1)
     |> Enum.sort()
-    |> Enum.map(&Sanitizer.sanitize_country/1)
+  end
+
+  def get_mentioned_zones do
+    DailyCSV.read_all(true)
+    |> Stream.flat_map(& &1)
+    |> Stream.map(& &1.province_or_state)
+    |> Stream.uniq()
+    |> Enum.sort()
   end
 end

@@ -5,19 +5,21 @@ defmodule Covid19.DataSource.DailyCSV do
 
   alias Covid19.Helpers.{PathHelpers, Sanitizer}
 
-  @typep value() :: String.t()
+  @typep text() :: String.t() | nil
+  @typep maybe_number() :: non_neg_integer() | nil
   @type row ::
           %{
-            required(:confirmed) => value(),
-            required(:country_or_region) => value(),
-            required(:deaths) => value(),
-            required(:recovered) => value(),
-            required(:province_or_state) => value(),
-            optional(:latitude) => value(),
-            optional(:longitude) => value(),
-            optional(:timestamp) => value()
+            required(:active) => maybe_number(),
+            required(:confirmed) => maybe_number(),
+            required(:country_or_region) => text(),
+            required(:deaths) => maybe_number(),
+            required(:recovered) => maybe_number(),
+            required(:province_or_state) => text(),
+            optional(:latitude) => text(),
+            optional(:longitude) => text(),
+            optional(:timestamp) => text()
           }
-          | [value()]
+          | [text()]
   @type parsed_content :: [row()]
 
   @doc """
@@ -50,13 +52,23 @@ defmodule Covid19.DataSource.DailyCSV do
     |> Enum.map(&read(&1, sanitized?))
   end
 
+  @drop_keys ~w/fips combined_key admin/a
   defp as_map([heading | body]) do
     heading = Enum.map(heading, &Sanitizer.sanitize_heading/1)
     body = Enum.map(body, fn row -> Enum.map(row, &String.trim/1) end)
 
     body
     |> Enum.map(fn row ->
-      Enum.zip(heading, row) |> Enum.into(%{})
+      Enum.zip(heading, row)
+      |> Enum.into(%{})
+      |> Map.update(:country_or_region, nil, &Sanitizer.sanitize_country/1)
+      |> Map.update(:active, nil, &Sanitizer.coerce_integer/1)
+      |> Map.update(:confirmed, nil, &Sanitizer.coerce_integer/1)
+      |> Map.update(:deaths, nil, &Sanitizer.coerce_integer/1)
+      |> Map.update(:recovered, nil, &Sanitizer.coerce_integer/1)
+      |> Map.update(:latitude, nil, &Sanitizer.coerce_decimal/1)
+      |> Map.update(:longitude, nil, &Sanitizer.coerce_decimal/1)
+      |> Map.drop(@drop_keys)
     end)
   end
 end
