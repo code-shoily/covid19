@@ -36,6 +36,8 @@ defmodule Covid19.Helpers.Converters do
     end
   end
 
+  defp to_datetime(""), do: {:ok, nil}
+
   defp to_datetime(str) do
     case Timex.parse(str, "{ISO:Extended}") do
       {:ok, _} = date -> date

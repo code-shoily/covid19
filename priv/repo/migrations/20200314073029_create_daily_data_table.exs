@@ -1,8 +1,6 @@
 defmodule Covid19.Repo.Migrations.CreateDailyDataTable do
   use Ecto.Migration
 
-  import Ecto.Changeset
-
   def change do
     create table(:daily_data) do
       add :src, :string

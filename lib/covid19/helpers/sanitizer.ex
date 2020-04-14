@@ -5,22 +5,31 @@ defmodule Covid19.Helpers.Sanitizer do
   """
   @type heading ::
           :admin
-          | :active
-          | :confirmed
-          | :country
-          | :deaths
-          | :fips
-          | :timestamp
-          | :recovered
+          | :uid
+          | :iso3
+          | :country_or_region
           | :province_or_state
+          | :county
+          | :fips
           | :latitude
           | :longitude
+          | :active
+          | :confirmed
+          | :recovered
+          | :deaths
+          | :people_tested
+          | :people_hospitalized
+          | :incident_rate
+          | :testing_rate
+          | :hospitalization_rate
+          | :mortality_rate
+          | :timestamp
 
   @doc """
   Translates heading names found in the file into standard keys.
   """
   @spec sanitize_heading(String.t()) :: heading
-  def sanitize_heading("Admin2"), do: :admin
+  def sanitize_heading("Admin2"), do: :county
   def sanitize_heading("Active"), do: :active
   def sanitize_heading("Combined_Key"), do: :combined_key
   def sanitize_heading("Confirmed"), do: :confirmed
@@ -39,6 +48,16 @@ defmodule Covid19.Helpers.Sanitizer do
   def sanitize_heading("Lat"), do: :latitude
   def sanitize_heading("Longitude"), do: :longitude
   def sanitize_heading("Long_"), do: :longitude
+
+  ## US ONLY FIELD
+  def sanitize_heading("Incident_Rate"), do: :incident_rate
+  def sanitize_heading("People_Tested"), do: :people_tested
+  def sanitize_heading("People_Hospitalized"), do: :people_hospitalized
+  def sanitize_heading("Mortality_Rate"), do: :mortality_rate
+  def sanitize_heading("UID"), do: :uid
+  def sanitize_heading("ISO3"), do: :iso3
+  def sanitize_heading("Testing_Rate"), do: :testing_rate
+  def sanitize_heading("Hospitalization_Rate"), do: :hospitalization_rate
 
   # TODO: Sort these things!
   @doc """
