@@ -16,7 +16,7 @@ defmodule Covid19.Helpers.Inspector do
   end
 
   @doc """
-  Valid country names
+  Valid country names, from `Countries` module
   """
   def all_countries do
     Countries.all()
@@ -54,6 +54,10 @@ defmodule Covid19.Helpers.Inspector do
     end)
   end
 
+  @doc """
+  Extracts the country names (along with typos/alternative names) from
+  given files
+  """
   def get_mentioned_countries do
     DailyCSV.read_all(true)
     |> Stream.flat_map(& &1)
@@ -63,11 +67,13 @@ defmodule Covid19.Helpers.Inspector do
     |> Enum.sort()
   end
 
-  def get_mentioned_zones do
+  @doc """
+  Returns different types of date formats used in different files
+  """
+  def get_date_formats do
     DailyCSV.read_all(true)
-    |> Stream.flat_map(& &1)
-    |> Stream.map(& &1.province_or_state)
-    |> Stream.uniq()
-    |> Enum.sort()
+    |> Enum.map(fn [%{timestamp: timestamp} | _] ->
+      timestamp
+    end)
   end
 end

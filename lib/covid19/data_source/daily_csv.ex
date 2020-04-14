@@ -3,7 +3,7 @@ defmodule Covid19.DataSource.DailyCSV do
   Functions to read from the CSV daily reports.
   """
 
-  alias Covid19.Helpers.{PathHelpers, Sanitizer}
+  alias Covid19.Helpers.{PathHelpers, Sanitizer, Converters}
 
   @typep text() :: String.t() | nil
   @typep maybe_number() :: non_neg_integer() | nil
@@ -62,12 +62,13 @@ defmodule Covid19.DataSource.DailyCSV do
       Enum.zip(heading, row)
       |> Enum.into(%{})
       |> Map.update(:country_or_region, nil, &Sanitizer.sanitize_country/1)
-      |> Map.update(:active, nil, &Sanitizer.coerce_integer/1)
-      |> Map.update(:confirmed, nil, &Sanitizer.coerce_integer/1)
-      |> Map.update(:deaths, nil, &Sanitizer.coerce_integer/1)
-      |> Map.update(:recovered, nil, &Sanitizer.coerce_integer/1)
-      |> Map.update(:latitude, nil, &Sanitizer.coerce_decimal/1)
-      |> Map.update(:longitude, nil, &Sanitizer.coerce_decimal/1)
+      |> Map.update(:active, nil, &Converters.to_integer/1)
+      |> Map.update(:confirmed, nil, &Converters.to_integer/1)
+      |> Map.update(:deaths, nil, &Converters.to_integer/1)
+      |> Map.update(:recovered, nil, &Converters.to_integer/1)
+      |> Map.update(:latitude, nil, &Converters.to_decimal/1)
+      |> Map.update(:longitude, nil, &Converters.to_decimal/1)
+      |> Map.update(:timestamp, nil, &Converters.to_datetime!/1)
       |> Map.drop(@drop_keys)
     end)
   end
