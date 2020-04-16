@@ -48,7 +48,8 @@ defmodule Covid19.MixProject do
       {:timex, "~> 3.5"},
       {:credo, "~> 1.2", only: [:dev, :test], runtime: false},
       {:phoenix_live_view, "~> 0.11.1"},
-      {:floki, ">= 0.0.0", only: :test}
+      {:floki, ">= 0.0.0", only: :test},
+      {:number, "~> 1.0.1"}
     ]
   end
 
