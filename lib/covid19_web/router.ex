@@ -16,11 +16,6 @@ defmodule Covid19Web.Router do
   scope "/", Covid19Web do
     pipe_through :browser
 
-    get "/", PageController, :index
+    get "/", HomeController, :index
   end
-
-  # Other scopes may use custom stacks.
-  # scope "/api", Covid19Web do
-  #   pipe_through :api
-  # end
 end
