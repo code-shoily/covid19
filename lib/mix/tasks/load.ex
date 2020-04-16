@@ -24,7 +24,7 @@ defmodule Mix.Tasks.Covid19.Load do
 
   @shortdoc "Load data from CSV into DB Table"
   def run(args) do
-    Mix.Task.run "app.start", []
+    Mix.Task.run("app.start", [])
 
     case args do
       [_, _, _] -> load_for_date(args)
@@ -35,43 +35,37 @@ defmodule Mix.Tasks.Covid19.Load do
   defp load_for_date([_, _, _] = args) do
     [year, month, day] = Enum.map(args, &String.to_integer/1)
     date = %Date{year: year, month: month, day: day}
-    Mix.shell.info("Loading world data for #{date}")
-
     print_response(Operations.insert_daily_data(date), date, "world")
-    Mix.shell.info("Now loading US data for #{date}")
     print_response(Operations.insert_daily_data(date, us?: true), date, "US")
   rescue
     _ ->
-      Mix.shell.error(@usage_message)
+      Mix.shell().error(@usage_message)
   end
 
   defp load_all_new() do
-    Mix.shell.info("Loading new data")
     %{us: us_dates, world: world_dates} = Queries.unprocessed_dates()
 
     for date <- world_dates do
-      Mix.shell.info("Loading world data for for #{date}")
       print_response(Operations.insert_daily_data(date), date, "world")
     end
 
     for date <- us_dates do
-      Mix.shell.info("Loading data for US for #{date}")
       print_response(Operations.insert_daily_data(date, us?: true), date, "US")
     end
-
-    Mix.shell.info("All data inserted")
   end
 
   defp print_response(result, date, prefix) do
     case result do
       {:error, :nofile} ->
-        Mix.shell.error("! File (#{prefix}) does not exist. Are you sure you have fetched the latest files?")
+        Mix.shell().error(
+          "! File (#{prefix}) does not exist for #{date}. Are you sure you have fetched the latest files?"
+        )
 
       {:error, key, _} ->
-        Mix.shell.error("! Error loading #{prefix} data for #{date} with key #{key}")
+        Mix.shell().error("! Error loading #{prefix} data for #{date} with key #{key}")
 
       {:ok, _} ->
-        Mix.shell.info("* The #{prefix} data successfully loaded for #{date}")
+        Mix.shell().info("* The #{prefix} data successfully loaded for #{date}")
     end
   end
 end

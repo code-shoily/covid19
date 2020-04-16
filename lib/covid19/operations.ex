@@ -4,6 +4,23 @@ defmodule Covid19.Operations do
   alias Covid19.Repo
   alias Ecto.Multi
 
+  import Ecto.Query
+
+  @type dataset_types :: :us | :world
+
+  @doc """
+  Deletes all entries belonging to a date or a list of dates.
+  """
+  @spec delete(Date.t(), dataset_types) :: {non_neg_integer(), any()}
+  def delete(%Date{} = date, :us), do: delete_by_dates([date], DailyDataUS)
+  def delete(%Date{} = date, :world), do: delete_by_dates([date], DailyData)
+  def delete(date, :us) when is_list(date), do: delete_by_dates(date, DailyDataUS)
+  def delete(date, :world) when is_list(date), do: delete_by_dates(date, DailyData)
+
+  defp delete_by_dates(dates, schema) when is_list(dates) do
+    where(schema, [s], s.date in ^dates) |> Repo.delete_all()
+  end
+
   def insert_daily_data(%Date{} = date, opts \\ []) do
     us? = opts[:us?] || false
 
