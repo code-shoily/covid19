@@ -22,6 +22,7 @@ defmodule Covid19Web do
       use Phoenix.Controller, namespace: Covid19Web
 
       import Plug.Conn
+      import Phoenix.LiveView.Controller
       import Covid19Web.Gettext
       alias Covid19Web.Router.Helpers, as: Routes
     end
@@ -39,6 +40,8 @@ defmodule Covid19Web do
       # Use all HTML functionality (forms, tags, etc)
       use Phoenix.HTML
 
+      import Phoenix.LiveView.Helpers
+
       import Covid19Web.ErrorHelpers
       import Covid19Web.Gettext
       alias Covid19Web.Router.Helpers, as: Routes
@@ -50,6 +53,7 @@ defmodule Covid19Web do
       use Phoenix.Router
       import Plug.Conn
       import Phoenix.Controller
+      import Phoenix.LiveView.Router
     end
   end
 
