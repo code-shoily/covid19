@@ -4,12 +4,14 @@
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Covid19 · Phoenix Framework</title>
+    <title>assigns[:page_title] | Covid19 Dashboard</title>
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
     <%= csrf_meta_tag() %>
   </head>
   <body>
-    <%= render @view_module, @view_template, assigns %>
+    <p><%= live_flash(@flash, :notice) %></p>
+    <p><%= live_flash(@flash, :error) %></p>
+    <%= @inner_content %>
     <script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
   </body>
 </html>

@@ -13,9 +13,9 @@ defmodule Covid19Web.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/", Covid19Web do
+  scope "/", Covid19Web.Live.Views do
     pipe_through :browser
 
-    get "/", HomeController, :index
+    live("/", Dashboard, layout: {Covid19Web.LayoutView, "app.html"})
   end
 end
