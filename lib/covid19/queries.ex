@@ -15,7 +15,7 @@ defmodule Covid19.Queries do
 
   defdelegate dates(dataset), to: PathHelpers
 
-  @moduledoc """
+  @doc """
   Returns the dates for which data was processed
   """
   @spec processed_dates(datasets) :: maybe_dates()
@@ -52,5 +52,52 @@ defmodule Covid19.Queries do
     |> select([d], d.date)
     |> distinct(true)
     |> Repo.all()
+  end
+
+  @type world_summary_type :: %{
+          required(:date) => Date.t(),
+          required(:deaths) => non_neg_integer(),
+          required(:confirmed) => non_neg_integer(),
+          required(:recovered) => non_neg_integer(),
+          required(:active) => non_neg_integer()
+        }
+  @spec world_summary_by_date(Date.t()) :: world_summary_type()
+  def world_summary_by_date(%Date{} = date) do
+    DailyData
+    |> where([e], e.date == ^date)
+    |> select([e], %{
+      deaths: sum(e.deaths),
+      confirmed: sum(e.confirmed),
+      recovered: sum(e.recovered),
+      active: sum(e.active)
+    })
+    |> Repo.one()
+    |> Map.put_new(:date, date)
+    |> calculate_active()
+  end
+
+  @spec world_summary() :: [world_summary_type()]
+  def world_summary() do
+    DailyData
+    |> group_by([e], e.date)
+    |> select([e], %{
+      date: e.date,
+      deaths: sum(e.deaths),
+      confirmed: sum(e.confirmed),
+      recovered: sum(e.recovered)
+    })
+    |> order_by([e], e.date)
+    |> Repo.all()
+    |> Enum.map(&calculate_active/1)
+  end
+
+  defp calculate_active(
+         %{
+           confirmed: confirmed,
+           recovered: recovered,
+           deaths: deaths
+         } = data
+       ) do
+    Map.put(data, :active, confirmed - (recovered + deaths))
   end
 end
