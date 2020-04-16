@@ -4,6 +4,7 @@ defmodule Covid19.Helpers.PathHelpers do
   """
 
   @type path :: String.t()
+  @type datasets :: :world | :us
 
   @doc """
   Returns the full path of the daily data file for `date`
@@ -31,9 +32,9 @@ defmodule Covid19.Helpers.PathHelpers do
 
   This is useful to check in `iex` for availability of files and exploratory programming.
   """
-  @spec dates :: [Date.t()]
-  def dates(value \\ :world) do
-    case value do
+  @spec dates(datasets) :: [Date.t()]
+  def dates(dataset \\ :world) do
+    case dataset do
       :world -> base_path()
       :us -> base_us_path()
     end

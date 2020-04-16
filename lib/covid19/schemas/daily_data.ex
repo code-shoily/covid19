@@ -22,13 +22,14 @@ defmodule Covid19.Schemas.DailyData do
 
   @fields ~w/
     src country_or_region province_or_state county latitude
-    longitude active confirmed deaths recovered timestamp
+    longitude active confirmed deaths recovered timestamp date
   /a
   @required_fields ~w/src country_or_region date/a
   def changeset(daily_data, params) do
     daily_data
     |> cast(params, @fields)
     |> validate_required(@required_fields)
+    |> unique_constraint([:src, :country_or_region, :province_or_state, :county])
   end
 
   def new, do: %__MODULE__{}

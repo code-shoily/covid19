@@ -41,7 +41,7 @@ defmodule Covid19.Helpers.Converters do
   defp to_datetime(str) do
     case Timex.parse(str, "{ISO:Extended}") do
       {:ok, _} = date -> date
-      {:error, _} -> Timex.parse!(format_date(str), "%m/%d/%y %R", :strftime)
+      {:error, _} -> Timex.parse(format_date(str), "%m/%d/%y %R", :strftime)
     end
   end
 

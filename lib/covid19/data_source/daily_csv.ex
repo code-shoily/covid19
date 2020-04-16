@@ -39,7 +39,7 @@ defmodule Covid19.DataSource.DailyCSV do
 
   Returns a list of map with the heading items of the CSV as keys.
   """
-  @spec read(Date.t(), [atom()]) :: parsed_content()
+  @spec read(Date.t(), any()) :: parsed_content() | :error
   def read(%Date{} = date, opts \\ []) do
     us? = opts[:us?] || false
     sanitized? = is_nil(opts[:sanitized?]) && true || opts[:sanitized?]
@@ -54,7 +54,7 @@ defmodule Covid19.DataSource.DailyCSV do
 
       (sanitized? && as_map(data, path, date)) || data
     else
-      false -> {:error, :nofile}
+      false -> :error
     end
   end
 
