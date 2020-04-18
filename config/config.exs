@@ -15,7 +15,7 @@ config :covid19, Covid19Web.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "S0MsJF4QErZU6wIFo090Z234cWG1Vz+Bara29Taiq0vE20fqCuqbqN3ROOLaNYaQ",
   render_errors: [view: Covid19Web.ErrorView, accepts: ~w(html json)],
-  pubsub: [name: Covid19.PubSub, adapter: Phoenix.PubSub.PG2],
+  pubsub_server: MyApp.PubSub,
   live_view: [
     signing_salt: "ZDn`#z`=[ikOcWB"
   ]

@@ -20,7 +20,9 @@ defmodule Covid19Web.ConnCase do
   using do
     quote do
       # Import conveniences for testing with connections
-      use Phoenix.ConnTest
+      import Plug.Conn
+      import Phoenix.ConnTest
+
       alias Covid19Web.Router.Helpers, as: Routes
 
       # The default endpoint for testing

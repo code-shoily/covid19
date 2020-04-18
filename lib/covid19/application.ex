@@ -10,6 +10,9 @@ defmodule Covid19.Application do
     children = [
       # Start the Ecto repository
       Covid19.Repo,
+      Covid19.Telemetry,
+      # Start the pubsub system
+      {Phoenix.PubSub, name: MyApp.PubSub},
       # Start the endpoint when the application starts
       Covid19Web.Endpoint
       # Starts a worker by calling: Covid19.Worker.start_link(arg)

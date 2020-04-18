@@ -1,6 +1,8 @@
 defmodule Covid19Web.Router do
   use Covid19Web, :router
 
+  import Phoenix.LiveDashboard.Router
+
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
@@ -16,6 +18,7 @@ defmodule Covid19Web.Router do
   scope "/", Covid19Web.Live.Views do
     pipe_through :browser
 
-    live("/", Dashboard, layout: {Covid19Web.LayoutView, "app.html"})
+    live "/", Dashboard, layout: {Covid19Web.LayoutView, "app.html"}
+    live_dashboard "/dashboard", metrics: Covid19.Telemetry
   end
 end
