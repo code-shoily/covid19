@@ -17,28 +17,30 @@ defmodule Covid19Web.Live.Components.WorldSummary do
 
   def render(assigns) do
     ~L"""
-    <div class="uk-card uk-card-primary uk-card-small uk-card-default uk-card-body">
-      <h3 class="uk-card-title">World Summary</h3>
-      <table class="uk-table uk-table-divider uk-table-small uk-table-justify">
-        <tbody>
-            <tr>
-                <th>Confirmed</th>
-                <td><%= @data.confirmed |> fmt() %></td>
-            </tr>
-            <tr>
-                <th>Recovered</th>
-                <td><%= @data.recovered |> fmt() %></td>
-            </tr>
-            <tr>
-                <th>Active</th>
-                <td><%= @data.active |> fmt() %></td>
-            </tr>
-            <tr>
-                <th>Deaths</th>
-                <td><%= @data.deaths |> fmt() %></td>
-            </tr>
-        </tbody>
-      </table>
+    <div class="card">
+      <div class="card-content">
+        <p class="title">World Summary</p>
+        <table class="table is-fullwidth">
+          <tbody>
+              <tr>
+                  <th>Confirmed</th>
+                  <td><%= @data.confirmed |> fmt() %></td>
+              </tr>
+              <tr>
+                  <th>Recovered</th>
+                  <td><%= @data.recovered |> fmt() %></td>
+              </tr>
+              <tr>
+                  <th>Active</th>
+                  <td><%= @data.active |> fmt() %></td>
+              </tr>
+              <tr>
+                  <th>Deaths</th>
+                  <td><%= @data.deaths |> fmt() %></td>
+              </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
     """
   end
