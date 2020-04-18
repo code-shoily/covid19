@@ -14,8 +14,16 @@ defmodule Covid19Web.Live.Views.Dashboard do
 
   def render(assigns) do
     ~L"""
-    <div class="uk-padding uk-grid-small uk-child-width-1-4@s" uk-grid>
-      <%= live_component @socket, WorldSummary, id: :world_summary, data: @world_summary %>
+    <div class="container is-fluid">
+      <div class="columns">
+        <div class="column is-one-quarter">
+          <div class="columns">
+            <div class="column">
+              <%= live_component @socket, WorldSummary, id: :world_summary, data: @world_summary %>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     """
   end
