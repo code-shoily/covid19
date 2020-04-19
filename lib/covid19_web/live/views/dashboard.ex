@@ -1,7 +1,7 @@
 defmodule Covid19Web.Live.Views.Dashboard do
   use Phoenix.LiveView
 
-  alias Covid19Web.Live.Components.WorldSummary
+  alias Covid19Web.Live.Components.{CountrywiseSummary, WorldSummary}
   alias Covid19.Queries
 
   def mount(_params, _session, socket) do
@@ -51,6 +51,13 @@ defmodule Covid19Web.Live.Views.Dashboard do
             </div>
           </div>
         </div>
+        <div class="column">
+          <%= live_component @socket,
+            CountrywiseSummary,
+            id: :countrywise_summary,
+            data: country_data_for_selected_date(@dates, @selected_index)
+          %>
+        </div>
       </div>
     </div>
     """
@@ -58,5 +65,9 @@ defmodule Covid19Web.Live.Views.Dashboard do
 
   defp data_for_selected_date(world_summary, dates, selected_index) do
     hd(world_summary[Enum.at(dates, selected_index)])
+  end
+
+  defp country_data_for_selected_date(dates, selected_index) do
+    Queries.summary_by_country(Enum.at(dates, selected_index))
   end
 end

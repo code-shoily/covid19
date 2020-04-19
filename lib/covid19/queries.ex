@@ -67,14 +67,49 @@ defmodule Covid19.Queries do
     |> group_by([e], e.date)
     |> select([e], %{
       date: e.date,
-      deaths: sum(e.deaths),
-      confirmed: sum(e.confirmed),
-      recovered: sum(e.recovered)
+      deaths: fragment("COALESCE(SUM(deaths), 0)"),
+      confirmed: fragment("COALESCE(SUM(confirmed), 0)"),
+      recovered: fragment("COALESCE(SUM(recovered), 0)")
     })
     |> order_by([e], e.date)
     |> Repo.all()
     |> Enum.map(&calculate_active/1)
     |> Enum.group_by(& &1.date)
+  end
+
+  @empty_country %{
+    deaths: 0,
+    confirmed: 0,
+    recovered: 0
+  }
+  @type country_type :: %{
+          required(:country_or_region) => String.t(),
+          required(:deaths) => integer(),
+          required(:recovered) => integer(),
+          required(:confirmed) => integer(),
+          required(:active) => integer(),
+          required(:new_deaths) => integer(),
+          required(:new_recovered) => integer(),
+          required(:new_confirmed) => integer()
+        }
+  @spec summary_by_country(Date.t()) :: [country_type()]
+  def summary_by_country(%Date{} = date) do
+    previous_data = single_summary_by_country(Date.add(date, -1))
+
+    date
+    |> single_summary_by_country()
+    |> Enum.map(fn {country, data} ->
+      previous_country_data = Map.get(previous_data, country, @empty_country)
+
+      data
+      |> Map.update(:new_deaths, 0, fn _ -> data.deaths - previous_country_data.deaths end)
+      |> Map.update(:new_confirmed, 0, fn _ ->
+        data.confirmed - previous_country_data.confirmed
+      end)
+      |> Map.update(:new_recovered, 0, fn _ ->
+        data.recovered - previous_country_data.recovered
+      end)
+    end)
   end
 
   defp calculate_active(
@@ -85,5 +120,29 @@ defmodule Covid19.Queries do
          } = data
        ) do
     Map.put(data, :active, confirmed - (recovered + deaths))
+  end
+
+  defp single_summary_by_country(%Date{} = date) do
+    DailyData
+    |> where([e], e.date == ^date)
+    |> group_by([e], e.country_or_region)
+    |> select([e], %{
+      country_or_region: e.country_or_region,
+      deaths: fragment("COALESCE(SUM(deaths), 0)"),
+      confirmed: fragment("COALESCE(SUM(confirmed), 0)"),
+      recovered: fragment("COALESCE(SUM(recovered), 0)")
+    })
+    |> order_by([e], e.country_or_region)
+    |> Repo.all()
+    |> Enum.map(&calculate_active/1)
+    |> Enum.map(fn row ->
+      row
+      |> Map.put_new(:new_deaths, row.deaths)
+      |> Map.put_new(:new_confirmed, row.confirmed)
+      |> Map.put_new(:new_recovered, row.recovered)
+    end)
+    |> Enum.group_by(& &1.country_or_region)
+    |> Enum.map(fn {k, v} -> {k, hd(v)} end)
+    |> Enum.into(%{})
   end
 end
