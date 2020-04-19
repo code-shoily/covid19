@@ -3,7 +3,7 @@ defmodule Covid19Web.Live.Components.CountrywiseSummary do
   import Phoenix.HTML
 
   def mount(socket) do
-    {:ok, socket |> assign(by: :country_or_region) |> assign(dir: :asc)}
+    {:ok, socket |> assign(by: :country_or_region) |> assign(dir: :asc) |> assign(term: "")}
   end
 
   def update(%{data: data}, socket) do
@@ -20,15 +20,37 @@ defmodule Covid19Web.Live.Components.CountrywiseSummary do
      |> assign(by: String.to_atom(by))}
   end
 
+  def handle_event("filter", %{"term" => term}, socket) do
+    {:noreply, socket |> assign(term: term)}
+  end
+
   def render(assigns) do
     ~L"""
     <div class="card">
       <div class="card-content">
-        <p class="title is-5 is-uppercase">Countrywise Summary</p>
+        <div class="level">
+          <div class="level-left">
+            <p class="level-item title is-5 is-uppercase">Countrywise Summary</p>
+          </div>
+          <div class="level-right">
+            <div class="field">
+              <form phx-change="filter" phx-target="<%= @myself %>">
+                <div class="control has-icons-left">
+                  <input name="term" class="input is-wide" type="text" placeholder="Filter by country">
+                  <span class="icon is-small is-left">
+                    <i class="fas fa-search"></i>
+                  </span>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
 
+        <div class="table-container">
         <table class="table is-fullwidth">
           <thead>
             <tr>
+              <th>#</th>
               <th>
                 <a href="#" phx-click="sort" phx-value-by="country_or_region" phx-target="<%= @myself %>">
                   Country/Region <%= show_sort_icon(:country_or_region, @by, @dir) %>
@@ -67,8 +89,9 @@ defmodule Covid19Web.Live.Components.CountrywiseSummary do
             </tr>
           </thead>
           <tbody>
-            <%= for d <- sorted(@data, @by, @dir) do %>
+            <%= for {d, idx} <- sorted(@data, @by, @dir, @term) do %>
               <tr>
+                <td><%= idx %></td>
                 <td><%= d.country_or_region %></td>
                 <td class="has-text-weight-semibold"><%= d.confirmed |> fmt() %></td>
                 <td class="has-text-weight-semibold has-text-right"><%= d.new_confirmed |> fmt() %></td>
@@ -80,6 +103,7 @@ defmodule Covid19Web.Live.Components.CountrywiseSummary do
             <% end %>
           </tbody>
         </table>
+        </div>
       </div>
     </div>
     """
@@ -89,23 +113,28 @@ defmodule Covid19Web.Live.Components.CountrywiseSummary do
     Number.Delimit.number_to_delimited(number, precision: 0)
   end
 
-  defp sorted(data, by, dir) do
+  defp sorted(data, by, dir, term) do
     data
     |> Enum.sort_by(& &1[by], dir)
+    |> Enum.filter(fn %{country_or_region: country_or_region} ->
+      String.contains?(country_or_region, term)
+    end)
+    |> Enum.with_index(1)
   end
 
   defp show_sort_icon(col, by, dir) do
     if col == by do
       case dir do
-        :asc -> ~E"""
-          <i class="fas fa-long-arrow-alt-up"></i>
-        """
-        _ -> ~E"""
-          <i class="fas fa-long-arrow-alt-down"></i>
-        """
+        :asc ->
+          ~E"""
+            <i class="fas fa-long-arrow-alt-up"></i>
+          """
+
+        _ ->
+          ~E"""
+            <i class="fas fa-long-arrow-alt-down"></i>
+          """
       end
-    else
-      ""
     end
   end
 end
