@@ -61,7 +61,7 @@ defmodule Covid19Web.Live.Components.CountrywiseSummary do
                     Country/Region <%= show_sort_icon(:country_or_region, @by, @dir) %>
                   </a>
                 </th>
-                <th>
+                <th class="has-text-right">
                   <a href="#" phx-click="sort" phx-value-by="confirmed" phx-target="<%= @myself %>">
                     Confirmed <%= show_sort_icon(:confirmed, @by, @dir) %>
                   </a>
@@ -71,7 +71,7 @@ defmodule Covid19Web.Live.Components.CountrywiseSummary do
                     New Cases <%= show_sort_icon(:new_confirmed, @by, @dir) %>
                   </a>
                 </th>
-                <th>
+                <th class="has-text-right">
                   <a href="#" phx-click="sort" phx-value-by="active" phx-target="<%= @myself %>">
                     Active <%= show_sort_icon(:active, @by, @dir) %>
                   </a>
@@ -81,7 +81,7 @@ defmodule Covid19Web.Live.Components.CountrywiseSummary do
                     Recovered <%= show_sort_icon(:recovered, @by, @dir) %>
                   </a>
                 </th>
-                <th>
+                <th class="has-text-centered">
                   <a href="#" phx-click="sort" phx-value-by="deaths" phx-target="<%= @myself %>">
                     Deaths <%= show_sort_icon(:deaths, @by, @dir) %>
                   </a>
@@ -100,11 +100,11 @@ defmodule Covid19Web.Live.Components.CountrywiseSummary do
                   <td>
                     <%= link d.country_or_region, to: Routes.live_path(@socket, Detail, d.country_or_region) %>
                   </td>
-                  <td class="has-text-weight-semibold"><%= d.confirmed |> fmt() %></td>
+                  <td class="has-text-weight-semibold has-text-right"><%= d.confirmed |> fmt() %></td>
                   <td class="has-text-weight-semibold has-text-right"><%= d.new_confirmed |> fmt() %></td>
                   <td class="has-text-weight-semibold has-text-right"><%= d.active |> fmt() %></td>
                   <td class="has-background-primary has-text-weight-semibold has-text-centered"><%= d.recovered |> fmt() %></td>
-                  <td class="has-text-weight-semibold"><%= d.deaths |> fmt() %></td>
+                  <td class="has-text-weight-semibold has-text-centered"><%= d.deaths |> fmt() %></td>
                   <td class="has-background-danger has-text-weight-semibold has-text-centered"><%= d.new_deaths |> fmt() %></td>
                 </tr>
               <% end %>
