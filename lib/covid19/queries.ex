@@ -123,6 +123,8 @@ defmodule Covid19.Queries do
   end
 
   defp single_summary_by_country(%Date{} = date) do
+    locations = country_locations()
+
     DailyData
     |> where([e], e.date == ^date)
     |> group_by([e], e.country_or_region)
@@ -140,9 +142,31 @@ defmodule Covid19.Queries do
       |> Map.put_new(:new_deaths, row.deaths)
       |> Map.put_new(:new_confirmed, row.confirmed)
       |> Map.put_new(:new_recovered, row.recovered)
+      |> (fn %{country_or_region: name} = data ->
+            case locations[name] do
+              nil ->
+                data
+
+              %{latitude: latitude, longitude: longitude} ->
+                data
+                |> Map.put_new(:latitude, latitude)
+                |> Map.put_new(:longitude, longitude)
+            end
+          end).()
     end)
     |> Enum.group_by(& &1.country_or_region)
     |> Enum.map(fn {k, v} -> {k, hd(v)} end)
+    |> Enum.into(%{})
+  end
+
+  defp country_locations do
+    Countries.all()
+    |> Enum.reject(&is_nil(&1.geo))
+    |> Enum.map(fn %{name: name, geo: %{latitude: latitude, longitude: longitude}} ->
+      %{name: name, latitude: latitude, longitude: longitude}
+    end)
+    |> Enum.group_by(& &1.name)
+    |> Enum.map(fn {name, geos} -> {name, hd(geos)} end)
     |> Enum.into(%{})
   end
 end
