@@ -112,6 +112,35 @@ defmodule Covid19.Queries do
     end)
   end
 
+  def locations_for_date(date) do
+    locations = country_locations()
+
+    DailyData
+    |> where([e], e.date == ^date)
+    |> group_by([e], e.date)
+    |> group_by([e], e.latitude)
+    |> group_by([e], e.longitude)
+    |> group_by([e], e.country_or_region)
+    |> select([e], %{
+      date: e.date,
+      country_or_region: e.country_or_region,
+      latitude: e.latitude,
+      longitude: e.longitude,
+      deaths: fragment("COALESCE(SUM(deaths), 0)"),
+      confirmed: fragment("COALESCE(SUM(confirmed), 0)"),
+      recovered: fragment("COALESCE(SUM(recovered), 0)")
+    })
+    |> Repo.all()
+    |> Enum.map(&calculate_active/1)
+    |> Enum.map(fn row ->
+      case row do
+        %{latitude: nil, longitude: nil, country_or_region: name} ->
+          %{row | latitude: locations[name][:latitude], longitude: locations[name][:longitude]}
+        _ -> row
+      end
+    end)
+  end
+
   defp calculate_active(
          %{
            confirmed: confirmed,
