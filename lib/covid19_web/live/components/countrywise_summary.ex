@@ -1,6 +1,12 @@
 defmodule Covid19Web.Live.Components.CountrywiseSummary do
-  use Phoenix.LiveComponent
+  alias Covid19Web.Live.Views.Detail
+
   import Phoenix.HTML
+  import Phoenix.HTML.Link
+  alias Covid19Web.Router.Helpers, as: Routes
+
+  use Phoenix.LiveComponent
+
 
   def mount(socket) do
     {:ok, socket |> assign(by: :country_or_region) |> assign(dir: :asc) |> assign(term: "")}
@@ -92,7 +98,9 @@ defmodule Covid19Web.Live.Components.CountrywiseSummary do
               <%= for {d, idx} <- sorted(@data, @by, @dir, @term) do %>
                 <tr>
                   <td><%= idx %></td>
-                  <td><%= d.country_or_region %></td>
+                  <td>
+                    <%= link d.country_or_region, to: Routes.live_path(@socket, Detail, d.country_or_region) %>
+                  </td>
                   <td class="has-text-weight-semibold"><%= d.confirmed |> fmt() %></td>
                   <td class="has-text-weight-semibold has-text-right"><%= d.new_confirmed |> fmt() %></td>
                   <td class="has-text-weight-semibold has-text-right"><%= d.active |> fmt() %></td>

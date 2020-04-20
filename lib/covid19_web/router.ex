@@ -19,6 +19,7 @@ defmodule Covid19Web.Router do
     pipe_through :browser
 
     live "/", Dashboard, layout: {Covid19Web.LayoutView, "app.html"}
+    live "/detail/:country_or_region", Detail, layout: {Covid19Web.LayoutView, "app.html"}
     live_dashboard "/dashboard", metrics: Covid19.Telemetry
   end
 end
