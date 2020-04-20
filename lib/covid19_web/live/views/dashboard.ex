@@ -90,7 +90,11 @@ defmodule Covid19Web.Live.Views.Dashboard do
               <%= live_component @socket, CountryPieChart, id: :country_pie_chart %>
             </div>
             <div class="column">
-              <%= live_component @socket, CountryMap, id: :country_map %>
+              <%= live_component @socket,
+                CountryMap,
+                id: :country_map,
+                data: location_data_for_selected_date(@dates, @selected_index)
+              %>
             </div>
           </div>
         </div>
@@ -105,5 +109,9 @@ defmodule Covid19Web.Live.Views.Dashboard do
 
   defp country_data_for_selected_date(dates, selected_index) do
     Queries.summary_by_country(Enum.at(dates, selected_index))
+  end
+
+  defp location_data_for_selected_date(dates, selected_index) do
+    Queries.locations_for_date(Enum.at(dates, selected_index))
   end
 end

@@ -7,13 +7,12 @@ defmodule Covid19Web.Live.Components.CountrywiseSummary do
 
   use Phoenix.LiveComponent
 
-
   def mount(socket) do
-    {:ok, socket |> assign(by: :country_or_region) |> assign(dir: :asc) |> assign(term: "")}
-  end
-
-  def update(%{data: data}, socket) do
-    {:ok, socket |> assign(data: data)}
+    {:ok,
+     socket
+     |> assign(by: :country_or_region)
+     |> assign(dir: :asc)
+     |> assign(term: "")}
   end
 
   def handle_event("sort", %{"by" => by}, socket) do
