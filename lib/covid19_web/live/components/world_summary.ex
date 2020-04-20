@@ -9,6 +9,15 @@ defmodule Covid19Web.Live.Components.WorldSummary do
     Timex.format!(date, "%B %d, %Y", :strftime)
   end
 
+  defp fmt(number, :signed) when is_number(number) do
+    sign = number > 0 && "+" || ""
+    number = Number.Delimit.number_to_delimited(number, precision: 0)
+
+    sign <> " " <> number
+  end
+
+  defp fmt(nil, _), do: "0"
+
   def render(assigns) do
     ~L"""
     <div class="card">
@@ -19,19 +28,31 @@ defmodule Covid19Web.Live.Components.WorldSummary do
           <tbody>
               <tr>
                   <th class="has-text-left">Confirmed</th>
-                  <td class="has-text-right"><%= @data.confirmed |> fmt() %></td>
+                  <td class="has-text-right">
+                    <p><%= @data.confirmed |> fmt() %></p>
+                    <p class="heading has-text-weight-bold">(<%= @data.new_confirmed |> fmt(:signed) %>)</p>
+                  </td>
               </tr>
               <tr>
                   <th class="has-text-left">Recovered</th>
-                  <td class="has-text-right"><%= @data.recovered |> fmt() %></td>
+                  <td class="has-text-right">
+                    <p><%= @data.recovered |> fmt() %></p>
+                    <p class="heading has-text-weight-bold has-text-success">(<%= @data.new_recovered |> fmt(:signed) %>)</p>
+                  </td>
               </tr>
               <tr>
                   <th class="has-text-left">Active</th>
-                  <td class="has-text-right"><%= @data.active |> fmt() %></td>
+                  <td class="has-text-right">
+                    <p><%= @data.active |> fmt() %></p>
+                    <p class="heading has-text-weight-bold">(<%= @data.new_active |> fmt(:signed) %>)</p>
+                  </td>
               </tr>
               <tr>
                   <th class="has-text-left">Deaths</th>
-                  <td class="has-text-right"><%= @data.deaths |> fmt() %></td>
+                  <td class="has-text-right">
+                    <p><%= @data.deaths |> fmt() %></p>
+                    <p class="heading has-text-weight-bold has-text-danger">(<%= @data.new_deaths |> fmt(:signed) %>)</p>
+                  </td>
               </tr>
           </tbody>
         </table>
