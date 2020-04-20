@@ -1,7 +1,16 @@
 defmodule Covid19Web.Live.Views.Dashboard do
   use Phoenix.LiveView
 
-  alias Covid19Web.Live.Components.{CountrywiseSummary, WorldSummary}
+  alias Covid19Web.Live.Components.{
+    DeathRecoveredChart,
+    CountryMap,
+    CountryPieChart,
+    CountrywiseSummary,
+    GlobalTopList,
+    NewCaseChart,
+    WorldSummary,
+  }
+
   alias Covid19.Queries
 
   def mount(_params, _session, socket) do
@@ -50,13 +59,40 @@ defmodule Covid19Web.Live.Views.Dashboard do
               %>
             </div>
           </div>
+          <div class="columns">
+            <div class="column">
+              <%= live_component @socket, NewCaseChart, id: :new_case_chart %>
+            </div>
+          </div>
+          <div class="columns">
+            <div class="column">
+              <%= live_component @socket, DeathRecoveredChart, id: :death_recovered_chart %>
+            </div>
+          </div>
+          <div class="columns">
+            <div class="column">
+              <%= live_component @socket, GlobalTopList, id: :global_top_list %>
+            </div>
+          </div>
         </div>
         <div class="column">
-          <%= live_component @socket,
-            CountrywiseSummary,
-            id: :countrywise_summary,
-            data: country_data_for_selected_date(@dates, @selected_index)
-          %>
+          <div class="columns">
+              <div class="column">
+                <%= live_component @socket,
+                  CountrywiseSummary,
+                  id: :countrywise_summary,
+                  data: country_data_for_selected_date(@dates, @selected_index)
+                %>
+              </div>
+          </div>
+          <div class="columns">
+            <div class="column is-one-third">
+              <%= live_component @socket, CountryPieChart, id: :country_pie_chart %>
+            </div>
+            <div class="column">
+              <%= live_component @socket, CountryMap, id: :country_map %>
+            </div>
+          </div>
         </div>
       </div>
     </div>
