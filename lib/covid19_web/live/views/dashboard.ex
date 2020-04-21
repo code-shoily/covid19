@@ -87,9 +87,6 @@ defmodule Covid19Web.Live.Views.Dashboard do
               </div>
           </div>
           <div class="columns">
-            <div class="column is-one-third">
-              <%= live_component @socket, CountryPieChart, id: :country_pie_chart %>
-            </div>
             <div class="column">
               <%= live_component @socket,
                 CountryMap,
