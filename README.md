@@ -1,5 +1,7 @@
 # Covid19
 
+**WIP WARNING** This is very much work in progress, done in haste, focusing more on learning `LiveView` than caring about best practices, tests, and even sanctity of data. Will be dealt with in due time. Also, see the disclaimer below.
+
 This app reads Covid19 dataset from Johns Hopkins CSSE repository, loads it to a database and displays the data in a dashboard made with Phoenix LiveView.
 
 Big thanks goes to Johns Hopkins CSSE and by extension, people behind all those data sources for keeping us updated.
