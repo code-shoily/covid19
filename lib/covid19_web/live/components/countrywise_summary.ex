@@ -124,7 +124,10 @@ defmodule Covid19Web.Live.Components.CountrywiseSummary do
     data
     |> Enum.sort_by(& &1[by], dir)
     |> Enum.filter(fn %{country_or_region: country_or_region} ->
-      String.contains?(country_or_region, term)
+      String.contains?(
+        String.downcase(country_or_region),
+        String.downcase(term)
+      )
     end)
     |> Enum.with_index(1)
   end
