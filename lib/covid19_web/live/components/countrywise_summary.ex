@@ -15,6 +15,8 @@ defmodule Covid19Web.Live.Components.CountrywiseSummary do
      |> assign(term: "")}
   end
 
+
+
   def handle_event("sort", %{"by" => by}, socket) do
     {:noreply,
      socket
@@ -29,6 +31,10 @@ defmodule Covid19Web.Live.Components.CountrywiseSummary do
     {:noreply, socket |> assign(term: term)}
   end
 
+  def handle_event("clear-term", _, socket) do
+    {:noreply, socket |> assign(term: "")}
+  end
+
   def render(assigns) do
     ~L"""
     <div class="card">
@@ -38,13 +44,20 @@ defmodule Covid19Web.Live.Components.CountrywiseSummary do
             <p class="level-item title is-5 is-uppercase">Countrywise Summary</p>
           </div>
           <div class="level-right">
-            <div class="field">
+            <div class="level-item">
               <form phx-change="filter" phx-target="<%= @myself %>">
-                <div class="control has-icons-left">
-                  <input name="term" class="input is-wide" type="text" placeholder="Filter by country">
-                  <span class="icon is-small is-left">
-                    <i class="fas fa-search"></i>
-                  </span>
+                <div class="field has-addons">
+                  <div class="control has-icons-left">
+                    <input name="term" class="input is-wide" type="text" placeholder="Filter by country" value="<%= @term %>">
+                    <span class="icon is-small is-left">
+                      <i class="fas fa-search"></i>
+                    </span>
+                  </div>
+                  <div class="control">
+                    <a phx-click="clear-term" phx-target="<%= @myself %>" class="button is-danger">
+                      <i class="fas fa-trash"></i>
+                    </a>
+                  </div>
                 </div>
               </form>
             </div>
@@ -61,7 +74,7 @@ defmodule Covid19Web.Live.Components.CountrywiseSummary do
                     Country/Region <%= show_sort_icon(:country_or_region, @by, @dir) %>
                   </a>
                 </th>
-                <th>
+                <th class="has-text-right">
                   <a href="#" phx-click="sort" phx-value-by="confirmed" phx-target="<%= @myself %>">
                     Confirmed <%= show_sort_icon(:confirmed, @by, @dir) %>
                   </a>
@@ -71,7 +84,7 @@ defmodule Covid19Web.Live.Components.CountrywiseSummary do
                     New Cases <%= show_sort_icon(:new_confirmed, @by, @dir) %>
                   </a>
                 </th>
-                <th>
+                <th class="has-text-right">
                   <a href="#" phx-click="sort" phx-value-by="active" phx-target="<%= @myself %>">
                     Active <%= show_sort_icon(:active, @by, @dir) %>
                   </a>
@@ -81,7 +94,7 @@ defmodule Covid19Web.Live.Components.CountrywiseSummary do
                     Recovered <%= show_sort_icon(:recovered, @by, @dir) %>
                   </a>
                 </th>
-                <th>
+                <th class="has-text-centered">
                   <a href="#" phx-click="sort" phx-value-by="deaths" phx-target="<%= @myself %>">
                     Deaths <%= show_sort_icon(:deaths, @by, @dir) %>
                   </a>
@@ -100,11 +113,11 @@ defmodule Covid19Web.Live.Components.CountrywiseSummary do
                   <td>
                     <%= link d.country_or_region, to: Routes.live_path(@socket, Detail, d.country_or_region) %>
                   </td>
-                  <td class="has-text-weight-semibold"><%= d.confirmed |> fmt() %></td>
+                  <td class="has-text-weight-semibold has-text-right"><%= d.confirmed |> fmt() %></td>
                   <td class="has-text-weight-semibold has-text-right"><%= d.new_confirmed |> fmt() %></td>
                   <td class="has-text-weight-semibold has-text-right"><%= d.active |> fmt() %></td>
                   <td class="has-background-primary has-text-weight-semibold has-text-centered"><%= d.recovered |> fmt() %></td>
-                  <td class="has-text-weight-semibold"><%= d.deaths |> fmt() %></td>
+                  <td class="has-text-weight-semibold has-text-centered"><%= d.deaths |> fmt() %></td>
                   <td class="has-background-danger has-text-weight-semibold has-text-centered"><%= d.new_deaths |> fmt() %></td>
                 </tr>
               <% end %>
@@ -124,7 +137,10 @@ defmodule Covid19Web.Live.Components.CountrywiseSummary do
     data
     |> Enum.sort_by(& &1[by], dir)
     |> Enum.filter(fn %{country_or_region: country_or_region} ->
-      String.contains?(country_or_region, term)
+      String.contains?(
+        String.downcase(country_or_region),
+        String.downcase(term)
+      )
     end)
     |> Enum.with_index(1)
   end

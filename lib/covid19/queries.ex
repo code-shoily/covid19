@@ -61,20 +61,40 @@ defmodule Covid19.Queries do
           required(:recovered) => non_neg_integer(),
           required(:active) => non_neg_integer()
         }
-  @spec world_summary() :: %{required(Date.t()) => [world_summary_type()]}
+  @spec world_summary() :: [world_summary_type()]
   def world_summary() do
-    DailyData
-    |> group_by([e], e.date)
-    |> select([e], %{
-      date: e.date,
-      deaths: fragment("COALESCE(SUM(deaths), 0)"),
-      confirmed: fragment("COALESCE(SUM(confirmed), 0)"),
-      recovered: fragment("COALESCE(SUM(recovered), 0)")
-    })
-    |> order_by([e], e.date)
-    |> Repo.all()
-    |> Enum.map(&calculate_active/1)
-    |> Enum.group_by(& &1.date)
+    data =
+      DailyData
+      |> group_by([e], e.date)
+      |> select([e], %{
+        date: e.date,
+        deaths: fragment("COALESCE(SUM(deaths), 0)"),
+        confirmed: fragment("COALESCE(SUM(confirmed), 0)"),
+        recovered: fragment("COALESCE(SUM(recovered), 0)")
+      })
+      |> order_by([e], e.date)
+      |> Repo.all()
+      |> Enum.map(&calculate_active/1)
+      |> Enum.map(fn data ->
+        data
+        |> Map.put_new(:new_confirmed, nil)
+        |> Map.put_new(:new_deaths, nil)
+        |> Map.put_new(:new_recovered, nil)
+        |> Map.put_new(:new_active, nil)
+      end)
+
+    [nil | data]
+    |> Enum.zip(data)
+    |> Enum.map(fn
+      {nil, a} ->
+        a
+      {a, b} ->
+        b
+        |> Map.put(:new_confirmed, b.confirmed - a.confirmed)
+        |> Map.put(:new_deaths, b.deaths - a.deaths)
+        |> Map.put(:new_recovered, b.recovered - a.recovered)
+        |> Map.put(:new_active, b.active - a.active)
+    end)
   end
 
   @empty_country %{
@@ -136,7 +156,9 @@ defmodule Covid19.Queries do
       case row do
         %{latitude: nil, longitude: nil, country_or_region: name} ->
           %{row | latitude: locations[name][:latitude], longitude: locations[name][:longitude]}
-        _ -> row
+
+        _ ->
+          row
       end
     end)
   end
