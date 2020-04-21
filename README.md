@@ -31,6 +31,12 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
 TBA
 
+## Screenshots
+
+### Main Dashboard
+
+![Dashboard](./screenshots/wip_1.png)
+
 ## Disclaimer
 
 This app massages and displays based on curated datasets and does not attempt to produce or collect any beyond those sources. The datasets come with their own sets of "Terms and Conditions". I respect those and so should you!
