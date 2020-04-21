@@ -27,28 +27,28 @@ defmodule Covid19Web.Live.Components.WorldSummary do
         <table class="table is-fullwidth">
           <tbody>
               <tr>
-                  <th class="has-text-left">Confirmed</th>
+                  <th class="has-text-left" style="vertical-align: middle">Confirmed</th>
                   <td class="has-text-right">
                     <p><%= @data.confirmed |> fmt() %></p>
                     <p class="heading has-text-weight-bold">(<%= @data.new_confirmed |> fmt(:signed) %>)</p>
                   </td>
               </tr>
               <tr>
-                  <th class="has-text-left">Recovered</th>
+                  <th class="has-text-left" style="vertical-align: middle">Recovered</th>
                   <td class="has-text-right">
                     <p><%= @data.recovered |> fmt() %></p>
                     <p class="heading has-text-weight-bold has-text-success">(<%= @data.new_recovered |> fmt(:signed) %>)</p>
                   </td>
               </tr>
               <tr>
-                  <th class="has-text-left">Active</th>
+                  <th class="has-text-left" style="vertical-align: middle">Active</th>
                   <td class="has-text-right">
                     <p><%= @data.active |> fmt() %></p>
                     <p class="heading has-text-weight-bold">(<%= @data.new_active |> fmt(:signed) %>)</p>
                   </td>
               </tr>
               <tr>
-                  <th class="has-text-left">Deaths</th>
+                  <th class="has-text-left" style="vertical-align: middle">Deaths</th>
                   <td class="has-text-right">
                     <p><%= @data.deaths |> fmt() %></p>
                     <p class="heading has-text-weight-bold has-text-danger">(<%= @data.new_deaths |> fmt(:signed) %>)</p>
