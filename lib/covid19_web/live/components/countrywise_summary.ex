@@ -15,6 +15,8 @@ defmodule Covid19Web.Live.Components.CountrywiseSummary do
      |> assign(term: "")}
   end
 
+
+
   def handle_event("sort", %{"by" => by}, socket) do
     {:noreply,
      socket
@@ -29,6 +31,10 @@ defmodule Covid19Web.Live.Components.CountrywiseSummary do
     {:noreply, socket |> assign(term: term)}
   end
 
+  def handle_event("clear-term", _, socket) do
+    {:noreply, socket |> assign(term: "")}
+  end
+
   def render(assigns) do
     ~L"""
     <div class="card">
@@ -38,13 +44,20 @@ defmodule Covid19Web.Live.Components.CountrywiseSummary do
             <p class="level-item title is-5 is-uppercase">Countrywise Summary</p>
           </div>
           <div class="level-right">
-            <div class="field">
+            <div class="level-item">
               <form phx-change="filter" phx-target="<%= @myself %>">
-                <div class="control has-icons-left">
-                  <input name="term" class="input is-wide" type="text" placeholder="Filter by country">
-                  <span class="icon is-small is-left">
-                    <i class="fas fa-search"></i>
-                  </span>
+                <div class="field has-addons">
+                  <div class="control has-icons-left">
+                    <input name="term" class="input is-wide" type="text" placeholder="Filter by country" value="<%= @term %>">
+                    <span class="icon is-small is-left">
+                      <i class="fas fa-search"></i>
+                    </span>
+                  </div>
+                  <div class="control">
+                    <a phx-click="clear-term" phx-target="<%= @myself %>" class="button is-danger">
+                      <i class="fas fa-trash"></i>
+                    </a>
+                  </div>
                 </div>
               </form>
             </div>

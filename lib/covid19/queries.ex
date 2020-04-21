@@ -61,7 +61,7 @@ defmodule Covid19.Queries do
           required(:recovered) => non_neg_integer(),
           required(:active) => non_neg_integer()
         }
-  @spec world_summary() :: %{required(Date.t()) => [world_summary_type()]}
+  @spec world_summary() :: [world_summary_type()]
   def world_summary() do
     data =
       DailyData
@@ -95,7 +95,6 @@ defmodule Covid19.Queries do
         |> Map.put(:new_recovered, b.recovered - a.recovered)
         |> Map.put(:new_active, b.active - a.active)
     end)
-    |> Enum.group_by(& &1.date)
   end
 
   @empty_country %{

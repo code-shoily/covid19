@@ -22,8 +22,8 @@ defmodule Covid19Web.Live.Components.WorldSummary do
     ~L"""
     <div class="card">
       <div class="card-content">
-        <p class="title is-5 has-text-centered is-uppercase">World Summary</p>
-        <p class="subtitle is-6 has-text-centered"><%= @data.date |> fmt() %></p>
+        <p class="title has-text-centered"><%= @data.date |> fmt() %></p>
+        <p class="subtitle has-text-centered">World Data</p>
         <table class="table is-fullwidth">
           <tbody>
               <tr>

@@ -61,17 +61,18 @@ defmodule Covid19Web.Live.Views.Dashboard do
           </div>
           <div class="columns">
             <div class="column">
-              <%= live_component @socket, NewCaseChart, id: :new_case_chart %>
+              <%= live_component @socket,
+                NewCaseChart,
+                id: :new_case_chart,
+                data: @world_summary %>
             </div>
           </div>
           <div class="columns">
             <div class="column">
-              <%= live_component @socket, DeathRecoveredChart, id: :death_recovered_chart %>
-            </div>
-          </div>
-          <div class="columns">
-            <div class="column">
-              <%= live_component @socket, GlobalTopList, id: :global_top_list %>
+              <%= live_component @socket,
+                DeathRecoveredChart,
+                id: :death_recovered_chart,
+                data: @world_summary %>
             </div>
           </div>
         </div>
@@ -104,6 +105,7 @@ defmodule Covid19Web.Live.Views.Dashboard do
   end
 
   defp data_for_selected_date(world_summary, dates, selected_index) do
+    world_summary = Enum.group_by(world_summary, & &1.date)
     hd(world_summary[Enum.at(dates, selected_index)])
   end
 
