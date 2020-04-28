@@ -4,9 +4,10 @@ import {withK, formatDate} from './helpers'
 
 export default {
     mounted() {
-        let deaths = JSON.parse(this.el.dataset.deaths)
-        let recovered = JSON.parse(this.el.dataset.recovered)
-        let dates = JSON.parse(this.el.dataset.dates)
+        let statistics = JSON.parse(this.el.dataset.statistics)
+        let deaths = statistics.map(s => s.new_deaths)
+        let recovered = statistics.map(s => s.new_recovered)
+        let dates = statistics.map(s => s.date)
 
         new Chartist.Line('#death-recovered-chart', {
             labels: dates,

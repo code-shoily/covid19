@@ -6,9 +6,7 @@ defmodule Covid19Web.Live.Components.DeathRecoveredChart do
     <div
       class="card"
       phx-hook="DeathRecoveredChart"
-      data-deaths="<%= Jason.encode! Enum.map(@data, & &1.new_deaths) %>"
-      data-recovered="<%= Jason.encode! Enum.map(@data, & &1.new_recovered) %>"
-      data-dates="<%= Jason.encode! Enum.map(@data, & &1.date) %>"
+      data-statistics="<%= Jason.encode! @data %>"
     >
       <div class="card-content">
         <p class="title is-5 is-uppercase has-text-centered">Death vs Recovered Chart</p>

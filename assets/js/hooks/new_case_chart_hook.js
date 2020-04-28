@@ -1,17 +1,17 @@
 import Chartist from 'chartist'
-
 import {withK, formatDate} from './helpers'
 
 export default {
     mounted() {
-        let newCases = JSON.parse(this.el.dataset.newCases)
-        let dates = JSON.parse(this.el.dataset.dates)
+        let statistics = JSON.parse(this.el.dataset.statistics)
+
+        let newCases = statistics.map(data => data.new_confirmed)
+        let dates = statistics.map(data => data.date)
 
         new Chartist.Line('#new-case-chart', {
             labels: dates,
             series: [
               newCases
-              //newCases.map((data) => Math.log(data))
             ]
           }, {
             fullWidth: true,
