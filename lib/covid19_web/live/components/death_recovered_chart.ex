@@ -15,7 +15,7 @@ defmodule Covid19Web.Live.Components.DeathRecoveredChart do
           <%= Enum.at(@data, -1).date |> fmt() %>
         </p>
         <p phx-update="ignore">
-          <div id="death-recovered-chart" class="has-text-white"></div>
+          <div id="death-recovered-chart" style="height: 180px"></div>
         </p>
       </div>
     </div>

@@ -15,7 +15,7 @@ defmodule Covid19Web.Live.Components.NewCaseChart do
           <%= Enum.at(@data, -1).date |> fmt() %>
         </p>
         <div phx-update="ignore">
-          <div id="new-case-chart" style="height: 200px"></div>
+          <div id="new-case-chart" style="height: 180px"></div>
         </div>
       </div>
     </div>

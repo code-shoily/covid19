@@ -1,39 +1,37 @@
-import Chartist from 'chartist'
-
-import {withK, formatDate} from './helpers'
+import Plotly from 'plotly.js-dist'
 
 export default {
     mounted() {
-        let statistics = JSON.parse(this.el.dataset.statistics)
-        let deaths = statistics.map(s => s.new_deaths)
-        let recovered = statistics.map(s => s.new_recovered)
-        let dates = statistics.map(s => s.date)
+      var el = document.getElementById('death-recovered-chart');
 
-        new Chartist.Line('#death-recovered-chart', {
-            labels: dates,
-            series: [
-              deaths, recovered
-            ]
-          }, {
-            fullWidth: true,
-            low: 0,
-            showArea: false,
-            showPoint: false,
-            height: 200,
-            axisX: {
-                showLabel: true,
-                showGrid: true,
-                labelInterpolationFnc: function(value, index) {
-                    return index % 30 === 0 ? formatDate(value) : null
-                }
-              },
-            axisY: {
-                showLabel: true,
-                showGrid: true,
-                labelInterpolationFnc: function(value, index) {
-                    return withK(value)
-                }
-            },
-          });
+      let data = JSON.parse(this.el.dataset.statistics)
+      let dataset_deaths = {
+        x: data.map(x => x.date),
+        y: data.map(y => y.new_deaths),
+        type: 'line',
+        name: 'Deaths'
+      }
+
+      let dataset_recovered = {
+        x: data.map(x => x.date),
+        y: data.map(y => y.new_recovered),
+        type: 'line',
+        name: 'Recoveries'
+      }
+
+      let dataset = [dataset_deaths, dataset_recovered]
+      
+      let layout = {
+        margin: { t: 0, b: 30, l: 30, r: 10 },
+        showlegend: false
+      }
+
+      let config = {
+        responsive: true,
+        displayModeBar: false,
+        scrollZoom: true
+      }
+
+      Plotly.newPlot(el, dataset, layout, config);
     }
 }
