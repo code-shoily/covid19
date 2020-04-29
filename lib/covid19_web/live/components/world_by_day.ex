@@ -78,7 +78,7 @@ defmodule Covid19Web.Live.Components.WorldByDay do
             <%= for {d, idx} <- sorted(@data, @by, @dir) do %>
               <tr>
                 <td><%= idx %></td>
-                <td><%= d.date %></td>
+                <td><%= d.date |> fmt() %></td>
                 <td class="has-text-weight-semibold has-text-right"><%= d.confirmed |> fmt() %></td>
                 <td class="has-text-weight-semibold has-text-right"><%= d.new_confirmed |> fmt() %></td>
                 <td class="has-text-weight-semibold has-text-right"><%= d.active |> fmt() %></td>
@@ -97,6 +97,10 @@ defmodule Covid19Web.Live.Components.WorldByDay do
 
   defp fmt(number) when is_number(number) do
     Number.Delimit.number_to_delimited(number, precision: 0)
+  end
+
+  defp fmt(%Date{} = date) do
+    Timex.format!(date, "%b %d, %Y", :strftime)
   end
 
   defp fmt(anything), do: anything

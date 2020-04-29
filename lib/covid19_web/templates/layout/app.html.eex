@@ -11,7 +11,34 @@
     <%= csrf_meta_tag() %>
   </head>
   <body>
-    <%= @inner_content %>
+    <nav class="navbar" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
+        <a class="navbar-item">
+          <span class="title is-4">Covid19 Dashboard</span>
+        </a>
+        <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+      <div id="navbarBasicExample" class="navbar-menu">
+        <div class="navbar-start">
+          <a class="navbar-item">
+            Home
+          </a>
+          <a class="navbar-item">
+            Comparison
+          </a>
+          <a class="navbar-item">
+            Detailed Data (US Only)
+          </a>
+        </div>
+      </div>
+    </nav>
+    <section class="section">
+      <%= @inner_content %>
+    </section>
     <div class="footer" style="margin-top: 20px">
       <div class="content has-text-centered">
         <p>

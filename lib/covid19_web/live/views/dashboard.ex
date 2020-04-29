@@ -48,7 +48,7 @@ defmodule Covid19Web.Live.Views.Dashboard do
 
   def render(assigns) do
     ~L"""
-    <div class="container is-fluid" style="margin-top: 40px">
+    <div class="container is-fluid">
       <div class="columns">
         <div class="column is-one-quarter">
           <div class="columns">
