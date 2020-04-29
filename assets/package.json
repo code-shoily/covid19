@@ -15,6 +15,7 @@
     "plotly.js-dist": "^1.53.0"
   },
   "devDependencies": {
+    "@babel/compat-data": "^7.9.6",
     "@babel/core": "^7.0.0",
     "@babel/preset-env": "^7.0.0",
     "babel-loader": "^8.0.0",
