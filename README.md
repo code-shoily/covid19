@@ -21,7 +21,7 @@ To start your Phoenix server:
 Now that the system is setup, let's load some data.
 
 * To get the latest dataset from the repository, update the submodules with `git submodule update --recursive --remote`
-* To update the Postgres database with the fetched data, run `mix covid10.load`. This will load all dates that have not been updated in the database, so the very first run might take a bit longer.
+* To update the Postgres database with the fetched data, run `mix covid19.load`. This will load all dates that have not been updated in the database, so the very first run might take a bit longer.
 
 In order to keep the system updated, repeat the steps above.
 
