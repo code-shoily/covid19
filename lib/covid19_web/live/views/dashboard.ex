@@ -9,6 +9,7 @@ defmodule Covid19Web.Live.Views.Dashboard do
     GlobalTopList,
     NewCaseChart,
     WorldSummary,
+    WorldByDay
   }
 
   alias Covid19.Queries
@@ -92,6 +93,15 @@ defmodule Covid19Web.Live.Views.Dashboard do
                 CountryMap,
                 id: :country_map,
                 data: location_data_for_selected_date(@dates, @selected_index)
+              %>
+            </div>
+          </div>
+          <div class="columns">
+            <div class="column">
+              <%= live_component @socket,
+                WorldByDay,
+                id: :world_by_day,
+                data: @world_summary
               %>
             </div>
           </div>
