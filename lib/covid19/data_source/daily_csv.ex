@@ -29,7 +29,9 @@ defmodule Covid19.DataSource.DailyCSV do
             optional(:testing_rate) => maybe_decimal(),
             optional(:hospitalization_rate) => maybe_decimal(),
             optional(:mortality_rate) => maybe_decimal(),
-            optional(:timestamp) => maybe_naive_datetime()
+            optional(:timestamp) => maybe_naive_datetime(),
+            optional(:incidence_rate) => maybe_decimal(),
+            optional(:case_fatality_ratio) => maybe_decimal()
           }
   @type unsanitized_row :: [text()]
   @type parsed_content :: [sanitized_row() | unsanitized_row()]
@@ -79,7 +81,7 @@ defmodule Covid19.DataSource.DailyCSV do
     |> Enum.map(fn row ->
       Enum.zip(heading, row)
       |> Enum.into(%{})
-      |> Map.update(:country_or_region, nil, &Sanitizer.sanitize_country/1)
+      |> Map.update(:country_or_region, nil, &Sanitizer.sanitize_country_or_region/1)
       |> Map.update(:active, nil, &Converters.to_integer/1)
       |> Map.update(:confirmed, nil, &Converters.to_integer/1)
       |> Map.update(:deaths, nil, &Converters.to_integer/1)
@@ -93,6 +95,8 @@ defmodule Covid19.DataSource.DailyCSV do
       |> Map.update(:latitude, nil, &Converters.to_decimal/1)
       |> Map.update(:longitude, nil, &Converters.to_decimal/1)
       |> Map.update(:timestamp, nil, &Converters.to_datetime!/1)
+      |> Map.update(:incidence_rate, nil, &Converters.to_decimal/1)
+      |> Map.update(:case_fatality_ratio, nil, &Converters.to_decimal/1)
       |> Map.put_new(:src, src)
       |> Map.put_new(:date, date)
       |> Map.drop(@drop_keys)

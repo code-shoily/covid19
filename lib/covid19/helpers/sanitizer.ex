@@ -24,6 +24,8 @@ defmodule Covid19.Helpers.Sanitizer do
           | :hospitalization_rate
           | :mortality_rate
           | :timestamp
+          | :incidence_rate
+          | :case_fatality_ratio
 
   @doc """
   Translates heading names found in the file into standard keys.
@@ -48,6 +50,8 @@ defmodule Covid19.Helpers.Sanitizer do
   def sanitize_heading("Lat"), do: :latitude
   def sanitize_heading("Longitude"), do: :longitude
   def sanitize_heading("Long_"), do: :longitude
+  def sanitize_heading("Incidence_Rate"), do: :incidence_rate
+  def sanitize_heading("Case-Fatality_Ratio"), do: :case_fatality_ratio
 
   ## US ONLY FIELD
   def sanitize_heading("Incident_Rate"), do: :incident_rate
@@ -63,65 +67,68 @@ defmodule Covid19.Helpers.Sanitizer do
   @doc """
   Translates country names found in the file into standard country names.
   """
-  def sanitize_country("Bolivia"), do: "Bolivia (Plurinational State of)"
-  def sanitize_country("Brunei"), do: "Brunei Darussalam"
-  def sanitize_country("Congo (Kinshasa)"), do: "Congo (Democratic Republic of the)"
-  def sanitize_country("Cote d'Ivoire"), do: "Côte d'Ivoire"
-  def sanitize_country("Ivory Coast"), do: "Côte d'Ivoire"
-  def sanitize_country("Czechia"), do: "Czech Republic"
-  def sanitize_country("Vatican City"), do: "Holy See"
-  def sanitize_country("Hong Kong SAR"), do: "Hong Kong"
-  def sanitize_country("Republic of Ireland"), do: "Ireland"
-  def sanitize_country("South Korea"), do: "Korea (Democratic People's Republic of)"
-  def sanitize_country("Iran"), do: "Iran (Islamic Republic of)"
-  def sanitize_country("Korea, South"), do: "Korea (Democratic People's Republic of)"
-  def sanitize_country("Republic of Korea"), do: "Korea (Republic of)"
-  def sanitize_country("Macao SAR"), do: "Macao"
-  def sanitize_country("Macau"), do: "Macao"
-  def sanitize_country("North Macedonia"), do: "Macedonia (the former Yugoslav Republic of)"
-  def sanitize_country("Moldova"), do: "Moldova (Republic of)"
-  def sanitize_country("Republic of Moldova"), do: "Moldova (Republic of)"
-  def sanitize_country("Mainland China"), do: "China"
+  def sanitize_country_or_region("Bolivia"), do: "Bolivia (Plurinational State of)"
+  def sanitize_country_or_region("Brunei"), do: "Brunei Darussalam"
+  def sanitize_country_or_region("Congo (Kinshasa)"), do: "Congo (Democratic Republic of the)"
+  def sanitize_country_or_region("Channel Islands"), do: "Channel Islands"
+  def sanitize_country_or_region("Cote d'Ivoire"), do: "Côte d'Ivoire"
+  def sanitize_country_or_region("Ivory Coast"), do: "Côte d'Ivoire"
+  def sanitize_country_or_region("Czechia"), do: "Czech Republic"
+  def sanitize_country_or_region("Vatican City"), do: "Holy See"
+  def sanitize_country_or_region("Hong Kong SAR"), do: "Hong Kong"
+  def sanitize_country_or_region("Republic of Ireland"), do: "Ireland"
+  def sanitize_country_or_region("South Korea"), do: "Korea (Democratic People's Republic of)"
+  def sanitize_country_or_region("Iran"), do: "Iran (Islamic Republic of)"
+  def sanitize_country_or_region("Korea, South"), do: "Korea (Democratic People's Republic of)"
+  def sanitize_country_or_region("Republic of Korea"), do: "Korea (Republic of)"
+  def sanitize_country_or_region("Macao SAR"), do: "Macao"
+  def sanitize_country_or_region("Macau"), do: "Macao"
+  def sanitize_country_or_region("North Macedonia"), do: "Macedonia (the former Yugoslav Republic of)"
+  def sanitize_country_or_region("Moldova"), do: "Moldova (Republic of)"
+  def sanitize_country_or_region("Republic of Moldova"), do: "Moldova (Republic of)"
+  def sanitize_country_or_region("Mainland China"), do: "China"
 
-  def sanitize_country("North Ireland"),
+  def sanitize_country_or_region("North Ireland"),
     do: "United Kingdom of Great Britain and Northern Ireland"
 
-  def sanitize_country("occupied Palestinian territory"), do: "Palestine, State of"
-  def sanitize_country("Palestine"), do: "Palestine, State of"
-  def sanitize_country("Reunion"), do: "Réunion"
-  def sanitize_country("Russia"), do: "Russian Federation"
-  def sanitize_country("Saint Barthelemy"), do: "Saint Barthélemy"
-  def sanitize_country("Saint Martin"), do: "Saint Martin (French part)"
-  def sanitize_country("St. Martin"), do: "Saint Martin (French part)"
-  def sanitize_country("Taiwan"), do: "Taiwan, Province of China"
-  def sanitize_country("Taiwan*"), do: "Taiwan, Province of China"
-  def sanitize_country("Taipei and environs"), do: "Taiwan, Province of China"
-  def sanitize_country("UK"), do: "United Kingdom of Great Britain and Northern Ireland"
+  def sanitize_country_or_region("occupied Palestinian territory"), do: "Palestine, State of"
+  def sanitize_country_or_region("Palestine"), do: "Palestine, State of"
+  def sanitize_country_or_region("Reunion"), do: "Réunion"
+  def sanitize_country_or_region("Russia"), do: "Russian Federation"
+  def sanitize_country_or_region("Saint Barthelemy"), do: "Saint Barthélemy"
+  def sanitize_country_or_region("Saint Martin"), do: "Saint Martin (French part)"
+  def sanitize_country_or_region("St. Martin"), do: "Saint Martin (French part)"
+  def sanitize_country_or_region("Taiwan"), do: "Taiwan, Province of China"
+  def sanitize_country_or_region("Taiwan*"), do: "Taiwan, Province of China"
+  def sanitize_country_or_region("Taipei and environs"), do: "Taiwan, Province of China"
+  def sanitize_country_or_region("UK"), do: "United Kingdom of Great Britain and Northern Ireland"
 
-  def sanitize_country("United Kingdom"),
+  def sanitize_country_or_region("United Kingdom"),
     do: "United Kingdom of Great Britain and Northern Ireland"
 
-  def sanitize_country("US"), do: "United States of America"
-  def sanitize_country("Vietnam"), do: "Viet Nam"
-  def sanitize_country("Bahamas, The"), do: "Bahamas"
-  def sanitize_country("Burma"), do: "Myanmar"
-  def sanitize_country("Cape Verde"), do: "Cabo Verde"
-  def sanitize_country("Congo (Brazzaville)"), do: "Congo"
-  def sanitize_country("Cruise Ship"), do: "Cruise Ship"
-  def sanitize_country("Curacao"), do: "Curaçao"
-  def sanitize_country("East Timor"), do: "Timor-Leste"
-  def sanitize_country("Eswatini"), do: "eSwatini"
-  def sanitize_country("Gambia, The"), do: "Gambia"
-  def sanitize_country("Laos"), do: "Lao People's Democratic Republic"
-  def sanitize_country("MS Zaandam"), do: "MS Zaandam"
-  def sanitize_country("Others"), do: "Others"
-  def sanitize_country("Republic of the Congo"), do: "Congo"
-  def sanitize_country("Syria"), do: "Syrian Arab Republic"
-  def sanitize_country("Tanzania"), do: "Tanzania, United Republic of"
-  def sanitize_country("The Bahamas"), do: "Bahamas"
-  def sanitize_country("The Gambia"), do: "Gambia"
-  def sanitize_country("Venezuela"), do: "Venezuela (Bolivarian Republic of)"
-  def sanitize_country("West Bank and Gaza"), do: "West Bank and Gaza"
+  def sanitize_country_or_region("US"), do: "United States of America"
+  def sanitize_country_or_region("Vietnam"), do: "Viet Nam"
+  def sanitize_country_or_region("Bahamas, The"), do: "Bahamas"
+  def sanitize_country_or_region("Burma"), do: "Myanmar"
+  def sanitize_country_or_region("Cape Verde"), do: "Cabo Verde"
+  def sanitize_country_or_region("Congo (Brazzaville)"), do: "Congo"
+  def sanitize_country_or_region("Cruise Ship"), do: "Cruise Ship"
+  def sanitize_country_or_region("Curacao"), do: "Curaçao"
+  def sanitize_country_or_region("Diamond Princess"), do: "Diamond Princess"
+  def sanitize_country_or_region("East Timor"), do: "Timor-Leste"
+  def sanitize_country_or_region("Eswatini"), do: "eSwatini"
+  def sanitize_country_or_region("Gambia, The"), do: "Gambia"
+  def sanitize_country_or_region("Kosovo"), do: "Kosovo"
+  def sanitize_country_or_region("Laos"), do: "Lao People's Democratic Republic"
+  def sanitize_country_or_region("MS Zaandam"), do: "MS Zaandam"
+  def sanitize_country_or_region("Others"), do: "Others"
+  def sanitize_country_or_region("Republic of the Congo"), do: "Congo"
+  def sanitize_country_or_region("Syria"), do: "Syrian Arab Republic"
+  def sanitize_country_or_region("Tanzania"), do: "Tanzania, United Republic of"
+  def sanitize_country_or_region("The Bahamas"), do: "Bahamas"
+  def sanitize_country_or_region("The Gambia"), do: "Gambia"
+  def sanitize_country_or_region("Venezuela"), do: "Venezuela (Bolivarian Republic of)"
+  def sanitize_country_or_region("West Bank and Gaza"), do: "West Bank and Gaza"
 
-  def sanitize_country(country_region), do: country_region
+  def sanitize_country_or_region(country_region), do: country_region
 end
