@@ -20,7 +20,7 @@ defmodule Covid19.Helpers.Converters do
   """
   def to_decimal(number) when is_binary(number) do
     case Decimal.parse(number) do
-      {:ok, number} -> number
+      {number, ""} -> number
       _ -> nil
     end
   end
