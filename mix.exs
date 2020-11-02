@@ -20,7 +20,7 @@ defmodule Covid19.MixProject do
   def application do
     [
       mod: {Covid19.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :os_mon]
     ]
   end
 
@@ -40,6 +40,7 @@ defmodule Covid19.MixProject do
       {:postgrex, ">= 0.0.0"},
       {:phoenix_html, "~> 2.11"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
+      {:ecto_psql_extras, "~> 0.2"},
       {:gettext, "~> 0.18"},
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.4"},

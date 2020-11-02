@@ -20,6 +20,6 @@ defmodule Covid19Web.Router do
 
     live "/", Dashboard, layout: {Covid19Web.LayoutView, "app.html"}
     live "/detail/:country_or_region", Detail, layout: {Covid19Web.LayoutView, "app.html"}
-    live_dashboard "/dashboard", metrics: Covid19.Telemetry
+    live_dashboard "/dashboard", metrics: Covid19.Telemetry, ecto_repos: [Covid19.Repo]
   end
 end
