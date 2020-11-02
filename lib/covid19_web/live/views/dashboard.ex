@@ -4,9 +4,7 @@ defmodule Covid19Web.Live.Views.Dashboard do
   alias Covid19Web.Live.Components.{
     DeathRecoveredChart,
     CountryMap,
-    CountryPieChart,
     CountrywiseSummary,
-    GlobalTopList,
     NewCaseChart,
     WorldSummary,
     WorldByDay
@@ -49,8 +47,8 @@ defmodule Covid19Web.Live.Views.Dashboard do
   def render(assigns) do
     ~L"""
     <div class="container is-fluid">
-      <div class="columns">
-        <div class="column is-one-quarter">
+      <div class="columns is-desktop">
+        <div class="column is-one-quarter-widescreen is-one-third-desktop">
           <div class="columns">
             <div class="column">
               <%= live_component @socket,
