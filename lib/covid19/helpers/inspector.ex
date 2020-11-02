@@ -10,7 +10,7 @@ defmodule Covid19.Helpers.Inspector do
   Get a list of headers.
   """
   def headers do
-    DailyCSV.read_all(false)
+    DailyCSV.read_all()
     |> Enum.flat_map(&hd/1)
     |> Enum.uniq()
   end
@@ -59,11 +59,11 @@ defmodule Covid19.Helpers.Inspector do
   given files
   """
   def get_mentioned_countries do
-    DailyCSV.read_all(true)
+    DailyCSV.read_all()
     |> Stream.flat_map(& &1)
     |> Stream.map(& &1.country_or_region)
     |> Stream.uniq()
-    |> Stream.map(&Sanitizer.sanitize_country/1)
+    |> Stream.map(&Sanitizer.sanitize_country_or_region/1)
     |> Enum.sort()
   end
 
@@ -71,7 +71,7 @@ defmodule Covid19.Helpers.Inspector do
   Returns different types of date formats used in different files
   """
   def get_date_formats do
-    DailyCSV.read_all(true)
+    DailyCSV.read_all()
     |> Enum.map(fn [%{timestamp: timestamp} | _] ->
       timestamp
     end)
