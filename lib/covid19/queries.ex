@@ -88,6 +88,7 @@ defmodule Covid19.Queries do
     |> Enum.map(fn
       {nil, a} ->
         a
+
       {a, b} ->
         b
         |> Map.put(:new_confirmed, b.confirmed - a.confirmed)

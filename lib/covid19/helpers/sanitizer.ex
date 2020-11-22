@@ -66,7 +66,6 @@ defmodule Covid19.Helpers.Sanitizer do
   def sanitize_heading("Hospitalization_Rate"), do: :hospitalization_rate
   def sanitize_heading("Total_Test_Results"), do: :total_test_results
 
-
   # TODO: Sort these things!
   @doc """
   Translates country names found in the file into standard country names.
@@ -87,7 +86,10 @@ defmodule Covid19.Helpers.Sanitizer do
   def sanitize_country_or_region("Republic of Korea"), do: "Korea (Republic of)"
   def sanitize_country_or_region("Macao SAR"), do: "Macao"
   def sanitize_country_or_region("Macau"), do: "Macao"
-  def sanitize_country_or_region("North Macedonia"), do: "Macedonia (the former Yugoslav Republic of)"
+
+  def sanitize_country_or_region("North Macedonia"),
+    do: "Macedonia (the former Yugoslav Republic of)"
+
   def sanitize_country_or_region("Moldova"), do: "Moldova (Republic of)"
   def sanitize_country_or_region("Republic of Moldova"), do: "Moldova (Republic of)"
   def sanitize_country_or_region("Mainland China"), do: "China"

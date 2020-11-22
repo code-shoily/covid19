@@ -15,8 +15,6 @@ defmodule Covid19Web.Live.Components.CountrywiseSummary do
      |> assign(term: "")}
   end
 
-
-
   def handle_event("sort", %{"by" => by}, socket) do
     {:noreply,
      socket

@@ -44,7 +44,7 @@ defmodule Covid19.DataSource.DailyCSV do
   @spec read(Date.t(), any()) :: parsed_content() | :error
   def read(%Date{} = date, opts \\ []) do
     us? = opts[:us?] || false
-    sanitized? = is_nil(opts[:sanitized?]) && true || opts[:sanitized?]
+    sanitized? = (is_nil(opts[:sanitized?]) && true) || opts[:sanitized?]
 
     with path <- get_file_path(date, us?),
          true <- File.exists?(path) do

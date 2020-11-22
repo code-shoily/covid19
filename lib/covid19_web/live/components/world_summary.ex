@@ -10,7 +10,7 @@ defmodule Covid19Web.Live.Components.WorldSummary do
   end
 
   defp fmt(number, :signed) when is_number(number) do
-    sign = number > 0 && "+" || ""
+    sign = (number > 0 && "+") || ""
     number = Number.Delimit.number_to_delimited(number, precision: 0)
 
     sign <> " " <> number

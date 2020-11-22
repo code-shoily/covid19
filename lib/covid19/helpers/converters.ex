@@ -50,11 +50,13 @@ defmodule Covid19.Helpers.Converters do
          [month, day, year] <- String.split(date, "/") do
       month = String.pad_leading(month, 2, "0")
       day = String.pad_leading(day, 2, "0")
+
       year =
         case String.split_at(year, 2) do
           {two_digit, ""} -> two_digit
           {_, four_digit} -> four_digit
         end
+
       "#{month}/#{day}/#{year} #{time}"
     end
   end

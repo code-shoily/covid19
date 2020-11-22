@@ -19,7 +19,7 @@ defmodule Mix.Tasks.Covid19.Delete do
 
   @shortdoc "Delete data from CSV into DB Table"
   def run([_, _, _] = args) do
-    Mix.Task.run "app.start", []
+    Mix.Task.run("app.start", [])
 
     [year, month, day] = Enum.map(args, &String.to_integer/1)
     date = %Date{year: year, month: month, day: day}
@@ -27,17 +27,16 @@ defmodule Mix.Tasks.Covid19.Delete do
     print_response(Operations.delete(date, :us), date, "US")
   rescue
     _ ->
-      Mix.shell.error(@usage_message)
+      Mix.shell().error(@usage_message)
   end
-
 
   defp print_response(result, date, prefix) do
     case result do
       {0, _} ->
-        Mix.shell.error("! No rows were removed for #{prefix} of #{date}")
+        Mix.shell().error("! No rows were removed for #{prefix} of #{date}")
 
       {n, _} ->
-        Mix.shell.info("* #{n} rows were delete for #{prefix} data of #{date}")
+        Mix.shell().info("* #{n} rows were delete for #{prefix} data of #{date}")
     end
   end
 end
