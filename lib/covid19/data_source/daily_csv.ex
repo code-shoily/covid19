@@ -97,6 +97,7 @@ defmodule Covid19.DataSource.DailyCSV do
       |> Map.update(:timestamp, nil, &Converters.to_datetime!/1)
       |> Map.update(:incidence_rate, nil, &Converters.to_decimal/1)
       |> Map.update(:case_fatality_ratio, nil, &Converters.to_decimal/1)
+      |> Map.update(:total_test_results, nil, &Converters.to_decimal/1)
       |> Map.put_new(:src, src)
       |> Map.put_new(:date, date)
       |> Map.drop(@drop_keys)

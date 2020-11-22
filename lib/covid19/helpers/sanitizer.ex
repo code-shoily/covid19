@@ -26,6 +26,7 @@ defmodule Covid19.Helpers.Sanitizer do
           | :timestamp
           | :incidence_rate
           | :case_fatality_ratio
+          | :total_test_results
 
   @doc """
   Translates heading names found in the file into standard keys.
@@ -52,6 +53,7 @@ defmodule Covid19.Helpers.Sanitizer do
   def sanitize_heading("Long_"), do: :longitude
   def sanitize_heading("Incidence_Rate"), do: :incidence_rate
   def sanitize_heading("Case-Fatality_Ratio"), do: :case_fatality_ratio
+  def sanitize_heading("Case_Fatality_Ratio"), do: :case_fatility_ratio
 
   ## US ONLY FIELD
   def sanitize_heading("Incident_Rate"), do: :incident_rate
@@ -62,6 +64,8 @@ defmodule Covid19.Helpers.Sanitizer do
   def sanitize_heading("ISO3"), do: :iso3
   def sanitize_heading("Testing_Rate"), do: :testing_rate
   def sanitize_heading("Hospitalization_Rate"), do: :hospitalization_rate
+  def sanitize_heading("Total_Test_Results"), do: :total_test_results
+
 
   # TODO: Sort these things!
   @doc """
