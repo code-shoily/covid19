@@ -9,7 +9,6 @@ defmodule Covid19.Schemas.DailyDataUS do
     field :date, :date
     field :country_or_region, :string
     field :province_or_state, :string
-    field :county, :string
     field :latitude, :decimal
     field :longitude, :decimal
     field :active, :integer
@@ -23,12 +22,13 @@ defmodule Covid19.Schemas.DailyDataUS do
     field :hospitalization_rate, :decimal
     field :mortality_rate, :decimal
     field :timestamp, :naive_datetime
+    field :total_test_results, :decimal
 
     timestamps()
   end
 
   @fields ~w/
-    src country_or_region province_or_state county latitude
+    src country_or_region province_or_state latitude
     longitude active confirmed deaths recovered timestamp
     people_tested people_hospitalized testing_rate incident_rate
     hospitalization_rate mortality_rate uid date
