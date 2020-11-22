@@ -1,4 +1,9 @@
 defmodule Covid19.Helpers.Converters do
+  @type maybe_numeric_string :: binary() | nil
+  @type maybe_integer :: integer() | nil
+  @type maybe_decimal :: Decimal.t() | nil
+  @type date_time :: DateTime.t() | NaiveDateTime.t()
+
   @moduledoc """
   Module to facilitate all kinds of conversion.
   """
@@ -6,6 +11,7 @@ defmodule Covid19.Helpers.Converters do
   @doc """
   Coerces numeric data as integers
   """
+  @spec to_integer(maybe_numeric_string()) :: maybe_integer()
   def to_integer(number) when is_binary(number) do
     case Integer.parse(number) do
       {number, _} -> number
@@ -18,6 +24,7 @@ defmodule Covid19.Helpers.Converters do
   @doc """
   Coerces numeric data as decimal
   """
+  @spec to_decimal(maybe_numeric_string()) :: maybe_decimal()
   def to_decimal(number) when is_binary(number) do
     case Decimal.parse(number) do
       {number, ""} -> number
@@ -27,8 +34,9 @@ defmodule Covid19.Helpers.Converters do
 
   @doc """
   Converts str into `NaiveDateTime`, the file has two different formats of time,
-  this one accommodates both.
+  this one accommodates both. It is either in ISO format or "%m/%d/%y %R"
   """
+  @spec to_datetime!(binary()) :: date_time()
   def to_datetime!(str) do
     case to_datetime(str) do
       {:ok, date} -> date
