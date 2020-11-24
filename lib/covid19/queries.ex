@@ -1,12 +1,17 @@
 defmodule Covid19.Queries do
   @moduledoc false
 
+  alias Covid19.Cache
   alias Covid19.Helpers.PathHelpers
   alias Covid19.Repo
   alias Covid19.Schemas.DailyData
   alias Covid19.Schemas.DailyDataUS
 
   import Ecto.Query
+
+  use Nebulex.Caching
+
+  @ttl Nebulex.Time.expiry_time(1, :hour)
 
   @type datasets :: :world | :us
   @type maybe_dates :: [Date.t()] | []
@@ -22,7 +27,6 @@ defmodule Covid19.Queries do
   """
   @spec processed_dates(datasets) :: maybe_dates()
   def processed_dates(:world), do: get_unique_dates(DailyData) |> Enum.sort(Date)
-
   def processed_dates(:us), do: get_unique_dates(DailyDataUS) |> Enum.sort(Date)
 
   @spec processed_dates() :: dataset_dates()
@@ -49,13 +53,7 @@ defmodule Covid19.Queries do
     }
   end
 
-  defp get_unique_dates(schema) do
-    schema
-    |> select([d], d.date)
-    |> distinct(true)
-    |> Repo.all()
-  end
-
+  @decorate cacheable(cache: Cache, key: :world, opts: [ttl: @ttl])
   @type world_summary_type :: %{
           required(:date) => Date.t(),
           required(:deaths) => non_neg_integer(),
@@ -135,6 +133,7 @@ defmodule Covid19.Queries do
     end)
   end
 
+  @decorate cacheable(cache: Cache, key: {:locations, date}, opts: [ttl: @ttl])
   def locations_for_date(date) do
     locations = country_locations()
 
@@ -176,6 +175,15 @@ defmodule Covid19.Queries do
     Map.put(data, :active, confirmed - (recovered + deaths))
   end
 
+  @decorate cacheable(cache: Cache, key: {:dates, schema}, opts: [ttl: @ttl])
+  defp get_unique_dates(schema) do
+    schema
+    |> select([d], d.date)
+    |> distinct(true)
+    |> Repo.all()
+  end
+
+  @decorate cacheable(cache: Cache, key: {:country, date}, opts: [ttl: @ttl])
   defp single_summary_by_country(%Date{} = date) do
     locations = country_locations()
 

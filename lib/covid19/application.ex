@@ -12,7 +12,8 @@ defmodule Covid19.Application do
       Covid19.Repo,
       Covid19.Telemetry,
       # Start the pubsub system
-      {Phoenix.PubSub, name: MyApp.PubSub},
+      {Phoenix.PubSub, name: Covid19.PubSub},
+      Covid19.Cache,
       # Start the endpoint when the application starts
       Covid19Web.Endpoint
       # Starts a worker by calling: Covid19.Worker.start_link(arg)
