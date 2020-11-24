@@ -1,4 +1,6 @@
 defmodule Covid19.Queries do
+  @moduledoc false
+
   alias Covid19.Helpers.PathHelpers
   alias Covid19.Repo
   alias Covid19.Schemas.DailyData

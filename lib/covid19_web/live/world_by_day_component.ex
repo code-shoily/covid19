@@ -1,7 +1,7 @@
 defmodule Covid19Web.WorldByDayComponent do
-  import Phoenix.HTML
+  @moduledoc false
 
-  use Phoenix.LiveComponent
+  use Covid19Web, :live_component
 
   def mount(socket) do
     {:ok,

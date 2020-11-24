@@ -21,13 +21,22 @@ defmodule Covid19Web do
       use Phoenix.View,
         root: "lib/covid19_web/templates",
         namespace: Covid19Web
+
       unquote(view_helpers())
     end
   end
 
   def live_view do
     quote do
-      use Phoenix.LiveView
+      use Phoenix.LiveView, layout: {Covid19Web.LayoutView, "live.html"}
+      unquote(view_helpers())
+    end
+  end
+
+  def live_component do
+    quote do
+      use Phoenix.LiveComponent
+
       unquote(view_helpers())
     end
   end

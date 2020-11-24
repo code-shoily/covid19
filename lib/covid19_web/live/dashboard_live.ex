@@ -1,5 +1,7 @@
 defmodule Covid19Web.DashboardLive do
-  use Phoenix.LiveView
+  @moduledoc false
+
+  use Covid19Web, :live_view
 
   alias Covid19Web.{
     DeathRecoveredChartComponent,

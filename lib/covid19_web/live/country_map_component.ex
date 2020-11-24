@@ -1,5 +1,7 @@
 defmodule Covid19Web.CountryMapComponent do
-  use Phoenix.LiveComponent
+  @moduledoc false
+
+  use Covid19Web, :live_component
 
   def mount(socket) do
     {:ok, socket |> assign(:selected, :active)}

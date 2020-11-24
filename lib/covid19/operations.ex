@@ -1,4 +1,6 @@
 defmodule Covid19.Operations do
+  @moduledoc false
+
   alias Covid19.DataSource.DailyCSV
   alias Covid19.Schemas.{DailyData, DailyDataUS}
   alias Covid19.Repo
@@ -34,30 +36,36 @@ defmodule Covid19.Operations do
         data
         |> Enum.map(&%{changeset: schema.changeset(schema.new(), &1), uid: uid_of(&1)})
         |> Enum.with_index()
-        |> Enum.reduce(%{uids: [], multi: Multi.new()}, fn {%{changeset: changeset, uid: uid},
-                                                            idx},
-                                                           %{uids: uids, multi: multi} = acc ->
-          if uid in uids do
-            acc
-          else
-            %{uids: [uid | uids], multi: Multi.insert(multi, to_string(idx), changeset)}
-          end
-        end)
+        |> Enum.reduce(%{uids: [], multi: Multi.new()}, &insert/2)
         |> Map.get(:multi)
         |> Repo.transaction()
-        |> case do
-          {:ok, _} = result ->
-            result
-
-          {:error, multi_key, changeset, _} ->
-            {:error, multi_key,
-             Ecto.Changeset.traverse_errors(changeset, fn {msg, opts} ->
-               Enum.reduce(opts, msg, fn {key, value}, acc ->
-                 String.replace(acc, "#{multi_key}: %{#{key}}", to_string(value))
-               end)
-             end)}
-        end
+        |> maybe_error()
     end
+  end
+
+  defp insert(
+         {%{changeset: changeset, uid: uid}, idx},
+         %{uids: uids, multi: multi} = acc
+       ) do
+    if uid in uids do
+      acc
+    else
+      %{uids: [uid | uids], multi: Multi.insert(multi, to_string(idx), changeset)}
+    end
+  end
+
+  defp maybe_error({:ok, _} = result), do: result
+
+  defp maybe_error({:error, multi_key, changeset, _}) do
+    {:error, multi_key, traverse_errors(changeset, multi_key)}
+  end
+
+  defp traverse_errors(changeset, multi_key) do
+    Ecto.Changeset.traverse_errors(changeset, fn {msg, opts} ->
+      Enum.reduce(opts, msg, fn {key, value}, acc ->
+        String.replace(acc, "#{multi_key}: %{#{key}}", to_string(value))
+      end)
+    end)
   end
 
   defp uid_of(

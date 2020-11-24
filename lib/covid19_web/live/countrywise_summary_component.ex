@@ -1,11 +1,9 @@
 defmodule Covid19Web.CountrywiseSummaryComponent do
+  @moduledoc false
+
   alias Covid19Web.DetailLive
 
-  import Phoenix.HTML
-  import Phoenix.HTML.Link
-  alias Covid19Web.Router.Helpers, as: Routes
-
-  use Phoenix.LiveComponent
+  use Covid19Web, :live_component
 
   def mount(socket) do
     {:ok,

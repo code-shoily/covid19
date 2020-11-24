@@ -1,4 +1,6 @@
 defmodule Covid19.Schemas.DailyDataUS do
+  @moduledoc false
+
   use Ecto.Schema
 
   import Ecto.Changeset

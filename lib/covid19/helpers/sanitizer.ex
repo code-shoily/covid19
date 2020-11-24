@@ -66,7 +66,6 @@ defmodule Covid19.Helpers.Sanitizer do
   def sanitize_heading("Hospitalization_Rate"), do: :hospitalization_rate
   def sanitize_heading("Total_Test_Results"), do: :total_test_results
 
-  # TODO: Sort these things!
   @doc """
   Translates country names found in the file into standard country names.
   """

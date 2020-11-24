@@ -1,5 +1,7 @@
 defmodule Covid19Web.WorldSummaryComponent do
-  use Phoenix.LiveComponent
+  @moduledoc false
+
+  use Covid19Web, :live_component
 
   defp fmt(number) when is_number(number) do
     Number.Delimit.number_to_delimited(number, precision: 0)
