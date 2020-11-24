@@ -14,6 +14,7 @@ defmodule Covid19Web.ChannelCase do
   by setting `use Covid19Web.ChannelCase, async: true`, although
   this option is not recommended for other databases.
   """
+  alias Ecto.Adapters.SQL.Sandbox
 
   use ExUnit.CaseTemplate
 
@@ -28,10 +29,10 @@ defmodule Covid19Web.ChannelCase do
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Covid19.Repo)
+    :ok = Sandbox.checkout(Covid19.Repo)
 
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(Covid19.Repo, {:shared, self()})
+      Sandbox.mode(Covid19.Repo, {:shared, self()})
     end
 
     :ok

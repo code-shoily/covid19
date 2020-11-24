@@ -55,9 +55,9 @@ defmodule Covid19.Helpers.PathHelpers do
     end
   end
 
-  defp base_path(), do: Application.get_env(:covid19, :data_source)[:daily_dir]
+  defp base_path, do: Application.get_env(:covid19, :data_source)[:daily_dir]
   defp full_path(filename), do: "#{base_path()}/#{filename}.csv"
 
-  defp base_us_path(), do: Application.get_env(:covid19, :data_source)[:daily_dir_us]
+  defp base_us_path, do: Application.get_env(:covid19, :data_source)[:daily_dir_us]
   defp full_us_path(filename), do: "#{base_us_path()}/#{filename}.csv"
 end

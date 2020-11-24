@@ -26,7 +26,7 @@ defmodule Covid19.Queries do
   def processed_dates(:us), do: get_unique_dates(DailyDataUS) |> Enum.sort(Date)
 
   @spec processed_dates() :: dataset_dates()
-  def processed_dates() do
+  def processed_dates do
     %{
       world: processed_dates(:world),
       us: processed_dates(:us)
@@ -42,7 +42,7 @@ defmodule Covid19.Queries do
   end
 
   @spec unprocessed_dates() :: dataset_dates()
-  def unprocessed_dates() do
+  def unprocessed_dates do
     %{
       world: unprocessed_dates(:world),
       us: unprocessed_dates(:us)
@@ -64,7 +64,7 @@ defmodule Covid19.Queries do
           required(:active) => non_neg_integer()
         }
   @spec world_summary() :: [world_summary_type()]
-  def world_summary() do
+  def world_summary do
     data =
       DailyData
       |> group_by([e], e.date)

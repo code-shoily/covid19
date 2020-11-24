@@ -42,7 +42,7 @@ defmodule Mix.Tasks.Covid19.Load do
       Mix.shell().error(@usage_message)
   end
 
-  defp load_all_new() do
+  defp load_all_new do
     %{us: us_dates, world: world_dates} = Queries.unprocessed_dates()
 
     for date <- world_dates do

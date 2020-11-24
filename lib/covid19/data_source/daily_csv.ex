@@ -3,7 +3,7 @@ defmodule Covid19.DataSource.DailyCSV do
   Functions to read from the CSV daily reports.
   """
 
-  alias Covid19.Helpers.{PathHelpers, Sanitizer, Converters}
+  alias Covid19.Helpers.{Converters, PathHelpers, Sanitizer}
 
   @typep text() :: String.t() | nil
   @typep maybe_number() :: non_neg_integer() | nil

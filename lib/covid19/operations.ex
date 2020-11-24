@@ -2,8 +2,8 @@ defmodule Covid19.Operations do
   @moduledoc false
 
   alias Covid19.DataSource.DailyCSV
-  alias Covid19.Schemas.{DailyData, DailyDataUS}
   alias Covid19.Repo
+  alias Covid19.Schemas.{DailyData, DailyDataUS}
   alias Ecto.Multi
 
   import Ecto.Query
