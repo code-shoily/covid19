@@ -1,0 +1,60 @@
+<div class="container is-fluid">
+  <div class="columns is-desktop">
+    <div class="column is-one-quarter-widescreen is-one-third-desktop">
+      <div class="columns">
+        <div class="column">
+          <%= live_component @socket,
+                WorldSummaryComponent,
+                id: :world_summary,
+                data: data_for_selected_date(@world_summary, @dates, @selected_index)
+              %>
+        </div>
+      </div>
+      <div class="columns">
+        <div class="column">
+          <%= live_component @socket,
+                NewCaseChartComponent,
+                id: :new_case_chart,
+                data: @world_summary %>
+        </div>
+      </div>
+      <div class="columns">
+        <div class="column">
+          <%= live_component @socket,
+                DeathRecoveredChartComponent,
+                id: :death_recovered_chart,
+                data: @world_summary %>
+        </div>
+      </div>
+    </div>
+    <div class="column">
+      <div class="columns">
+        <div class="column">
+          <%= live_component @socket,
+                  CountrywiseSummaryComponent,
+                  id: :countrywise_summary,
+                  data: country_data_for_selected_date(@dates, @selected_index)
+                %>
+        </div>
+      </div>
+      <div class="columns">
+        <div class="column">
+          <%= live_component @socket,
+                CountryMapComponent,
+                id: :country_map,
+                data: location_data_for_selected_date(@dates, @selected_index)
+              %>
+        </div>
+      </div>
+      <div class="columns">
+        <div class="column">
+          <%= live_component @socket,
+                WorldByDayComponent,
+                id: :world_by_day,
+                data: @world_summary
+              %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

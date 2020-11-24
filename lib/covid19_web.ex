@@ -16,35 +16,19 @@ defmodule Covid19Web do
   below. Instead, define any helper function in modules
   and import those modules here.
   """
-
-  def controller do
-    quote do
-      use Phoenix.Controller, namespace: Covid19Web
-
-      import Plug.Conn
-      import Phoenix.LiveView.Controller
-      import Covid19Web.Gettext
-      alias Covid19Web.Router.Helpers, as: Routes
-    end
-  end
-
   def view do
     quote do
       use Phoenix.View,
         root: "lib/covid19_web/templates",
         namespace: Covid19Web
+      unquote(view_helpers())
+    end
+  end
 
-      # Import convenience functions from controllers
-      import Phoenix.Controller, only: [get_flash: 1, get_flash: 2, view_module: 1]
-
-      # Use all HTML functionality (forms, tags, etc)
-      use Phoenix.HTML
-
-      import Phoenix.LiveView.Helpers
-
-      import Covid19Web.ErrorHelpers
-      import Covid19Web.Gettext
-      alias Covid19Web.Router.Helpers, as: Routes
+  def live_view do
+    quote do
+      use Phoenix.LiveView
+      unquote(view_helpers())
     end
   end
 
@@ -61,6 +45,20 @@ defmodule Covid19Web do
     quote do
       use Phoenix.Channel
       import Covid19Web.Gettext
+    end
+  end
+
+  defp view_helpers do
+    quote do
+      # Use all HTML functionality (forms, tags, etc)
+      use Phoenix.HTML
+
+      # Import convenience functions for LiveView rendering
+      import Phoenix.LiveView.Helpers
+
+      import Covid19Web.ErrorHelpers
+      import Covid19Web.Gettext
+      alias Covid19Web.Router.Helpers, as: Routes
     end
   end
 

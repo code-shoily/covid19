@@ -11,15 +11,11 @@ defmodule Covid19Web.Router do
     plug :put_secure_browser_headers
   end
 
-  pipeline :api do
-    plug :accepts, ["json"]
-  end
-
-  scope "/", Covid19Web.Live.Views do
+  scope "/", Covid19Web do
     pipe_through :browser
 
-    live "/", Dashboard, layout: {Covid19Web.LayoutView, "app.html"}
-    live "/detail/:country_or_region", Detail, layout: {Covid19Web.LayoutView, "app.html"}
+    live "/", DashboardLive, layout: {Covid19Web.LayoutView, "app.html"}
+    live "/detail/:country_or_region", DetailLive, layout: {Covid19Web.LayoutView, "app.html"}
     live_dashboard "/dashboard", metrics: Covid19.Telemetry, ecto_repos: [Covid19.Repo]
   end
 end

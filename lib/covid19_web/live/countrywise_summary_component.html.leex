@@ -1,0 +1,88 @@
+<div class="card">
+  <div class="card-content">
+    <div class="level">
+      <div class="level-left">
+        <p class="level-item title is-5 is-uppercase">Countrywise Summary</p>
+      </div>
+      <div class="level-right">
+        <div class="level-item">
+          <form phx-change="filter" phx-target="<%= @myself %>">
+            <div class="field has-addons">
+              <div class="control has-icons-left">
+                <input name="term" class="input is-wide" type="text" placeholder="Filter by country" value="<%= @term %>">
+                <span class="icon is-small is-left">
+                  <i class="fas fa-search"></i>
+                </span>
+              </div>
+              <div class="control">
+                <a phx-click="clear-term" phx-target="<%= @myself %>" class="button is-danger">
+                  <i class="fas fa-trash"></i>
+                </a>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="table-container" style="height: 400px; overflow: auto">
+      <table class="table is-striped is-narrow is-fullwidth">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>
+              <a href="#" phx-click="sort" phx-value-by="country_or_region" phx-target="<%= @myself %>">
+                Country/Region <%= show_sort_icon(:country_or_region, @by, @dir) %>
+              </a>
+            </th>
+            <th class="has-text-right">
+              <a href="#" phx-click="sort" phx-value-by="confirmed" phx-target="<%= @myself %>">
+                Confirmed <%= show_sort_icon(:confirmed, @by, @dir) %>
+              </a>
+            </th>
+            <th class="has-text-right">
+              <a href="#" phx-click="sort" phx-value-by="new_confirmed" phx-target="<%= @myself %>">
+                New Cases <%= show_sort_icon(:new_confirmed, @by, @dir) %>
+              </a>
+            </th>
+            <th class="has-text-right">
+              <a href="#" phx-click="sort" phx-value-by="active" phx-target="<%= @myself %>">
+                Active <%= show_sort_icon(:active, @by, @dir) %>
+              </a>
+            </th>
+            <th class="has-text-centered">
+              <a href="#" phx-click="sort" phx-value-by="recovered" phx-target="<%= @myself %>">
+                Recovered <%= show_sort_icon(:recovered, @by, @dir) %>
+              </a>
+            </th>
+            <th class="has-text-centered">
+              <a href="#" phx-click="sort" phx-value-by="deaths" phx-target="<%= @myself %>">
+                Deaths <%= show_sort_icon(:deaths, @by, @dir) %>
+              </a>
+            </th>
+            <th class="has-text-centered">
+              <a href="#" phx-click="sort" phx-value-by="new_deaths" phx-target="<%= @myself %>">
+                New Deaths <%= show_sort_icon(:new_deaths, @by, @dir) %>
+              </a>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <%= for {d, idx} <- sorted(@data, @by, @dir, @term) do %>
+            <tr>
+              <td><%= idx %></td>
+              <td>
+                <%= link d.country_or_region, to: Routes.live_path(@socket, DetailLive, d.country_or_region) %>
+              </td>
+              <td class="has-text-weight-semibold has-text-right"><%= d.confirmed |> fmt() %></td>
+              <td class="has-text-weight-semibold has-text-right"><%= d.new_confirmed |> fmt() %></td>
+              <td class="has-text-weight-semibold has-text-right"><%= d.active |> fmt() %></td>
+              <td class="has-background-primary has-text-weight-semibold has-text-centered"><%= d.recovered |> fmt() %></td>
+              <td class="has-text-weight-semibold has-text-centered"><%= d.deaths |> fmt() %></td>
+              <td class="has-background-danger has-text-weight-semibold has-text-centered"><%= d.new_deaths |> fmt() %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
