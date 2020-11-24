@@ -48,7 +48,7 @@ defmodule Covid19.MixProject do
       {:countries, "~> 1.5"},
       {:timex, "~> 3.5"},
       {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
-      {:phoenix_live_view, "~> 0.14"},
+      {:phoenix_live_view, "~> 0.15"},
       {:phoenix_live_dashboard, "~> 0.3"},
       {:telemetry_poller, "~> 0.5"},
       {:telemetry_metrics, "~> 0.5"},
