@@ -1,4 +1,5 @@
 .iex.exs
+.envrc
 data/
 # The directory Mix will write compiled artifacts to.
 /_build/

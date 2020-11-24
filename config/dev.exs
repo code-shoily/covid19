@@ -2,9 +2,9 @@ use Mix.Config
 
 # Configure your database
 config :covid19, Covid19.Repo,
-  username: "postgres",
-  password: "postgres",
-  database: "covid19_dev",
+  username: System.get_env("DEV_DB_USER") || "postgres",
+  password: System.get_env("DEV_DB_PASS") || "",
+  database: System.get_env("DEV_DB_NAME") || "covid19_dev",
   hostname: "localhost",
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
