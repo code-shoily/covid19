@@ -13,12 +13,29 @@ defmodule Covid19.Queries do
 
   @ttl Nebulex.Time.expiry_time(1, :hour)
 
+  @type country_type :: %{
+    required(:country_or_region) => String.t(),
+    required(:deaths) => integer(),
+    required(:recovered) => integer(),
+    required(:confirmed) => integer(),
+    required(:active) => integer(),
+    required(:new_deaths) => integer(),
+    required(:new_recovered) => integer(),
+    required(:new_confirmed) => integer()
+  }
   @type datasets :: :world | :us
-  @type maybe_dates :: [Date.t()] | []
   @type dataset_dates :: %{
-          us: maybe_dates(),
-          world: maybe_dates()
-        }
+    us: maybe_dates(),
+    world: maybe_dates()
+  }
+  @type maybe_dates :: [Date.t()] | []
+  @type world_summary_type :: %{
+    required(:date) => Date.t(),
+    required(:deaths) => non_neg_integer(),
+    required(:confirmed) => non_neg_integer(),
+    required(:recovered) => non_neg_integer(),
+    required(:active) => non_neg_integer()
+  }
 
   defdelegate dates(dataset), to: PathHelpers
 
@@ -53,107 +70,44 @@ defmodule Covid19.Queries do
     }
   end
 
-  @decorate cacheable(cache: Cache, key: :world, opts: [ttl: @ttl])
-  @type world_summary_type :: %{
-          required(:date) => Date.t(),
-          required(:deaths) => non_neg_integer(),
-          required(:confirmed) => non_neg_integer(),
-          required(:recovered) => non_neg_integer(),
-          required(:active) => non_neg_integer()
-        }
   @spec world_summary() :: [world_summary_type()]
   def world_summary do
-    data =
-      DailyData
-      |> group_by([e], e.date)
-      |> select([e], %{
-        date: e.date,
-        deaths: fragment("COALESCE(SUM(deaths), 0)"),
-        confirmed: fragment("COALESCE(SUM(confirmed), 0)"),
-        recovered: fragment("COALESCE(SUM(recovered), 0)")
-      })
-      |> order_by([e], e.date)
-      |> Repo.all()
-      |> Enum.map(&calculate_active/1)
-      |> Enum.map(fn data ->
-        data
-        |> Map.put_new(:new_confirmed, nil)
-        |> Map.put_new(:new_deaths, nil)
-        |> Map.put_new(:new_recovered, nil)
-        |> Map.put_new(:new_active, nil)
-      end)
+    summary = [nil | group_by_dates()]
 
-    [nil | data]
-    |> Enum.zip(data)
-    |> Enum.map(fn
-      {nil, a} ->
-        a
-
-      {a, b} ->
-        b
-        |> Map.put(:new_confirmed, b.confirmed - a.confirmed)
-        |> Map.put(:new_deaths, b.deaths - a.deaths)
-        |> Map.put(:new_recovered, b.recovered - a.recovered)
-        |> Map.put(:new_active, b.active - a.active)
-    end)
+    summary
+    |> Enum.zip(tl(summary))
+    |> Enum.map(&calculate_diffs/1)
   end
 
-  @empty_country %{
-    deaths: 0,
-    confirmed: 0,
-    recovered: 0
-  }
-  @type country_type :: %{
-          required(:country_or_region) => String.t(),
-          required(:deaths) => integer(),
-          required(:recovered) => integer(),
-          required(:confirmed) => integer(),
-          required(:active) => integer(),
-          required(:new_deaths) => integer(),
-          required(:new_recovered) => integer(),
-          required(:new_confirmed) => integer()
-        }
   @spec summary_by_country(Date.t()) :: [country_type()]
   def summary_by_country(%Date{} = date) do
-    previous_data = single_summary_by_country(Date.add(date, -1))
+    yesterday = single_summary_by_country(Date.add(date, -1))
+    empty_country = %{
+      deaths: 0,
+      confirmed: 0,
+      recovered: 0
+    }
 
     date
     |> single_summary_by_country()
     |> Enum.map(fn {country, data} ->
-      previous_country_data = Map.get(previous_data, country, @empty_country)
+      by_country = Map.get(yesterday, country, empty_country)
 
       data
-      |> Map.update(:new_deaths, 0, fn _ -> data.deaths - previous_country_data.deaths end)
+      |> Map.update(:new_deaths, 0, fn _ -> data.deaths - by_country.deaths end)
       |> Map.update(:new_confirmed, 0, fn _ ->
-        data.confirmed - previous_country_data.confirmed
+        data.confirmed - by_country.confirmed
       end)
       |> Map.update(:new_recovered, 0, fn _ ->
-        data.recovered - previous_country_data.recovered
+        data.recovered - by_country.recovered
       end)
     end)
   end
 
-  @decorate cacheable(cache: Cache, key: {:locations, date}, opts: [ttl: @ttl])
   def locations_for_date(date) do
     locations = country_locations()
 
-    DailyData
-    |> where([e], e.date == ^date)
-    |> group_by([e], e.date)
-    |> group_by([e], e.latitude)
-    |> group_by([e], e.longitude)
-    |> group_by([e], e.country_or_region)
-    |> select([e], %{
-      date: e.date,
-      country_or_region: e.country_or_region,
-      latitude: e.latitude,
-      longitude: e.longitude,
-      deaths: fragment("COALESCE(SUM(deaths), 0)"),
-      confirmed: fragment("COALESCE(SUM(confirmed), 0)"),
-      recovered: fragment("COALESCE(SUM(recovered), 0)")
-    })
-    |> Repo.all()
-    |> Enum.map(&calculate_active/1)
+    group_by_locations(date)
     |> Enum.map(fn row ->
       case row do
         %{latitude: nil, longitude: nil, country_or_region: name} ->
@@ -165,40 +119,31 @@ defmodule Covid19.Queries do
     end)
   end
 
-  defp calculate_active(
-         %{
-           confirmed: confirmed,
-           recovered: recovered,
-           deaths: deaths
-         } = data
-       ) do
-    Map.put(data, :active, confirmed - (recovered + deaths))
+  defp country_locations do
+    Countries.all()
+    |> Enum.reject(&is_nil(&1.geo))
+    |> Enum.map(fn %{name: name, geo: %{latitude: latitude, longitude: longitude}} ->
+      %{name: name, latitude: latitude, longitude: longitude}
+    end)
+    |> Enum.group_by(& &1.name)
+    |> Enum.map(fn {name, geos} -> {name, hd(geos)} end)
+    |> Enum.into(%{})
   end
 
-  @decorate cacheable(cache: Cache, key: {:dates, schema}, opts: [ttl: @ttl])
-  defp get_unique_dates(schema) do
-    schema
-    |> select([d], d.date)
-    |> distinct(true)
-    |> Repo.all()
+  defp calculate_diffs({nil, today}), do: today
+  defp calculate_diffs({yesterday, today}) do
+    Map.merge(today, %{
+      new_confirmed: today.confirmed - yesterday.confirmed,
+      new_deaths: today.deaths - yesterday.deaths,
+      new_recovered: today.recovered - yesterday.recovered,
+      new_active: today.active - yesterday.active
+    })
   end
 
-  @decorate cacheable(cache: Cache, key: {:country, date}, opts: [ttl: @ttl])
   defp single_summary_by_country(%Date{} = date) do
     locations = country_locations()
 
-    DailyData
-    |> where([e], e.date == ^date)
-    |> group_by([e], e.country_or_region)
-    |> select([e], %{
-      country_or_region: e.country_or_region,
-      deaths: fragment("COALESCE(SUM(deaths), 0)"),
-      confirmed: fragment("COALESCE(SUM(confirmed), 0)"),
-      recovered: fragment("COALESCE(SUM(recovered), 0)")
-    })
-    |> order_by([e], e.country_or_region)
-    |> Repo.all()
-    |> Enum.map(&calculate_active/1)
+    group_by_countries(date)
     |> Enum.map(fn row ->
       row
       |> Map.put_new(:new_deaths, row.deaths)
@@ -221,14 +166,70 @@ defmodule Covid19.Queries do
     |> Enum.into(%{})
   end
 
-  defp country_locations do
-    Countries.all()
-    |> Enum.reject(&is_nil(&1.geo))
-    |> Enum.map(fn %{name: name, geo: %{latitude: latitude, longitude: longitude}} ->
-      %{name: name, latitude: latitude, longitude: longitude}
+  @decorate cacheable(cache: Cache, key: :gbd, opts: [ttl: @ttl])
+  defp group_by_dates() do
+    DailyData
+    |> group_by([e], e.date)
+    |> select([e], %{
+      date: e.date,
+      deaths: coalesce(sum(e.deaths), 0),
+      confirmed: coalesce(sum(e.confirmed), 0),
+      recovered: coalesce(sum(e.recovered), 0),
+      active: coalesce(sum(e.confirmed), 0) - (coalesce(sum(e.recovered), 0) + coalesce(sum(e.deaths), 0))
+    })
+    |> order_by([e], e.date)
+    |> Repo.all()
+    |> Enum.map(fn data ->
+      data
+      |> Map.put_new(:new_confirmed, nil)
+      |> Map.put_new(:new_deaths, nil)
+      |> Map.put_new(:new_recovered, nil)
+      |> Map.put_new(:new_active, nil)
     end)
-    |> Enum.group_by(& &1.name)
-    |> Enum.map(fn {name, geos} -> {name, hd(geos)} end)
-    |> Enum.into(%{})
+  end
+
+  @decorate cacheable(cache: Cache, key: {:gbc, date}, opts: [ttl: @ttl])
+  defp group_by_countries(date) do
+    DailyData
+    |> where([e], e.date == ^date)
+    |> group_by([e], e.country_or_region)
+    |> select([e], %{
+      country_or_region: e.country_or_region,
+      deaths: coalesce(sum(e.deaths), 0),
+      confirmed: coalesce(sum(e.confirmed), 0),
+      recovered: coalesce(sum(e.recovered), 0),
+      active: coalesce(sum(e.confirmed), 0) - (coalesce(sum(e.recovered), 0) + coalesce(sum(e.deaths), 0))
+    })
+    |> order_by([e], e.country_or_region)
+    |> Repo.all()
+  end
+
+  @decorate cacheable(cache: Cache, key: {:gbl, date}, opts: [ttl: @ttl])
+  defp group_by_locations(date) do
+    DailyData
+    |> where([e], e.date == ^date)
+    |> group_by([e], e.date)
+    |> group_by([e], e.latitude)
+    |> group_by([e], e.longitude)
+    |> group_by([e], e.country_or_region)
+    |> select([e], %{
+      date: e.date,
+      country_or_region: e.country_or_region,
+      latitude: e.latitude,
+      longitude: e.longitude,
+      deaths: coalesce(sum(e.deaths), 0),
+      confirmed: coalesce(sum(e.confirmed), 0),
+      recovered: coalesce(sum(e.recovered), 0),
+      active: coalesce(sum(e.confirmed), 0) - (coalesce(sum(e.recovered), 0) + coalesce(sum(e.deaths), 0))
+    })
+    |> Repo.all()
+  end
+
+  @decorate cacheable(cache: Cache, key: {:ud, schema}, opts: [ttl: @ttl])
+  defp get_unique_dates(schema) do
+    schema
+    |> select([d], d.date)
+    |> distinct(true)
+    |> Repo.all()
   end
 end
