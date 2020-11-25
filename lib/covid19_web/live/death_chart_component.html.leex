@@ -10,19 +10,21 @@
       <%= Enum.at(@data, -1).date |> fmt() %>
     </p>
     <div phx-update="ignore">
-      <p class="title is-6 is-uppercase has-text-centered">New Deaths</p>
+      <p class="title is-6 is-uppercase has-text-centered">New Reports</p>
       <div id="new-death-chart" style="height: 180px"></div>
     </div>
-    <div style="height: 20px"></div>
+    <hr />
     <div phx-update="ignore">
-      <p class="title is-6 is-uppercase has-text-centered">Cumulative Deaths</p>
+      <p class="title is-6 is-uppercase has-text-centered">Cumulative Data</p>
       <div id="cumulative-death-chart" style="height: 180px"></div>
     </div>
 
     <p class="has-text-centered has-text-monospace">
-      <span phx-click="toggle-log-chart" phx-target="<%= @myself %>">
+      <button
+          class="button is-small <%= @is_log && "is-info" || "is-link" %>"
+          phx-click="toggle-log-chart" phx-target="<%= @myself %>">
         <%= @is_log && "Show Linear" || "Show Logarithmic" %>
-      </span>
+      </button>
     </p>
   </div>
 </div>

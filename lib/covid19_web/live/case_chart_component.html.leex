@@ -4,25 +4,27 @@
     data-statistics="<%= Jason.encode! @data %>"
     data-log="<%= Jason.encode! @is_log %>">
   <div class="card-content">
-    <p class="title is-5 is-uppercase has-text-centered">Cases</p>
+    <p class="title is-5 is-uppercase has-text-centered">Confirmed Cases</p>
     <p class="subtitle is-6 is-uppercase has-text-centered has-text-monospace">
       <%= Enum.at(@data, 0).date |> fmt() %> -
       <%= Enum.at(@data, -1).date |> fmt() %>
     </p>
     <div phx-update="ignore">
-      <p class="title is-6 is-uppercase has-text-centered">New Cases</p>
+      <p class="title is-6 is-uppercase has-text-centered">New Reports</p>
       <div id="new-case-chart" style="height: 180px"></div>
     </div>
-    <div style="height: 20px"></div>
+    <hr />
     <div phx-update="ignore">
-      <p class="title is-6 is-uppercase has-text-centered">Cumulative Cases</p>
+      <p class="title is-6 is-uppercase has-text-centered">Cumulative Data</p>
       <div id="cumulative-case-chart" style="height: 180px"></div>
     </div>
 
     <p class="has-text-centered has-text-monospace">
-      <span phx-click="toggle-log-chart" phx-target="<%= @myself %>">
+      <button
+          class="button is-small <%= @is_log && "is-info" || "is-link" %>"
+          phx-click="toggle-log-chart" phx-target="<%= @myself %>">
         <%= @is_log && "Show Linear" || "Show Logarithmic" %>
-      </span>
+      </button>
     </p>
   </div>
 </div>

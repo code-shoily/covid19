@@ -15,6 +15,7 @@ export default {
         marker: {
           line: {
             color: 'pink',
+            width: 1.5
           }
         }
       });
