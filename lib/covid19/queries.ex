@@ -14,28 +14,28 @@ defmodule Covid19.Queries do
   @ttl Nebulex.Time.expiry_time(1, :hour)
 
   @type country_type :: %{
-    required(:country_or_region) => String.t(),
-    required(:deaths) => integer(),
-    required(:recovered) => integer(),
-    required(:confirmed) => integer(),
-    required(:active) => integer(),
-    required(:new_deaths) => integer(),
-    required(:new_recovered) => integer(),
-    required(:new_confirmed) => integer()
-  }
+          required(:country_or_region) => String.t(),
+          required(:deaths) => integer(),
+          required(:recovered) => integer(),
+          required(:confirmed) => integer(),
+          required(:active) => integer(),
+          required(:new_deaths) => integer(),
+          required(:new_recovered) => integer(),
+          required(:new_confirmed) => integer()
+        }
   @type datasets :: :world | :us
   @type dataset_dates :: %{
-    us: maybe_dates(),
-    world: maybe_dates()
-  }
+          us: maybe_dates(),
+          world: maybe_dates()
+        }
   @type maybe_dates :: [Date.t()] | []
   @type world_summary_type :: %{
-    required(:date) => Date.t(),
-    required(:deaths) => non_neg_integer(),
-    required(:confirmed) => non_neg_integer(),
-    required(:recovered) => non_neg_integer(),
-    required(:active) => non_neg_integer()
-  }
+          required(:date) => Date.t(),
+          required(:deaths) => non_neg_integer(),
+          required(:confirmed) => non_neg_integer(),
+          required(:recovered) => non_neg_integer(),
+          required(:active) => non_neg_integer()
+        }
 
   defdelegate dates(dataset), to: PathHelpers
 
@@ -82,6 +82,7 @@ defmodule Covid19.Queries do
   @spec summary_by_country(Date.t()) :: [country_type()]
   def summary_by_country(%Date{} = date) do
     yesterday = single_summary_by_country(Date.add(date, -1))
+
     empty_country = %{
       deaths: 0,
       confirmed: 0,
@@ -131,6 +132,7 @@ defmodule Covid19.Queries do
   end
 
   defp calculate_diffs({nil, today}), do: today
+
   defp calculate_diffs({yesterday, today}) do
     Map.merge(today, %{
       new_confirmed: today.confirmed - yesterday.confirmed,
@@ -149,25 +151,25 @@ defmodule Covid19.Queries do
       |> Map.put_new(:new_deaths, row.deaths)
       |> Map.put_new(:new_confirmed, row.confirmed)
       |> Map.put_new(:new_recovered, row.recovered)
-      |> (fn %{country_or_region: name} = data ->
-            case locations[name] do
-              nil ->
-                data
-
-              %{latitude: latitude, longitude: longitude} ->
-                data
-                |> Map.put_new(:latitude, latitude)
-                |> Map.put_new(:longitude, longitude)
-            end
-          end).()
+      |> put_locations(locations)
     end)
     |> Enum.group_by(& &1.country_or_region)
     |> Enum.map(fn {k, v} -> {k, hd(v)} end)
     |> Enum.into(%{})
   end
 
+  defp put_locations(%{country_or_region: name} = data, locations) do
+    case locations[name] do
+      %{latitude: latitude, longitude: longitude} ->
+        data
+        |> Map.put_new(:latitude, latitude)
+        |> Map.put_new(:longitude, longitude)
+      _ -> data
+    end
+  end
+
   @decorate cacheable(cache: Cache, key: :gbd, opts: [ttl: @ttl])
-  defp group_by_dates() do
+  defp group_by_dates do
     DailyData
     |> group_by([e], e.date)
     |> select([e], %{
@@ -175,7 +177,9 @@ defmodule Covid19.Queries do
       deaths: coalesce(sum(e.deaths), 0),
       confirmed: coalesce(sum(e.confirmed), 0),
       recovered: coalesce(sum(e.recovered), 0),
-      active: coalesce(sum(e.confirmed), 0) - (coalesce(sum(e.recovered), 0) + coalesce(sum(e.deaths), 0))
+      active:
+        coalesce(sum(e.confirmed), 0) -
+          (coalesce(sum(e.recovered), 0) + coalesce(sum(e.deaths), 0))
     })
     |> order_by([e], e.date)
     |> Repo.all()
@@ -198,7 +202,9 @@ defmodule Covid19.Queries do
       deaths: coalesce(sum(e.deaths), 0),
       confirmed: coalesce(sum(e.confirmed), 0),
       recovered: coalesce(sum(e.recovered), 0),
-      active: coalesce(sum(e.confirmed), 0) - (coalesce(sum(e.recovered), 0) + coalesce(sum(e.deaths), 0))
+      active:
+        coalesce(sum(e.confirmed), 0) -
+          (coalesce(sum(e.recovered), 0) + coalesce(sum(e.deaths), 0))
     })
     |> order_by([e], e.country_or_region)
     |> Repo.all()
@@ -208,10 +214,7 @@ defmodule Covid19.Queries do
   defp group_by_locations(date) do
     DailyData
     |> where([e], e.date == ^date)
-    |> group_by([e], e.date)
-    |> group_by([e], e.latitude)
-    |> group_by([e], e.longitude)
-    |> group_by([e], e.country_or_region)
+    |> group_by([e], [e.date, e.latitude, e.longitude, e.country_or_region])
     |> select([e], %{
       date: e.date,
       country_or_region: e.country_or_region,
@@ -220,7 +223,9 @@ defmodule Covid19.Queries do
       deaths: coalesce(sum(e.deaths), 0),
       confirmed: coalesce(sum(e.confirmed), 0),
       recovered: coalesce(sum(e.recovered), 0),
-      active: coalesce(sum(e.confirmed), 0) - (coalesce(sum(e.recovered), 0) + coalesce(sum(e.deaths), 0))
+      active:
+        coalesce(sum(e.confirmed), 0) -
+          (coalesce(sum(e.recovered), 0) + coalesce(sum(e.deaths), 0))
     })
     |> Repo.all()
   end

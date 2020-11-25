@@ -24,8 +24,7 @@ config :covid19, :data_source,
   daily_dir: "data/covid19/csse_covid_19_data/csse_covid_19_daily_reports",
   daily_dir_us: "data/covid19/csse_covid_19_data/csse_covid_19_daily_reports_us"
 
-config :covid19, Covid19.Cache,
-  gc_interval: 86_400
+config :covid19, Covid19.Cache, gc_interval: 86_400
 
 # Configures Elixir's Logger
 config :logger, :console,
