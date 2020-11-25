@@ -164,7 +164,9 @@ defmodule Covid19.Queries do
         data
         |> Map.put_new(:latitude, latitude)
         |> Map.put_new(:longitude, longitude)
-      _ -> data
+
+      _ ->
+        data
     end
   end
 
