@@ -1,3 +1,5 @@
+import Plotly from 'plotly.js-dist'
+
 import { makeChart } from './helpers';
 
 export default {
@@ -9,10 +11,12 @@ export default {
       this.datasetNew.push({
         x: data.map(x => x.date),
         y: data.map(y => y.new_recovered).filter(y => y > 0),
-        mode: 'lines',
-        line: {
-          color: 'lightgreen',
-          width: 3
+        type: 'bar',
+        marker: {
+          line: {
+            color: 'lightgreen',
+            width: 1.5
+          }
         }
       });
 
@@ -23,7 +27,7 @@ export default {
         y: data.map(y => y.recovered).filter(y => y > 0),
         mode: 'lines',
         line: {
-          color: 'green',
+          color: 'lightgreen',
           width: 3
         }
       });
@@ -42,6 +46,6 @@ export default {
         }
       };
 
-      makeChart('cumulative-recovered-chart', this.datasetCumulative, layout);
+      Plotly.relayout('cumulative-recovered-chart', layout);
     }
 }

@@ -1,3 +1,5 @@
+import Plotly from 'plotly.js-dist'
+
 import { makeChart } from './helpers';
 
 export default {
@@ -9,10 +11,12 @@ export default {
       this.datasetNew.push({
         x: data.map(x => x.date),
         y: data.map(y => y.new_confirmed).filter(y => y > 0),
-        mode: 'lines',
-        line: {
-          color: 'lightblue',
-          width: 3
+        type: 'bar',
+        marker: {
+          line: {
+            color: 'lightblue',
+            width: 1.5
+          }
         }
       });
 
@@ -23,6 +27,7 @@ export default {
         y: data.map(y => y.confirmed).filter(y => y > 0),
         mode: 'lines',
         line: {
+          color: 'lightblue',
           width: 3
         }
       });
@@ -41,6 +46,6 @@ export default {
         }
       };
 
-      makeChart('cumulative-case-chart', this.datasetCumulative, layout);
+      Plotly.relayout('cumulative-case-chart', layout);
     }
 }

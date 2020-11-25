@@ -1,3 +1,5 @@
+import Plotly from 'plotly.js-dist'
+
 import { makeChart } from './helpers';
 
 export default {
@@ -9,10 +11,11 @@ export default {
       this.datasetNew.push({
         x: data.map(x => x.date),
         y: data.map(y => y.new_deaths).filter(y => y > 0),
-        mode: 'lines',
-        line: {
-          color: 'pink',
-          width: 3
+        type: 'bar',
+        marker: {
+          line: {
+            color: 'pink',
+          }
         }
       });
 
@@ -23,7 +26,7 @@ export default {
         y: data.map(y => y.deaths).filter(y => y > 0),
         mode: 'lines',
         line: {
-          color: 'red',
+          color: 'pink',
           width: 3
         }
       });
@@ -42,6 +45,6 @@ export default {
         }
       };
 
-      makeChart('cumulative-death-chart', this.datasetCumulative, layout);
+      Plotly.relayout('cumulative-death-chart', layout);
     }
 }

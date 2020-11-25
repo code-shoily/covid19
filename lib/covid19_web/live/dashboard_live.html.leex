@@ -10,6 +10,15 @@
               %>
         </div>
       </div>
+      <div class="columns">
+        <div class="column">
+          <%= live_component @socket,
+                PieChartComponent,
+                id: :pie_chart,
+                data: data_for_selected_date(@world_summary, @dates, @selected_index)
+              %>
+        </div>
+      </div>
     </div>
     <div class="column">
       <div class="columns">
