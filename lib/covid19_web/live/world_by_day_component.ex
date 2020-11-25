@@ -32,7 +32,7 @@ defmodule Covid19Web.WorldByDayComponent do
 
   defp sorted(data, by, dir) do
     data
-    |> Enum.sort_by(& &1[by], dir)
+    |> Enum.sort_by(& &1[by], by == :date && {dir, Date} || dir)
     |> Enum.with_index(1)
   end
 
