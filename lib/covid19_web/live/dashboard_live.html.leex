@@ -13,7 +13,7 @@
       <div class="columns">
         <div class="column">
           <%= live_component @socket,
-                NewCaseChartComponent,
+                CaseChartComponent,
                 id: :new_case_chart,
                 data: @world_summary %>
         </div>
@@ -21,7 +21,15 @@
       <div class="columns">
         <div class="column">
           <%= live_component @socket,
-                DeathRecoveredChartComponent,
+                DeathChartComponent,
+                id: :death_recovered_chart,
+                data: @world_summary %>
+        </div>
+      </div>
+      <div class="columns">
+        <div class="column">
+          <%= live_component @socket,
+                RecoveredChartComponent,
                 id: :death_recovered_chart,
                 data: @world_summary %>
         </div>

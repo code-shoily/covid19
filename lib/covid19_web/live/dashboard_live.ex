@@ -4,10 +4,11 @@ defmodule Covid19Web.DashboardLive do
   use Covid19Web, :live_view
 
   alias Covid19Web.{
+    CaseChartComponent,
     CountryMapComponent,
     CountrywiseSummaryComponent,
-    DeathRecoveredChartComponent,
-    NewCaseChartComponent,
+    DeathChartComponent,
+    RecoveredChartComponent,
     WorldByDayComponent,
     WorldSummaryComponent
   }
