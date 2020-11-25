@@ -11,7 +11,7 @@
     <%= csrf_meta_tag() %>
   </head>
   <body>
-    <nav class="navbar" role="navigation" aria-label="main navigation">
+    <nav class="navbar is-fixed-top" role="navigation" aria-label="main navigation" style="z-index: 1000000">
       <div class="navbar-brand">
         <a class="navbar-item">
           <span class="title is-4">Covid19 Dashboard</span>
@@ -23,7 +23,7 @@
         </a>
       </div>
     </nav>
-    <section class="section">
+    <section class="section" style="padding-top: 100px">
       <%= @inner_content %>
     </section>
     <div class="footer" style="margin-top: 20px">

@@ -10,30 +10,6 @@
               %>
         </div>
       </div>
-      <div class="columns">
-        <div class="column">
-          <%= live_component @socket,
-                CaseChartComponent,
-                id: :new_case_chart,
-                data: @world_summary %>
-        </div>
-      </div>
-      <div class="columns">
-        <div class="column">
-          <%= live_component @socket,
-                DeathChartComponent,
-                id: :death_recovered_chart,
-                data: @world_summary %>
-        </div>
-      </div>
-      <div class="columns">
-        <div class="column">
-          <%= live_component @socket,
-                RecoveredChartComponent,
-                id: :death_recovered_chart,
-                data: @world_summary %>
-        </div>
-      </div>
     </div>
     <div class="column">
       <div class="columns">
@@ -52,6 +28,26 @@
                 id: :country_map,
                 data: location_data_for_selected_date(@dates, @selected_index)
               %>
+        </div>
+      </div>
+      <div class="columns">
+        <div class="column">
+          <%= live_component @socket,
+                CaseChartComponent,
+                id: :new_case_chart,
+                data: @world_summary %>
+        </div>
+        <div class="column">
+          <%= live_component @socket,
+                DeathChartComponent,
+                id: :death_recovered_chart,
+                data: @world_summary %>
+        </div>
+        <div class="column">
+          <%= live_component @socket,
+                RecoveredChartComponent,
+                id: :death_recovered_chart,
+                data: @world_summary %>
         </div>
       </div>
       <div class="columns">
