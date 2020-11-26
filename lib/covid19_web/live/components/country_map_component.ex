@@ -53,7 +53,7 @@ defmodule Covid19Web.CountryMapComponent do
           <div
             id="map"
             class="is-fullwidth"
-            style="height: 500px">
+            style="height: 550px">
           </div>
         </div>
       </div>
