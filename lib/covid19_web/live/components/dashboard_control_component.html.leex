@@ -1,0 +1,23 @@
+<div class="card">
+  <div class="card-content">
+    <p class="title has-text-centered"><%= @data.date |> fmt() %></p>
+    <p class="subtitle has-text-centered"><%= Date.diff(Date.utc_today(), @data.date) %> days earlier</p>
+    <div>
+      <h1>PURE ELIXIR DATEPICKER HERE BECAUSE I FUCKING HATE JS DATE FORMATS</h1>
+    </div>
+  </div>
+  <footer class="card-footer">
+    <a href="#" style="border: 0" class="card-footer-item has-background-primary  has-text-light" phx-click="oldest">
+      <i class="fas fa-fast-backward"></i>
+    </a>
+    <a style="border: 0" href="#" class="card-footer-item has-background-info  has-text-light" phx-click="older">
+      <i class="fas fa-backward"></i>
+    </a>
+    <a style="border: 0" href="#" class="card-footer-item has-background-info  has-text-light" phx-click="newer">
+      <i class="fa fa-forward"></i>
+    </a>
+    <a style="border: 0" href="#" class="card-footer-item has-background-primary  has-text-light" phx-click="newest">
+      <i class="fas fa-fast-forward"></i>
+    </a>
+  </footer>
+</div>

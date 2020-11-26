@@ -6,7 +6,7 @@
       </div>
       <div class="level-right">
         <div class="level-item">
-          <form phx-change="filter" phx-target="<%= @myself %>">
+          <form phx-change="filter" phx-target="<%= @myself %>" novalidate>
             <div class="field has-addons">
               <div class="control has-icons-left">
                 <input name="term" class="input is-wide" type="text" placeholder="Filter by country" value="<%= @term %>">
@@ -24,7 +24,7 @@
         </div>
       </div>
     </div>
-    <div class="table-container" style="height: 400px; overflow: auto">
+    <div class="table-container" style="height: 350px; overflow: auto">
       <table class="table is-striped is-narrow is-fullwidth">
         <thead>
           <tr>

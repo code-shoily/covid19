@@ -179,6 +179,9 @@ defmodule Covid19.Queries do
       deaths: coalesce(sum(e.deaths), 0),
       confirmed: coalesce(sum(e.confirmed), 0),
       recovered: coalesce(sum(e.recovered), 0),
+      number_of_countries: fragment("COUNT(distinct country_or_region)"),
+      number_of_states: fragment("COUNT(country_or_region)"),
+      src: max(e.src),
       active:
         coalesce(sum(e.confirmed), 0) -
           (coalesce(sum(e.recovered), 0) + coalesce(sum(e.deaths), 0))

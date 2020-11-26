@@ -7,6 +7,7 @@ defmodule Covid19Web.DashboardLive do
     CaseChartComponent,
     CountryMapComponent,
     CountrywiseSummaryComponent,
+    DashboardControlComponent,
     DeathChartComponent,
     PieChartComponent,
     RecoveredChartComponent,

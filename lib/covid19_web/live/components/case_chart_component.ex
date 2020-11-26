@@ -31,13 +31,13 @@ defmodule Covid19Web.CaseChartComponent do
           <%= Enum.at(@data, -1).date |> fmt() %>
         </p>
         <div phx-update="ignore">
-          <p class="title is-6 is-uppercase has-text-centered">New Reports</p>
-          <div id="new-case-chart" style="height: 180px"></div>
+          <p class="title is-6 is-uppercase has-text-centered">Daily</p>
+          <div id="new-case-chart" style="height: 150px"></div>
         </div>
         <hr />
         <div phx-update="ignore">
-          <p class="title is-6 is-uppercase has-text-centered">Cumulative Data</p>
-          <div id="cumulative-case-chart" style="height: 180px"></div>
+          <p class="title is-6 is-uppercase has-text-centered">Cumulative</p>
+          <div id="cumulative-case-chart" style="height: 150px"></div>
         </div>
 
         <p class="has-text-centered has-text-monospace">

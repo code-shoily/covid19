@@ -4,6 +4,16 @@
       <div class="columns">
         <div class="column">
           <%= live_component @socket,
+                DashboardControlComponent,
+                id: :dashboard_control,
+                data: data_for_selected_date(@world_summary, @dates, @selected_index),
+                dates: @dates
+              %>
+        </div>
+      </div>
+      <div class="columns">
+        <div class="column">
+          <%= live_component @socket,
                 WorldSummaryComponent,
                 id: :world_summary,
                 data: data_for_selected_date(@world_summary, @dates, @selected_index)
