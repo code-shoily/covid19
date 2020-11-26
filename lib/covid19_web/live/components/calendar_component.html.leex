@@ -1,33 +1,25 @@
-<div >
-  <table class="table is-bordered is-narrow is-fullwidth">
+<div style="display: flex; justify-content: center">
+  <table class="table is-bordered is-narrow">
     <thead>
-      <tr>
-        <td>
-          <div class="column is-one-fifth has-text-right">
+      <tr class="has-text-centered">
+        <td class="p-2">
             <a href="#" phx-click="prev-month" phx-target="<%= @myself %>">
               <i class="fas fa-arrow-left"></i>
             </a>
-          </div>
         </td>
-        <td colspan="5">
-          <div class="column has-text-centered">
-            <p class="title is-5">
-              <%= Timex.format!(@cursor_date, "%B %Y", :strftime) %>
-            </p>
-          </div>
+        <td colspan="5" class="p-2">
+          <%= Timex.format!(@cursor_date, "%B %Y", :strftime) %>
         </td>
-        <td>
-          <div class="column is-one-fifth has-text-left">
+        <td class="p-2">
             <a href="#" phx-click="next-month" phx-target="<%= @myself %>">
               <i class="fas fa-arrow-right"></i>
             </a>
-          </div>
         </td>
       </td>
     </tr>
     <tr>
       <%= for day_name <- @day_names do %>
-        <th class="p-2 is-info">
+        <th class="p-2 has-text-centered is-info is-size-7">
           <%= day_name %>
         </th>
       <% end %>
