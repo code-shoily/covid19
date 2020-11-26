@@ -6,7 +6,7 @@
       </div>
       <div class="level-right">
         <div class="level-item">
-          <form phx-change="filter" phx-target="<%= @myself %>" novalidate>
+          <form phx-change="filter" phx-target="<%= @myself %>" phx-submit="filter">
             <div class="field has-addons">
               <div class="control has-icons-left">
                 <input name="term" class="input is-wide" type="text" placeholder="Filter by country" value="<%= @term %>">
