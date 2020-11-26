@@ -4,6 +4,15 @@
       <div class="columns">
         <div class="column">
           <%= live_component @socket,
+                CountryInfoComponent,
+                country: Queries.get_country_info(@country_or_region),
+                date: @dates |> Enum.at(@selected_index)
+              %>
+        </div>
+      </div>
+      <div class="columns">
+        <div class="column">
+          <%= live_component @socket,
                 ControlComponent,
                 id: :country_dashboard_control,
                 data: data_for_selected_date(@country_summary, @dates, @selected_index),

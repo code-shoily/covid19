@@ -148,6 +148,14 @@ defmodule Covid19.Queries do
     |> Enum.map(fn {today, yesterday} -> calculate_diffs({yesterday, today}) end)
   end
 
+  def get_country_info(country_name) do
+    Countries.all()
+    |> Enum.filter(& &1.name == country_name)
+    |> hd()
+    |> Map.from_struct()
+    |> Map.take([:name, :continent, :alpha2, :alpha3])
+  end
+
   defp country_locations do
     Countries.all()
     |> Enum.reject(&is_nil(&1.geo))
