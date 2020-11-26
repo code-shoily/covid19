@@ -56,6 +56,16 @@ defmodule Covid19.Queries do
   def processed_dates(:world), do: get_unique_dates(DailyData) |> Enum.sort(Date)
   def processed_dates(:us), do: get_unique_dates(DailyDataUS) |> Enum.sort(Date)
 
+  def processed_dates_for_country(country_name) do
+    DailyData
+    |> where([e], e.country_or_region == ^country_name)
+    |> group_by([e], [e.date, e.country_or_region])
+    |> select([e], e.date)
+    |> distinct(true)
+    |> order_by([e], e.date)
+    |> Repo.all()
+  end
+
   @spec processed_dates() :: dataset_dates()
   def processed_dates do
     %{

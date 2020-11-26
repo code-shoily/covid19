@@ -20,8 +20,7 @@ defmodule Covid19Web.DetailLive do
   alias Covid19.Queries
 
   def mount(%{"country_or_region" => country_or_region}, _session, socket) do
-    world_summary = Queries.world_summary()
-    dates = Queries.processed_dates(:world)
+    dates = tl Queries.processed_dates_for_country(country_or_region)
     selected_index = -1
 
     country_summary = Queries.country_summary(country_or_region)
