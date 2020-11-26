@@ -32,17 +32,17 @@ defmodule Covid19Web.CaseChartComponent do
         </p>
         <div phx-update="ignore">
           <p class="title is-6 is-uppercase has-text-centered">Daily</p>
-          <div id="new-case-chart" style="height: 150px"></div>
+          <div id="new-case-chart" style="height: 180px"></div>
         </div>
         <hr />
         <div phx-update="ignore">
           <p class="title is-6 is-uppercase has-text-centered">Cumulative</p>
-          <div id="cumulative-case-chart" style="height: 150px"></div>
+          <div id="cumulative-case-chart" style="height: 180px"></div>
         </div>
 
         <p class="has-text-centered has-text-monospace">
           <button
-              class="button is-small <%= @is_log && "is-info" || "is-link" %>"
+              class="button is-small is-info"
               phx-click="toggle-log-chart" phx-target="<%= @myself %>">
             <%= @is_log && "Show Linear" || "Show Logarithmic" %>
           </button>
