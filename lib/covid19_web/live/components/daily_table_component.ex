@@ -1,4 +1,4 @@
-defmodule Covid19Web.WorldByDayComponent do
+defmodule Covid19Web.DailyTableComponent do
   @moduledoc false
 
   use Covid19Web, :live_component

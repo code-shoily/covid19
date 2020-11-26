@@ -4,7 +4,7 @@
       <div class="columns">
         <div class="column">
           <%= live_component @socket,
-                DashboardControlComponent,
+                ControlComponent,
                 id: :country_dashboard_control,
                 data: data_for_selected_date(@country_summary, @dates, @selected_index),
                 dates: @dates,
@@ -15,7 +15,7 @@
       <div class="columns">
         <div class="column">
           <%= live_component @socket,
-                WorldSummaryComponent,
+                SummaryComponent,
                 id: :country_summary,
                 data: data_for_selected_date(@country_summary, @dates, @selected_index)
               %>
@@ -36,7 +36,7 @@
         <div class="column">
           <%= live_component @socket,
                 CaseChartComponent,
-                id: :new_case_chart,
+                id: :country_new_case_chart,
                 data: @country_summary %>
         </div>
         <div class="column">
@@ -56,7 +56,7 @@
         <div class="column">
           <%= live_component @socket,
                   CountrywiseSummaryComponent,
-                  id: :adminwise_summary,
+                  id: :country_adminwise_summary,
                   data: admin_data_for_selected_date(@country_or_region, @dates, @selected_index),
                   type_heading: "Province or State Table (#{@country_or_region})",
                   type_name: "Province or State",
@@ -67,7 +67,7 @@
       <div class="columns">
         <div class="column">
           <%= live_component @socket,
-                WorldByDayComponent,
+                DailyTableComponent,
                 id: :country_by_day,
                 data: @country_summary
               %>

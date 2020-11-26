@@ -4,8 +4,8 @@
       <div class="columns">
         <div class="column">
           <%= live_component @socket,
-                DashboardControlComponent,
-                id: :dashboard_control,
+                ControlComponent,
+                id: :world_dashboard_control,
                 data: data_for_selected_date(@world_summary, @dates, @selected_index),
                 dates: @dates,
                 selected_index: @selected_index
@@ -15,7 +15,7 @@
       <div class="columns">
         <div class="column">
           <%= live_component @socket,
-                WorldSummaryComponent,
+                SummaryComponent,
                 id: :world_summary,
                 data: data_for_selected_date(@world_summary, @dates, @selected_index)
               %>
@@ -25,16 +25,14 @@
         <div class="column">
           <%= live_component @socket,
                 PieChartComponent,
-                id: :pie_chart,
+                id: :world_pie_chart,
                 data: data_for_selected_date(@world_summary, @dates, @selected_index)
               %>
         </div>
       </div>
       <div class="columns">
         <div class="column">
-          <%= live_component @socket,
-                TimelineComponent
-              %>
+          <%= live_component @socket, TimelineComponent %>
         </div>
       </div>
     </div>
@@ -43,7 +41,7 @@
         <div class="column">
           <%= live_component @socket,
                   CountrywiseSummaryComponent,
-                  id: :countrywise_summary,
+                  id: :world_countrywise_summary,
                   data: country_data_for_selected_date(@dates, @selected_index),
                   type_heading: "Country or Regional Table (World)",
                   type_name: "Country/Region",
@@ -55,7 +53,7 @@
         <div class="column">
           <%= live_component @socket,
                 CountryMapComponent,
-                id: :country_map,
+                id: :world_country_map,
                 data: location_data_for_selected_date(@dates, @selected_index)
               %>
         </div>
@@ -64,27 +62,27 @@
         <div class="column">
           <%= live_component @socket,
                 CaseChartComponent,
-                id: :new_case_chart,
+                id: :world_new_case_chart,
                 data: @world_summary %>
         </div>
         <div class="column">
           <%= live_component @socket,
                 DeathChartComponent,
-                id: :death_recovered_chart,
+                id: :world_death_chart,
                 data: @world_summary %>
         </div>
         <div class="column">
           <%= live_component @socket,
                 RecoveredChartComponent,
-                id: :death_recovered_chart,
+                id: :world_recovered_chart,
                 data: @world_summary %>
         </div>
       </div>
       <div class="columns">
         <div class="column">
           <%= live_component @socket,
-                WorldByDayComponent,
-                id: :world_by_day,
+                DailyTableComponent,
+                id: :world_daily_table,
                 data: @world_summary
               %>
         </div>

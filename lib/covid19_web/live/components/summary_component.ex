@@ -1,4 +1,4 @@
-defmodule Covid19Web.WorldSummaryComponent do
+defmodule Covid19Web.SummaryComponent do
   @moduledoc false
 
   use Covid19Web, :live_component

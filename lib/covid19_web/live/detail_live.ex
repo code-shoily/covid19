@@ -5,15 +5,15 @@ defmodule Covid19Web.DetailLive do
 
   alias Covid19Web.{
     CaseChartComponent,
+    ControlComponent,
     CountryMapComponent,
     CountrywiseSummaryComponent,
-    DashboardControlComponent,
+    DailyTableComponent,
     DeathChartComponent,
     PieChartComponent,
     RecoveredChartComponent,
-    TimelineComponent,
-    WorldByDayComponent,
-    WorldSummaryComponent
+    SummaryComponent,
+    TimelineComponent
   }
 
   alias Covid19.Queries

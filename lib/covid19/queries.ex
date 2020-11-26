@@ -130,9 +130,6 @@ defmodule Covid19.Queries do
     end)
   end
 
-  @doc """
-  Queries the summary data of `country` for all dates.
-  """
   @spec country_summary(country_name()) :: [country_summary_type()]
   def country_summary(country) do
     summary = query_country_summary(country)
@@ -144,10 +141,11 @@ defmodule Covid19.Queries do
 
   def admin_summary(country, date) do
     summary = query_admin_summary(country, date)
+    yesterday = query_admin_summary(country, Date.add(date, -1))
 
-    [nil | summary]
-    |> Enum.zip(summary)
-    |> Enum.map(&calculate_diffs/1)
+    summary
+    |> Enum.zip(yesterday)
+    |> Enum.map(fn {today, yesterday} -> calculate_diffs({yesterday, today}) end)
   end
 
   defp country_locations do
@@ -270,17 +268,13 @@ defmodule Covid19.Queries do
     DailyData
     |> where([d], d.country_or_region == ^country)
     |> where([d], d.date == ^date)
+    |> group_by([d], [d.date, d.province_or_state])
     |> select([d], %{
-      county: d.county,
       province_or_state: coalesce(d.province_or_state, "N/A"),
-      deaths: coalesce(d.deaths, 0),
-      recovered: coalesce(d.recovered, 0),
-      confirmed: coalesce(d.confirmed, 0),
-      latitude: d.latitude,
-      longitude: d.longitude,
-      incidence_rate: d.incidence_rate,
-      case_fatality_ratio: d.case_fatality_ratio,
-      active: coalesce(d.confirmed, 0) - (coalesce(d.recovered, 0) + coalesce(d.deaths, 0))
+      deaths: coalesce(sum(d.deaths), 0),
+      recovered: coalesce(sum(d.recovered), 0),
+      confirmed: coalesce(sum(d.confirmed), 0),
+      active: coalesce(sum(d.confirmed), 0) - (coalesce(sum(d.recovered), 0) + coalesce(sum(d.deaths), 0))
     })
     |> order_by([e], e.date)
     |> Repo.all()
