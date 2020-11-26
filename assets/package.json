@@ -6,6 +6,7 @@
     "watch": "webpack --mode development --watch"
   },
   "dependencies": {
+    "bulma-extensions": "^6.2.7",
     "jquery": "^3.5.0",
     "leaflet": "^1.6.0",
     "leaflet-heatmap": "^1.0.0",

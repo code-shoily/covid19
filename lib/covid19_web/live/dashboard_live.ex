@@ -11,6 +11,7 @@ defmodule Covid19Web.DashboardLive do
     DeathChartComponent,
     PieChartComponent,
     RecoveredChartComponent,
+    TimelineComponent,
     WorldByDayComponent,
     WorldSummaryComponent
   }
