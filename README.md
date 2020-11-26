@@ -35,7 +35,7 @@ TBA
 
 ### Main Dashboard
 
-![Dashboard](./screenshots/wip_1.png)
+![Dashboard](./screenshots/screenshot.png)
 
 ## Disclaimer
 
