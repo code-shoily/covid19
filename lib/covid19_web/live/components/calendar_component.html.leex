@@ -1,0 +1,47 @@
+
+<div class="columns">
+  <div class="column is-one-fifth has-text-right">
+    <a href="#" phx-click="prev-month" phx-target="<%= @myself %>">
+      <i class="fas fa-arrow-left"></i>
+    </a>
+  </div>
+  <div class="column has-text-centered">
+    <p class="title is-5">
+      <%= Timex.format!(@cursor_date, "%B %Y", :strftime) %>
+    </p>
+  </div>
+  <div class="column is-one-fifth has-text-left">
+    <a href="#" phx-click="next-month" phx-target="<%= @myself %>">
+      <i class="fas fa-arrow-right"></i>
+    </a>
+  </div>
+</div>
+
+<div style="padding: 10px">
+  <table class="table is-fullwidth">
+    <thead>
+      <tr>
+        <%= for day_name <- @day_names do %>
+          <th class="p-2">
+            <%= day_name %>
+          </th>
+        <% end %>
+      </tr>
+    </thead>
+    <tbody>
+      <%= for week <- @week_rows do %>
+        <tr>
+          <%= for day <- week do %>
+            <%= live_component @socket,
+              CalendarDayComponent,
+              day: day,
+              current_date: @current_date,
+              cursor_date: @cursor_date,
+              dates: @dates
+            %>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

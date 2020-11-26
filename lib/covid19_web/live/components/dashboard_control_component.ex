@@ -1,6 +1,8 @@
 defmodule Covid19Web.DashboardControlComponent do
   @moduledoc false
 
+  alias Covid19Web.CalendarComponent
+
   use Covid19Web, :live_component
 
   defp fmt(number) when is_number(number) do
