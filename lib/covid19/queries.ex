@@ -13,6 +13,7 @@ defmodule Covid19.Queries do
 
   @ttl Nebulex.Time.expiry_time(1, :hour)
 
+  @type country_name :: String.t()
   @type country_type :: %{
           required(:country_or_region) => String.t(),
           required(:deaths) => integer(),
@@ -35,6 +36,15 @@ defmodule Covid19.Queries do
           required(:confirmed) => non_neg_integer(),
           required(:recovered) => non_neg_integer(),
           required(:active) => non_neg_integer()
+        }
+  @type country_summary_type :: %{
+          required(:deaths) => integer(),
+          required(:recovered) => integer(),
+          required(:confirmed) => integer(),
+          required(:active) => integer(),
+          required(:new_deaths) => integer(),
+          required(:new_recovered) => integer(),
+          required(:new_confirmed) => integer()
         }
 
   defdelegate dates(dataset), to: PathHelpers
@@ -118,6 +128,26 @@ defmodule Covid19.Queries do
           row
       end
     end)
+  end
+
+  @doc """
+  Queries the summary data of `country` for all dates.
+  """
+  @spec country_summary(country_name()) :: [country_summary_type()]
+  def country_summary(country) do
+    summary = query_country_summary(country)
+
+    [nil | summary]
+    |> Enum.zip(summary)
+    |> Enum.map(&calculate_diffs/1)
+  end
+
+  def admin_summary(country, date) do
+    summary = query_admin_summary(country, date)
+
+    [nil | summary]
+    |> Enum.zip(summary)
+    |> Enum.map(&calculate_diffs/1)
   end
 
   defp country_locations do
@@ -233,6 +263,57 @@ defmodule Covid19.Queries do
           (coalesce(sum(e.recovered), 0) + coalesce(sum(e.deaths), 0))
     })
     |> Repo.all()
+  end
+
+  @decorate cacheable(cache: Cache, key: {:qas, country, date}, opts: [ttl: @ttl])
+  def query_admin_summary(country, date) do
+    DailyData
+    |> where([d], d.country_or_region == ^country)
+    |> where([d], d.date == ^date)
+    |> select([d], %{
+      county: d.county,
+      province_or_state: coalesce(d.province_or_state, "N/A"),
+      deaths: coalesce(d.deaths, 0),
+      recovered: coalesce(d.recovered, 0),
+      confirmed: coalesce(d.confirmed, 0),
+      latitude: d.latitude,
+      longitude: d.longitude,
+      incidence_rate: d.incidence_rate,
+      case_fatality_ratio: d.case_fatality_ratio,
+      active: coalesce(d.confirmed, 0) - (coalesce(d.recovered, 0) + coalesce(d.deaths, 0))
+    })
+    |> order_by([e], e.date)
+    |> Repo.all()
+    |> Enum.map(&Map.merge(&1, %{
+      new_confirmed: 0,
+      new_deaths: 0,
+      new_recovered: 0,
+    }))
+  end
+
+  @decorate cacheable(cache: Cache, key: {:qcs, country}, opts: [ttl: @ttl])
+  defp query_country_summary(country) do
+    DailyData
+    |> where([d], d.country_or_region == ^country)
+    |> group_by([d], d.date)
+    |> select([d], %{
+      src: max(d.src),
+      date: d.date,
+      admins: count(d.province_or_state),
+      deaths: coalesce(sum(d.deaths), 0),
+      recovered: coalesce(sum(d.recovered), 0),
+      confirmed: coalesce(sum(d.confirmed), 0),
+      active:
+        coalesce(sum(d.confirmed), 0) -
+          (coalesce(sum(d.recovered), 0) + coalesce(sum(d.deaths), 0))
+    })
+    |> order_by([e], e.date)
+    |> Repo.all()
+    |> Enum.map(&Map.merge(&1, %{
+      new_confirmed: 0,
+      new_deaths: 0,
+      new_recovered: 0,
+    }))
   end
 
   @decorate cacheable(cache: Cache, key: {:ud, schema}, opts: [ttl: @ttl])

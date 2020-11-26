@@ -44,7 +44,10 @@
           <%= live_component @socket,
                   CountrywiseSummaryComponent,
                   id: :countrywise_summary,
-                  data: country_data_for_selected_date(@dates, @selected_index)
+                  data: country_data_for_selected_date(@dates, @selected_index),
+                  type_heading: "Country or Regional Table (World)",
+                  type_name: "Country/Region",
+                  type_attr: :country_or_region
                 %>
         </div>
       </div>

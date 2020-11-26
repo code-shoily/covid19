@@ -1,1 +1,78 @@
-<div>DETAIL VIEW OF <%= @country_or_region %></div>
+<div class="container is-fluid">
+  <div class="columns is-desktop">
+    <div class="column is-one-quarter-fullhd is-one-third-desktop">
+      <div class="columns">
+        <div class="column">
+          <%= live_component @socket,
+                DashboardControlComponent,
+                id: :country_dashboard_control,
+                data: data_for_selected_date(@country_summary, @dates, @selected_index),
+                dates: @dates,
+                selected_index: @selected_index
+              %>
+        </div>
+      </div>
+      <div class="columns">
+        <div class="column">
+          <%= live_component @socket,
+                WorldSummaryComponent,
+                id: :country_summary,
+                data: data_for_selected_date(@country_summary, @dates, @selected_index)
+              %>
+        </div>
+      </div>
+      <div class="columns">
+        <div class="column">
+          <%= live_component @socket,
+                PieChartComponent,
+                id: :country_pie_chart,
+                data: data_for_selected_date(@country_summary, @dates, @selected_index)
+              %>
+        </div>
+      </div>
+    </div>
+    <div class="column">
+      <div class="columns">
+        <div class="column">
+          <%= live_component @socket,
+                CaseChartComponent,
+                id: :new_case_chart,
+                data: @country_summary %>
+        </div>
+        <div class="column">
+          <%= live_component @socket,
+                DeathChartComponent,
+                id: :country_death_chart,
+                data: @country_summary %>
+        </div>
+        <div class="column">
+          <%= live_component @socket,
+                RecoveredChartComponent,
+                id: :country_recovered_chart,
+                data: @country_summary %>
+        </div>
+      </div>
+      <div class="columns">
+        <div class="column">
+          <%= live_component @socket,
+                  CountrywiseSummaryComponent,
+                  id: :adminwise_summary,
+                  data: admin_data_for_selected_date(@country_or_region, @dates, @selected_index),
+                  type_heading: "Province or State Table (#{@country_or_region})",
+                  type_name: "Province or State",
+                  type_attr: :province_or_state
+                %>
+        </div>
+      </div>
+      <div class="columns">
+        <div class="column">
+          <%= live_component @socket,
+                WorldByDayComponent,
+                id: :country_by_day,
+                data: @country_summary
+              %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

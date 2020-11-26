@@ -2,14 +2,14 @@
   <div class="card-content">
     <div class="level">
       <div class="level-left">
-        <p class="level-item title is-5 is-uppercase">Countrywise Summary</p>
+        <p class="level-item title is-5 is-uppercase"><%= @type_heading %></p>
       </div>
       <div class="level-right">
         <div class="level-item">
           <form phx-change="filter" phx-target="<%= @myself %>" phx-submit="filter">
             <div class="field has-addons">
               <div class="control has-icons-left">
-                <input name="term" class="input is-wide" type="text" placeholder="Filter by country" value="<%= @term %>">
+                <input name="term" class="input is-wide" type="text" placeholder="Filter by area name" value="<%= @term %>">
                 <span class="icon is-small is-left">
                   <i class="fas fa-search"></i>
                 </span>
@@ -24,14 +24,14 @@
         </div>
       </div>
     </div>
-    <div class="table-container" style="height: 450px; overflow: auto">
+    <div class="table-container" style="max-height: 450px; overflow: auto">
       <table class="table is-striped is-narrow is-fullwidth">
         <thead>
           <tr>
             <th>#</th>
             <th>
-              <a href="#" phx-click="sort" phx-value-by="country_or_region" phx-target="<%= @myself %>">
-                Country/Region <%= show_sort_icon(:country_or_region, @by, @dir) %>
+              <a href="#" phx-click="sort" phx-value-by="<%= Atom.to_string(@type_attr) %>" phx-target="<%= @myself %>">
+                <%= @type_name %> <%= show_sort_icon(@type_attr, @by, @dir) %>
               </a>
             </th>
             <th class="has-text-right">
@@ -67,11 +67,16 @@
           </tr>
         </thead>
         <tbody>
-          <%= for {d, idx} <- sorted(@data, @by, @dir, @term) do %>
+          <%= for {d, idx} <- sorted(@data, @by, @dir, @term, @type_attr) do %>
             <tr>
               <td><%= idx %></td>
               <td>
-                <%= link d.country_or_region, to: Routes.live_path(@socket, DetailLive, d.country_or_region) %>
+                <%= if @type_attr == :country_or_region do %>
+                  <%= link d.country_or_region, to: Routes.live_path(@socket, DetailLive, d.country_or_region) %>
+                <% end %>
+                <%= unless @type_attr == :country_or_region do %>
+                  <%= d.province_or_state %>
+                <% end %>
               </td>
               <td class="has-text-weight-semibold has-text-right"><%= d.confirmed |> fmt() %></td>
               <td class="has-text-weight-semibold has-text-right"><%= d.new_confirmed |> fmt() %></td>

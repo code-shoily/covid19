@@ -35,12 +35,24 @@ defmodule Covid19Web.CountrywiseSummaryComponent do
     Number.Delimit.number_to_delimited(number, precision: 0)
   end
 
-  defp sorted(data, by, dir, term) do
+  defp sorted(data, by, dir, term, :country_or_region) do
     data
     |> Enum.sort_by(& &1[by], dir)
     |> Enum.filter(fn %{country_or_region: country_or_region} ->
       String.contains?(
         String.downcase(country_or_region),
+        String.downcase(term)
+      )
+    end)
+    |> Enum.with_index(1)
+  end
+
+  defp sorted(data, by, dir, term, :province_or_state) do
+    data
+    |> Enum.sort_by(& &1[by], dir)
+    |> Enum.filter(fn %{province_or_state: province_or_state} ->
+      String.contains?(
+        String.downcase(province_or_state),
         String.downcase(term)
       )
     end)

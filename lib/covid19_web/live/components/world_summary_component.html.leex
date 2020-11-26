@@ -4,13 +4,15 @@
     <p class="subtitle has-text-centered">Summary</p>
     <table class="table is-fullwidth">
       <tbody>
-        <tr>
-          <th class="has-text-left" style="vertical-align: middle">Countries/Regions</th>
-          <td class="has-text-right">
-            <p><%= @data.number_of_countries |> fmt() %></p>
-            <p class="heading has-text-weight-bold has-text-danger">(<%= @data.number_of_states %> areas)</p>
-          </td>
-        </tr>
+        <%= if Map.get(@data, :number_of_countries) do %>
+          <tr>
+            <th class="has-text-left" style="vertical-align: middle">Countries/Regions</th>
+            <td class="has-text-right">
+              <p><%= @data.number_of_countries |> fmt() %></p>
+              <p class="heading has-text-weight-bold has-text-danger">(<%= @data.number_of_states %> areas)</p>
+            </td>
+          </tr>
+        <% end %>
         <tr>
           <th class="has-text-left" style="vertical-align: middle">Confirmed</th>
           <td class="has-text-right">
