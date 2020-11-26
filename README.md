@@ -35,7 +35,11 @@ TBA
 
 ### Main Dashboard
 
-![Dashboard](./screenshots/screenshot.png)
+![Dashboard](./screenshots/screenshot_1.png)
+
+### Detail View (WIP)
+
+![Detail View by Country](./screenshots/screenshot_2.png)
 
 ## Disclaimer
 
