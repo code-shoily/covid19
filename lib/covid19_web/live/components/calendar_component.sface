@@ -1,0 +1,33 @@
+<div style="display: flex; justify-content: center">
+  <table class="table is-bordered is-narrow">
+    <thead>
+      <tr class="has-text-centered">
+        <td class="p-2">
+            <a href="#" phx-click="prev-month" phx-target="<%= @myself %>">
+              <i class="fas fa-arrow-left"></i>
+            </a>
+        </td>
+        <td colspan="5" class="p-2">
+          <%= Timex.format!(@cursor_date, "%B %Y", :strftime) %>
+        </td>
+        <td class="p-2">
+            <a href="#" phx-click="next-month" phx-target="<%= @myself %>">
+              <i class="fas fa-arrow-right"></i>
+            </a>
+        </td>
+      </td>
+    </tr>
+    <tr :for={{day_name <- @day_names}} %>
+      <th class="p-2 has-text-centered is-info is-size-7">
+        {{ day_name }}
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr :for={{week <- @week_rows}} %>
+        <span :for={{day <- week}} %>
+          {{ day }}
+        </span>
+  </tbody>
+</table>
+</div>
