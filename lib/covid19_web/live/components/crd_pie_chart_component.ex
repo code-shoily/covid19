@@ -3,7 +3,7 @@ defmodule Covid19Web.CRDPieChartComponent do
 
   use Covid19Web, :surface_component
 
-  prop data, :list, required: true
+  prop data, :map, required: true
   prop heading, :string, required: true
 
   def render(assigns) do

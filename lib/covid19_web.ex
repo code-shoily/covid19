@@ -59,6 +59,15 @@ defmodule Covid19Web do
     end
   end
 
+  def surface do
+    quote do
+      use Surface.LiveView, layout: {Covid19Web.LayoutView, "live.html"}
+      alias Surface.Components.LivePatch
+
+      unquote(view_helpers())
+    end
+  end
+
   def router do
     quote do
       use Phoenix.Router

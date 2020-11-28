@@ -3,6 +3,11 @@ defmodule Covid19Web.DailyTableComponent do
 
   use Covid19Web, :surface_live_component
 
+  prop data, :list
+  prop type_heading, :string
+  prop type_name, :string
+  prop type_attr, :atom
+
   def mount(socket) do
     {:ok,
      socket
