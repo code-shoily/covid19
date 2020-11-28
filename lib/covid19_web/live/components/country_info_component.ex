@@ -1,22 +1,24 @@
 defmodule Covid19Web.CountryInfoComponent do
-  use Covid19Web, :live_component
+  use Covid19Web, :surface_component
+
+  prop date, :date
+  prop country, :map
 
   def render(assigns) do
-    ~L"""
+    ~H"""
     <div class="card">
       <div class="card-content has-text-centered">
         <p class="title is-6">
-          <%= Helpers.format_date(@date) %>
+          {{ Helpers.format_date(@date) }}
         </p>
         <p class="title is-3">
-          <%= @country[:name] %>
+          {{ @country[:name] }}
         </p>
         <p class="subtitle">
-          <%= @country[:continent] %>
+          {{ @country[:continent] }}
         </p>
         <p>
-          <%= live_patch "Back to World Data",
-            to: Routes.live_path(@socket, Covid19Web.DashboardLive) %>
+          <LivePatch label="Back to World Data" to="/" />
         </p>
       </div>
     </div>

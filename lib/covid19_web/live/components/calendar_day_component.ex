@@ -1,24 +1,30 @@
 defmodule Covid19Web.CalendarDayComponent do
   @moduledoc false
 
-  use Covid19Web, :live_component
+  use Covid19Web, :surface_component
   use Timex
+
+  prop dates, :any
+  prop day, :any
+  prop current_date, :any
+  prop cursor_date, :any
+  prop day_class, :any, required: false
 
   def render(assigns) do
     assigns = Map.put(assigns, :day_class, day_class(assigns))
 
-    valid_cell = ~L"""
+    valid_cell = ~H"""
     <td
       phx-click="pick-date"
-      phx-value-date="<%= Timex.format!(@day, "%Y-%m-%d", :strftime) %>"
-      class="<%= @day_class %>  has-text-centered" style="cursor: pointer">
-      <%= Timex.format!(@day, "%d", :strftime) %>
+      phx-value-date="{{ Timex.format!(@day, "%Y-%m-%d", :strftime) }}"
+      class="{{ @day_class }}  has-text-centered" style="cursor: pointer">
+      {{ Timex.format!(@day, "%d", :strftime) }}
     </td>
     """
 
-    invalid_cell = ~L"""
-    <td class="<%= @day_class %>  has-text-centered">
-      <%= Timex.format!(@day, "%d", :strftime) %>
+    invalid_cell = ~H"""
+    <td class="{{ @day_class }}  has-text-centered">
+      {{ Timex.format!(@day, "%d", :strftime) }}
     </td>
     """
 

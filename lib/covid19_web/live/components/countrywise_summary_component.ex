@@ -1,9 +1,12 @@
 defmodule Covid19Web.CountrywiseSummaryComponent do
   @moduledoc false
 
-  alias Covid19Web.DetailLive
+  use Covid19Web, :surface_live_component
 
-  use Covid19Web, :live_component
+  prop data, :list
+  prop type_heading, :string
+  prop type_name, :string
+  prop type_attr, :atom
 
   def mount(socket) do
     {:ok,

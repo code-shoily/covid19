@@ -1,7 +1,7 @@
 defmodule Covid19Web.DetailLive do
   @moduledoc false
 
-  use Covid19Web, :live_view
+  use Covid19Web, :surface
 
   alias Covid19.Queries
 

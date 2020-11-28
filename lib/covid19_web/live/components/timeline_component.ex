@@ -1,7 +1,7 @@
 defmodule Covid19Web.TimelineComponent do
   @moduledoc false
 
-  use Covid19Web, :live_component
+  use Covid19Web, :surface_live_component
 
   @events [
     {"is-success", "March 13, 2020", "Started development"},
@@ -13,26 +13,23 @@ defmodule Covid19Web.TimelineComponent do
     {"is-success", "November 26, 2020", "Upgrade Dashboard. Release version 0.6"}
   ]
 
-  def mount(socket) do
-    {:ok, assign(socket, :events, @events)}
-  end
+  data events, :list, default: @events
 
   def render(assigns) do
-    ~L"""
+    ~H"""
     <div class="card">
       <div class="card-content">
         <p class="title is-5 has-text-centered is-uppercase">Project Timeline</p>
         <div class="timeline">
-          <%= for {class, date, description} <- @events do %>
+          <div :for={{ {class, date, description} <- @events }}>
             <div class="timeline-item">
-              <div class="timeline-marker <%= class %>">
-              </div>
+              <div class="timeline-marker {{ class }}"></div>
               <div class="timeline-content">
-                <p class="heading"><%= date %></p>
-                <p><%= description %></p>
+                <p class="heading">{{ date }}</p>
+                <p>{{ description }}</p>
               </div>
             </div>
-          <% end %>
+          </div>
         </div>
       </div>
     </div>

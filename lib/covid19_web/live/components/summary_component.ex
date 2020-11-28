@@ -1,7 +1,9 @@
 defmodule Covid19Web.SummaryComponent do
   @moduledoc false
 
-  use Covid19Web, :live_component
+  use Covid19Web, :surface_component
+
+  prop data, :map
 
   defp get_filename(src) do
     src |> String.split("/") |> Enum.at(-1)
