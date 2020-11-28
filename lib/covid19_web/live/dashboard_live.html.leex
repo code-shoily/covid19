@@ -3,17 +3,25 @@
     <div class="column is-one-quarter-fullhd is-one-third-desktop">
       <div class="columns">
         <div class="column">
-          <%= live_component @socket, Covid19Web.ControlComponent, dates: @dates, selected_index: @selected_index %>
+          <%= live_component @socket,
+            Covid19Web.ControlComponent,
+            dates: @dates,
+            selected_index: @selected_index %>
         </div>
       </div>
       <div class="columns">
         <div class="column">
-          <%= live_component @socket, Covid19Web.SummaryComponent, data: @summary_data %>
+          <%= live_component @socket,
+            Covid19Web.SummaryComponent,
+            data: @summary_data %>
         </div>
       </div>
       <div class="columns">
         <div class="column">
-          <%= live_component @socket, Covid19Web.PieChartComponent, id: :world_pie_chart, data: @summary_data %>
+          <%= live_component @socket,
+            Covid19Web.PieChartComponent,
+            id: :world_pie_chart,
+            data: @summary_data %>
         </div>
       </div>
       <div class="columns">
@@ -36,7 +44,10 @@
       </div>
       <div class="columns">
         <div class="column">
-          <%= live_component @socket, Covid19Web.CountryMapComponent, id: :world_country_map, data: @location_data %>
+          <%= live_component @socket,
+            Covid19Web.CountryMapComponent,
+            id: :world_country_map,
+            data: @location_data %>
         </div>
       </div>
       <div class="columns">
@@ -67,7 +78,10 @@
       </div>
       <div class="columns">
         <div class="column">
-          <%= live_component @socket, Covid19Web.DailyTableComponent, id: :world_daily_table, data: @world_summary %>
+          <%= live_component @socket,
+            Covid19Web.DailyTableComponent,
+            id: :world_daily_table,
+            data: @world_summary %>
         </div>
       </div>
     </div>
