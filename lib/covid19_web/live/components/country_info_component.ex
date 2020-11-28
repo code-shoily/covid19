@@ -1,4 +1,6 @@
 defmodule Covid19Web.CountryInfoComponent do
+  @moduledoc false
+
   use Covid19Web, :surface_component
 
   prop date, :date

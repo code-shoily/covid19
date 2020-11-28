@@ -20,7 +20,6 @@
       <div class="columns">
         <div class="column">
           <Covid19Web.CRDPieChartComponent 
-            id="w_crd_piechart"
             heading="World Pie Chart"
             data={{ @summary_data}} />
         </div>

@@ -1,4 +1,8 @@
 defmodule Covid19Web.Views.Helpers do
+  @moduledoc """
+  View helpers for formatting, validating etc
+  """
+
   def format_date(%Date{} = date) do
     Timex.format!(date, "%b %d, %Y", :strftime)
   end

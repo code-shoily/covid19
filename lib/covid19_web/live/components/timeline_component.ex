@@ -1,7 +1,7 @@
 defmodule Covid19Web.TimelineComponent do
   @moduledoc false
 
-  use Covid19Web, :surface_live_component
+  use Covid19Web, :surface_component
 
   @events [
     {"is-success", "March 13, 2020", "Started development"},
@@ -13,7 +13,7 @@ defmodule Covid19Web.TimelineComponent do
     {"is-success", "November 26, 2020", "Upgrade Dashboard. Release version 0.6"}
   ]
 
-  data events, :list, default: @events
+  prop events, :list, required: false, default: @events
 
   def render(assigns) do
     ~H"""
