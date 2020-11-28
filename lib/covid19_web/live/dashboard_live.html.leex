@@ -6,7 +6,11 @@
           <%= live_component @socket,
             Covid19Web.ControlComponent,
             dates: @dates,
-            selected_index: @selected_index %>
+            selected_index: @selected_index,
+            oldest: "oldest",
+            older: "older",
+            newest: "newest",
+            newer: "newer" %>
         </div>
       </div>
       <div class="columns">

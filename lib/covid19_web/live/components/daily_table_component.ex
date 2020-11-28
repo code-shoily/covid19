@@ -1,7 +1,7 @@
 defmodule Covid19Web.DailyTableComponent do
   @moduledoc false
 
-  use Covid19Web, :live_component
+  use Covid19Web, :surface_live_component
 
   def mount(socket) do
     {:ok,

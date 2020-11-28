@@ -3,10 +3,13 @@ defmodule Covid19Web.CalendarComponent do
 
   alias Covid19Web.CalendarDayComponent
 
-  use Covid19Web, :live_component
+  use Covid19Web, :surface_live_component
   use Timex
 
   @week_start_at :mon
+
+  prop current_date, :date
+  prop dates, :any
 
   def update(%{current_date: current_date} = assigns, socket) do
     assigns =

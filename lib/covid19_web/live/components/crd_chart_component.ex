@@ -1,49 +1,51 @@
 defmodule Covid19Web.CRDChartComponent do
   @moduledoc false
 
-  use Covid19Web, :live_component
+  use Covid19Web, :surface_live_component
 
-  def mount(socket) do
-    {:ok, assign(socket, logarithmic: false)}
-  end
+  prop type, :string
+  prop heading, :string
+  prop data, :list
 
-  def handle_event("toggle-log-chart", _, socket) do
-    {:noreply, update(socket, :logarithmic, &Kernel.not/1)}
-  end
+  data logarithmic, :boolean, default: false
 
   def render(assigns) do
-    ~L"""
+    ~H"""
     <div
       class="card"
       phx-hook="CRDChart"
-      data-type="<%= @type %>"
-      data-statistics="<%= Jason.encode!(@data) %>"
-      data-logarithmic="<%= Jason.encode!(@logarithmic) %>">
+      data-type="{{ @type }}"
+      data-statistics="{{ Jason.encode!(@data) }}"
+      data-logarithmic="{{ Jason.encode!(@logarithmic) }}">
       <div class="card-content">
-        <p class="title is-5 is-uppercase has-text-centered"><%= @heading %></p>
+        <p class="title is-5 is-uppercase has-text-centered">{{ @heading }}</p>
         <p class="subtitle is-6 is-uppercase has-text-centered has-text-monospace">
-          <%= Helpers.format_date(Enum.at(@data, 0).date) %> - <%= Helpers.format_date(Enum.at(@data, -1).date) %>
+          {{ Helpers.format_date(Enum.at(@data, 0).date) }} - {{ Helpers.format_date(Enum.at(@data, -1).date) }}
         </p>
         <div phx-update="ignore">
           <p class="title is-6 is-uppercase has-text-centered">Daily</p>
-          <div id="new-<%= @type %>-chart" style="height: 180px"></div>
+          <div id="new-{{ @type }}-chart" style="height: 180px"></div>
         </div>
         <hr />
         <div phx-update="ignore">
           <p class="title is-6 is-uppercase has-text-centered">Cumulative</p>
-          <div id="cumulative-<%= @type %>-chart" style="height: 180px"></div>
+          <div id="cumulative-{{ @type }}-chart" style="height: 180px"></div>
         </div>
 
         <p class="has-text-centered has-text-monospace">
           <button
-              class="button is-small <%= button_class(@type) %>"
-              phx-click="toggle-log-chart" phx-target="<%= @myself %>">
-            <%= @logarithmic && "Show Linear" || "Show Logarithmic" %>
+              class="button is-small {{ button_class(@type) }}"
+              :on-click="toggle-log-chart">
+            {{ @logarithmic && "Show Linear" || "Show Logarithmic" }}
           </button>
         </p>
       </div>
     </div>
     """
+  end
+
+  def handle_event("toggle-log-chart", _, socket) do
+    {:noreply, update(socket, :logarithmic, &Kernel.not/1)}
   end
 
   defp button_class("confirmed"), do: "is-info"

@@ -3,31 +3,35 @@
     <thead>
       <tr class="has-text-centered">
         <td class="p-2">
-            <a href="#" phx-click="prev-month" phx-target="<%= @myself %>">
+            <a href="#" :on-click="prev-month">
               <i class="fas fa-arrow-left"></i>
             </a>
         </td>
         <td colspan="5" class="p-2">
-          <%= Timex.format!(@cursor_date, "%B %Y", :strftime) %>
+          {{ Timex.format!(@cursor_date, "%B %Y", :strftime) }}
         </td>
         <td class="p-2">
-            <a href="#" phx-click="next-month" phx-target="<%= @myself %>">
+            <a href="#" :on-click="next-month">
               <i class="fas fa-arrow-right"></i>
             </a>
         </td>
-      </td>
-    </tr>
-    <tr :for={{day_name <- @day_names}} %>
-      <th class="p-2 has-text-centered is-info is-size-7">
-        {{ day_name }}
-      </th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr :for={{week <- @week_rows}} %>
-        <span :for={{day <- week}} %>
-          {{ day }}
-        </span>
-  </tbody>
-</table>
+      </tr>
+      <tr>
+        <th :for={{ day_name <- @day_names }} class="p-2 has-text-centered is-info is-size-7">
+          {{ day_name }}
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr :for={{ week <- @week_rows }}>
+        <div :for={{ day <- week }}>
+          <CalendarDayComponent
+            day={{ day }}
+            current_date={{ @current_date }}
+            cursor_date={{ @cursor_date }}
+            dates={{ @dates }} />
+        </div>
+      </tr>
+    </tbody>
+  </table>
 </div>

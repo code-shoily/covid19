@@ -3,7 +3,7 @@ defmodule Covid19Web.CountrywiseSummaryComponent do
 
   alias Covid19Web.DetailLive
 
-  use Covid19Web, :live_component
+  use Covid19Web, :surface_live_component
 
   def mount(socket) do
     {:ok,

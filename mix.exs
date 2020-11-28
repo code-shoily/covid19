@@ -50,7 +50,7 @@ defmodule Covid19.MixProject do
       {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
       {:nebulex, "2.0.0-rc.1"},
       {:decorator, "~> 1.3"},
-      {:surface, "~> 0.1.0"},
+      {:surface, "~> 0.1.1"},
       {:phoenix_live_view, "~> 0.15"},
       {:phoenix_live_dashboard, "~> 0.3"},
       {:telemetry_poller, "~> 0.5"},
