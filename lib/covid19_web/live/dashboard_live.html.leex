@@ -41,13 +41,28 @@
       </div>
       <div class="columns">
         <div class="column">
-          <%= live_component @socket, Covid19Web.CaseChartComponent, id: :world_new_case_chart, data: @world_summary %>
+          <%= live_component @socket,
+            Covid19Web.CRDChartComponent,
+            id: :world_confirmed_chart,
+            heading: "Confirmed Cases",
+            type: "confirmed",
+            data: @world_summary %>
         </div>
         <div class="column">
-          <%= live_component @socket, Covid19Web.DeathChartComponent, id: :world_death_chart, data: @world_summary %>
+          <%= live_component @socket,
+            Covid19Web.CRDChartComponent,
+            id: :world_deaths_chart,
+            heading: "Mortality Count",
+            type: "deaths",
+            data: @world_summary %>
         </div>
         <div class="column">
-          <%= live_component @socket, Covid19Web.RecoveredChartComponent, id: :world_recovered_chart, data: @world_summary %>
+          <%= live_component @socket,
+            Covid19Web.CRDChartComponent,
+            id: :world_recovery_chart,
+            heading: "Recoveries",
+            type: "recovered",
+            data: @world_summary %>
         </div>
       </div>
       <div class="columns">
