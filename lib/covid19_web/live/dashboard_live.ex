@@ -3,19 +3,6 @@ defmodule Covid19Web.DashboardLive do
 
   use Covid19Web, :live_view
 
-  alias Covid19Web.{
-    CaseChartComponent,
-    ControlComponent,
-    CountryMapComponent,
-    CountrywiseSummaryComponent,
-    DailyTableComponent,
-    DeathChartComponent,
-    PieChartComponent,
-    RecoveredChartComponent,
-    SummaryComponent,
-    TimelineComponent
-  }
-
   alias Covid19.Queries
 
   def mount(_params, _session, socket) do
@@ -23,52 +10,63 @@ defmodule Covid19Web.DashboardLive do
     dates = Queries.processed_dates(:world)
     selected_index = -1
 
-    socket =
-      socket
-      |> assign(
-        world_summary: world_summary,
-        dates: dates,
-        selected_index: selected_index
-      )
+    assigns = %{
+      world_summary: world_summary,
+      dates: dates,
+      selected_index: selected_index,
+      summary_data: summary_data(world_summary, dates, selected_index),
+      country_data: country_data(dates, selected_index),
+      location_data: location_data(dates, selected_index)
+    }
 
-    {:ok, socket}
-  end
-
-  def handle_event("older", _, socket) do
-    {:noreply, update(socket, :selected_index, fn index -> index - 1 end)}
-  end
-
-  def handle_event("oldest", _, socket) do
-    {:noreply, assign(socket, :selected_index, 0)}
-  end
-
-  def handle_event("newer", _, socket) do
-    {:noreply, update(socket, :selected_index, fn index -> index + 1 end)}
-  end
-
-  def handle_event("newest", _, socket) do
-    {:noreply, assign(socket, :selected_index, -1)}
+    {:ok, assign(socket, assigns)}
   end
 
   def handle_event("pick-date", %{"date" => date}, socket) do
-    selected_date = Timex.parse!(date, "{YYYY}-{0M}-{D}") |> Timex.to_date()
+    date = Timex.parse!(date, "{YYYY}-{0M}-{D}") |> Timex.to_date()
+    index = Enum.find_index(socket.assigns.dates, & &1 == date)
+    socket = assign(socket, :selected_index, index)
 
-    selected_index =
-      socket.assigns.dates |> Enum.find_index(fn value -> value == selected_date end)
+    %{assigns: %{world_summary: data, dates: dates, selected_index: index}} = socket
+    assigns = %{
+      summary_data: summary_data(data, dates, index),
+      country_data: country_data(dates, index),
+      location_data: location_data(dates, index)
+    }
 
-    {:noreply, assign(socket, :selected_index, selected_index)}
+    {:noreply, assign(socket, assigns)}
   end
 
-  defp data_for_selected_date(world_summary, dates, selected_index) do
-    world_summary = Enum.group_by(world_summary, & &1.date)
-    hd(world_summary[Enum.at(dates, selected_index)])
+  def handle_event(direction, _, socket) do
+    socket = update(socket, :selected_index, next_index(direction))
+
+    %{assigns: %{world_summary: data, dates: dates, selected_index: index}} = socket
+    assigns = %{
+      summary_data: summary_data(data, dates, index),
+      country_data: country_data(dates, index),
+      location_data: location_data(dates, index)
+    }
+
+    {:noreply, assign(socket, assigns)}
   end
 
-  defp country_data_for_selected_date(dates, selected_index) do
+  defp next_index("oldest"), do: fn _ -> 0 end
+  defp next_index("older"), do: fn idx -> idx - 1 end
+  defp next_index("newest"), do: fn _ -> -1 end
+  defp next_index("newer"), do: fn idx -> idx + 1 end
+
+  defp summary_data(world_summary, dates, selected_index) do
+    world_summary
+    |> Enum.group_by(& &1.date)
+    |> Map.get(Enum.at(dates, selected_index))
+    |> Enum.at(0)
+  end
+
+  defp country_data(dates, selected_index) do
     Queries.summary_by_country(Enum.at(dates, selected_index))
   end
 
-  defp location_data_for_selected_date(dates, selected_index) do
+  defp location_data(dates, selected_index) do
     Queries.locations_for_date(Enum.at(dates, selected_index))
   end
 end
