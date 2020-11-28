@@ -24,10 +24,11 @@ defmodule Covid19Web.DashboardLive do
 
   def handle_event("pick-date", %{"date" => date}, socket) do
     date = Timex.parse!(date, "{YYYY}-{0M}-{D}") |> Timex.to_date()
-    index = Enum.find_index(socket.assigns.dates, & &1 == date)
+    index = Enum.find_index(socket.assigns.dates, &(&1 == date))
     socket = assign(socket, :selected_index, index)
 
     %{assigns: %{world_summary: data, dates: dates, selected_index: index}} = socket
+
     assigns = %{
       summary_data: summary_data(data, dates, index),
       country_data: country_data(dates, index),
@@ -41,6 +42,7 @@ defmodule Covid19Web.DashboardLive do
     socket = update(socket, :selected_index, next_index(direction))
 
     %{assigns: %{world_summary: data, dates: dates, selected_index: index}} = socket
+
     assigns = %{
       summary_data: summary_data(data, dates, index),
       country_data: country_data(dates, index),

@@ -160,7 +160,7 @@ defmodule Covid19.Queries do
 
   def get_country_info(country_name) do
     Countries.all()
-    |> Enum.filter(& &1.name == country_name)
+    |> Enum.filter(&(&1.name == country_name))
     |> hd()
     |> Map.from_struct()
     |> Map.take([:name, :continent, :alpha2, :alpha3])
@@ -292,15 +292,19 @@ defmodule Covid19.Queries do
       deaths: coalesce(sum(d.deaths), 0),
       recovered: coalesce(sum(d.recovered), 0),
       confirmed: coalesce(sum(d.confirmed), 0),
-      active: coalesce(sum(d.confirmed), 0) - (coalesce(sum(d.recovered), 0) + coalesce(sum(d.deaths), 0))
+      active:
+        coalesce(sum(d.confirmed), 0) -
+          (coalesce(sum(d.recovered), 0) + coalesce(sum(d.deaths), 0))
     })
     |> order_by([e], e.date)
     |> Repo.all()
-    |> Enum.map(&Map.merge(&1, %{
-      new_confirmed: 0,
-      new_deaths: 0,
-      new_recovered: 0,
-    }))
+    |> Enum.map(
+      &Map.merge(&1, %{
+        new_confirmed: 0,
+        new_deaths: 0,
+        new_recovered: 0
+      })
+    )
   end
 
   @decorate cacheable(cache: Cache, key: {:qcs, country}, opts: [ttl: @ttl])
@@ -321,11 +325,13 @@ defmodule Covid19.Queries do
     })
     |> order_by([e], e.date)
     |> Repo.all()
-    |> Enum.map(&Map.merge(&1, %{
-      new_confirmed: 0,
-      new_deaths: 0,
-      new_recovered: 0,
-    }))
+    |> Enum.map(
+      &Map.merge(&1, %{
+        new_confirmed: 0,
+        new_deaths: 0,
+        new_recovered: 0
+      })
+    )
   end
 
   @decorate cacheable(cache: Cache, key: {:ud, schema}, opts: [ttl: @ttl])
