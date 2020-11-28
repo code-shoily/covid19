@@ -31,10 +31,6 @@ defmodule Covid19Web.CountrywiseSummaryComponent do
     {:noreply, socket |> assign(term: "")}
   end
 
-  defp fmt(number) when is_number(number) do
-    Number.Delimit.number_to_delimited(number, precision: 0)
-  end
-
   defp sorted(data, by, dir, term, :country_or_region) do
     data
     |> Enum.sort_by(& &1[by], dir)

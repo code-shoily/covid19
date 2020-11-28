@@ -22,7 +22,7 @@ defmodule Covid19Web.CRDChartComponent do
       <div class="card-content">
         <p class="title is-5 is-uppercase has-text-centered"><%= @heading %></p>
         <p class="subtitle is-6 is-uppercase has-text-centered has-text-monospace">
-          <%= format Enum.at(@data, 0).date %> - <%= format Enum.at(@data, -1).date %>
+          <%= Helpers.format_date(Enum.at(@data, 0).date) %> - <%= Helpers.format_date(Enum.at(@data, -1).date) %>
         </p>
         <div phx-update="ignore">
           <p class="title is-6 is-uppercase has-text-centered">Daily</p>
@@ -44,10 +44,6 @@ defmodule Covid19Web.CRDChartComponent do
       </div>
     </div>
     """
-  end
-
-  defp format(%Date{} = date) do
-    Timex.format!(date, "%b %d, %Y", :strftime)
   end
 
   defp button_class("confirmed"), do: "is-info"

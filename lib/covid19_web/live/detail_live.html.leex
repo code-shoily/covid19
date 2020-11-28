@@ -25,7 +25,6 @@
         <div class="column">
           <%= live_component @socket,
                 Covid19Web.SummaryComponent,
-                id: :country_summary,
                 data: @summary_data
               %>
         </div>
@@ -33,8 +32,9 @@
       <div class="columns">
         <div class="column">
           <%= live_component @socket,
-                Covid19Web.PieChartComponent,
+                Covid19Web.CRDPieChartComponent,
                 id: :country_pie_chart,
+                heading: @country_or_region <> " Pie Chart",
                 data: @summary_data
               %>
         </div>

@@ -68,6 +68,7 @@ defmodule Covid19Web do
       import Covid19Web.ErrorHelpers
       import Covid19Web.Gettext
       alias Covid19Web.Router.Helpers, as: Routes
+      alias Covid19Web.Views.Helpers
     end
   end
 

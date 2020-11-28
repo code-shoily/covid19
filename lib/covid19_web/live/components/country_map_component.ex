@@ -11,27 +11,6 @@ defmodule Covid19Web.CountryMapComponent do
     {:noreply, socket |> assign(:selected, String.to_atom(value))}
   end
 
-  defp maybe_selected(:deaths, :deaths), do: "is-danger"
-  defp maybe_selected(:recovered, :recovered), do: "is-success"
-  defp maybe_selected(a, a), do: "is-primary"
-  defp maybe_selected(_, _), do: ""
-
-  defp filter(data, selected) do
-    data
-    |> Enum.map(fn data ->
-      data
-      |> Map.take([:latitude, :longitude, :confirmed, :recovered, :active, :deaths])
-      |> Map.put_new(:count, Enum.random([0, 100]))
-    end)
-    |> Enum.filter(fn data ->
-      Map.has_key?(data, :longitude) and Map.has_key?(data, :latitude)
-    end)
-    |> Enum.map(fn data ->
-      data |> Map.update(:count, 0, fn _ -> data[selected] end)
-    end)
-    |> Enum.reject(fn data -> data.active == 0 end)
-  end
-
   def render(assigns) do
     ~L"""
     <div class="card" phx-hook="LeafletMap" data-locations="<%= @data |> filter(@selected) |> Jason.encode!() %>">
@@ -59,5 +38,26 @@ defmodule Covid19Web.CountryMapComponent do
       </div>
     </div>
     """
+  end
+
+  defp maybe_selected(:deaths, :deaths), do: "is-danger"
+  defp maybe_selected(:recovered, :recovered), do: "is-success"
+  defp maybe_selected(a, a), do: "is-primary"
+  defp maybe_selected(_, _), do: ""
+
+  defp filter(data, selected) do
+    data
+    |> Enum.map(fn data ->
+      data
+      |> Map.take([:latitude, :longitude, :confirmed, :recovered, :active, :deaths])
+      |> Map.put_new(:count, Enum.random([0, 100]))
+    end)
+    |> Enum.filter(fn data ->
+      Map.has_key?(data, :longitude) and Map.has_key?(data, :latitude)
+    end)
+    |> Enum.map(fn data ->
+      data |> Map.update(:count, 0, fn _ -> data[selected] end)
+    end)
+    |> Enum.reject(fn data -> data.active == 0 end)
   end
 end

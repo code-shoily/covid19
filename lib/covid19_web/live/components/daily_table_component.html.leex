@@ -54,13 +54,13 @@
           <%= for {d, idx} <- sorted(@data, @by, @dir) do %>
             <tr>
               <td><%= idx %></td>
-              <td><%= d.date |> fmt() %></td>
-              <td class="has-text-weight-semibold has-text-right"><%= d.confirmed |> fmt() %></td>
-              <td class="has-text-weight-semibold has-text-right"><%= d.new_confirmed |> fmt() %></td>
-              <td class="has-text-weight-semibold has-text-right"><%= d.active |> fmt() %></td>
-              <td class="has-background-primary has-text-weight-semibold has-text-centered"><%= d.recovered |> fmt() %></td>
-              <td class="has-text-weight-semibold has-text-centered"><%= d.deaths |> fmt() %></td>
-              <td class="has-background-danger has-text-weight-semibold has-text-centered"><%= d.new_deaths |> fmt() %></td>
+              <td><%= Helpers.format_date(d.date) %></td>
+              <td class="has-text-weight-semibold has-text-right"><%= Helpers.format_number(d.confirmed) %></td>
+              <td class="has-text-weight-semibold has-text-right"><%= Helpers.format_number(d.new_confirmed) %></td>
+              <td class="has-text-weight-semibold has-text-right"><%= Helpers.format_number(d.active) %></td>
+              <td class="has-background-primary has-text-weight-semibold has-text-centered"><%= Helpers.format_number(d.recovered) %></td>
+              <td class="has-text-weight-semibold has-text-centered"><%= Helpers.format_number(d.deaths) %></td>
+              <td class="has-background-danger has-text-weight-semibold has-text-centered"><%= Helpers.format_number(d.new_deaths) %></td>
             </tr>
           <% end %>
         </tbody>

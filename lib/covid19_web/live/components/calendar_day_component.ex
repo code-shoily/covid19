@@ -25,13 +25,13 @@ defmodule Covid19Web.CalendarDayComponent do
     (invalid?(assigns.day_class) && invalid_cell) || valid_cell
   end
 
-  defp invalid?("has-text-grey-light is-italic"), do: true
+  defp invalid?("has-text-grey-light"), do: true
   defp invalid?(_), do: false
 
   defp day_class(assigns) do
     cond do
       invalid_date?(assigns) ->
-        "has-text-grey-light is-italic"
+        "has-text-grey-light"
 
       today?(assigns) ->
         "has-text-primary"

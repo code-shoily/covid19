@@ -20,16 +20,6 @@ defmodule Covid19Web.DailyTableComponent do
      |> assign(by: String.to_atom(by))}
   end
 
-  defp fmt(number) when is_number(number) do
-    Number.Delimit.number_to_delimited(number, precision: 0)
-  end
-
-  defp fmt(%Date{} = date) do
-    Timex.format!(date, "%b %d, %Y", :strftime)
-  end
-
-  defp fmt(anything), do: anything
-
   defp sorted(data, by, dir) do
     data
     |> Enum.sort_by(& &1[by], (by == :date && {dir, Date}) || dir)

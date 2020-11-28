@@ -21,7 +21,7 @@ defmodule Covid19Web.TimelineComponent do
     ~L"""
     <div class="card">
       <div class="card-content">
-        <p class="title is-5">Project Timeline</p>
+        <p class="title is-5 has-text-centered is-uppercase">Project Timeline</p>
         <div class="timeline">
           <%= for {class, date, description} <- @events do %>
             <div class="timeline-item">
