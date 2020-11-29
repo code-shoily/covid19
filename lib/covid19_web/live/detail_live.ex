@@ -9,6 +9,7 @@ defmodule Covid19Web.DetailLive do
     dates = tl(Queries.processed_dates_for_country(country_or_region))
     summary = Queries.country_summary(country_or_region)
     index = -1
+    admin_data = admin_data(country_or_region, dates, index)
 
     assigns = %{
       country_or_region: country_or_region,
@@ -16,7 +17,8 @@ defmodule Covid19Web.DetailLive do
       dates: dates,
       selected_index: index,
       summary_data: summary_data(summary, dates, index),
-      admin_data: admin_data(country_or_region, dates, index)
+      admin_data: admin_data,
+      show_admin_table: Enum.count(admin_data) > 1
     }
 
     {:ok, assign(socket, assigns)}

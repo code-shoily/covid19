@@ -57,7 +57,7 @@
             data={{ @country_summary }} />
         </div>
       </div>
-      <div class="columns">
+      <div class="columns" :show={{ @show_admin_table }}>
         <div class="column">
           <Covid19Web.CountrywiseSummaryComponent
             id="c_admin_summary"
