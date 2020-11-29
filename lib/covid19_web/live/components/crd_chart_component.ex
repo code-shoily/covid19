@@ -15,7 +15,7 @@ defmodule Covid19Web.CRDChartComponent do
       class="card"
       phx-hook="CRDChart"
       data-type="{{ @type }}"
-      data-statistics="{{ Jason.encode!(@data) }}"
+      data-statistics="{{ Jason.encode!(filter(@data, @type)) }}"
       data-logarithmic="{{ Jason.encode!(@logarithmic) }}">
       <div class="card-content">
         <p class="title is-5 is-uppercase has-text-centered">{{ @heading }}</p>
@@ -46,6 +46,27 @@ defmodule Covid19Web.CRDChartComponent do
 
   def handle_event("toggle-log-chart", _, socket) do
     {:noreply, update(socket, :logarithmic, &Kernel.not/1)}
+  end
+
+  defp filter(data, type) do
+    {cumulative, new} = get_keys(type)
+    data
+    |> Enum.map(fn map ->
+      map =
+        map
+        |> Map.take([:date, cumulative, new])
+
+      [map.date, map[cumulative], map[new]]
+    end)
+    |> Enum.filter(fn [_, u, v] -> v > 0 and u > 0 end)
+  end
+
+  defp get_keys(type) do
+    %{
+      "confirmed" => {:confirmed, :new_confirmed},
+      "deaths" => {:deaths, :new_deaths},
+      "recovered" => {:recovered, :new_recovered},
+    }[type]
   end
 
   defp button_class("confirmed"), do: "is-info"

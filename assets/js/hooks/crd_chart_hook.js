@@ -11,11 +11,12 @@ var colorMap = {
 export default {
     mounted() {
       let data = JSON.parse(this.el.dataset.statistics);
+      console.log({ data })
       let type = this.el.dataset.type;
 
       let datasetNew = [{
-        x: data.map(x => x.date),
-        y: data.map(y => y[`new_${type}`]).filter(y => y > 0),
+        x: data.map(x => x[0]),
+        y: data.map(y => y[2]),
         type: 'bar',
         marker: {
           line: {
@@ -28,8 +29,8 @@ export default {
       makeChart(`new-${type}-chart`, datasetNew);
 
       let datasetCumulative = [{
-        x: data.map(x => x.date),
-        y: data.map(y => y[type]).filter(y => y > 0),
+        x: data.map(x => x[0]),
+        y: data.map(y => y[1]),
         mode: 'lines',
         line: {
           color:  colorMap[type],
