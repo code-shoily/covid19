@@ -7,7 +7,7 @@ export default {
     deaths: [],
     mounted() {
       let data = JSON.parse(this.el.dataset.statistics);
-      
+
       var layout = {
         margin: { t: 0, b: 30, l: 30, r: 10 },
         showlegend: false,

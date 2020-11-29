@@ -11,7 +11,6 @@ var colorMap = {
 export default {
     mounted() {
       let data = JSON.parse(this.el.dataset.statistics);
-      console.log({ data })
       let type = this.el.dataset.type;
 
       let datasetNew = [{
