@@ -50,6 +50,7 @@ defmodule Covid19Web.CRDChartComponent do
 
   defp filter(data, type) do
     {cumulative, new} = get_keys(type)
+
     data
     |> Enum.map(fn map ->
       map =
@@ -65,7 +66,7 @@ defmodule Covid19Web.CRDChartComponent do
     %{
       "confirmed" => {:confirmed, :new_confirmed},
       "deaths" => {:deaths, :new_deaths},
-      "recovered" => {:recovered, :new_recovered},
+      "recovered" => {:recovered, :new_recovered}
     }[type]
   end
 

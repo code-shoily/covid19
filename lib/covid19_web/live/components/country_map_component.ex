@@ -13,13 +13,13 @@ defmodule Covid19Web.CountryMapComponent do
 
   def update(%{dates: dates, selected_index: selected_index} = assigns, socket) do
     locations = location_data(dates, selected_index)
-    assigns = Map.merge(assigns, %{ data: locations})
+    assigns = Map.merge(assigns, %{data: locations})
     {:ok, assign(socket, assigns)}
   end
 
   def render(assigns) do
     ~H"""
-    <div class="card" phx-hook="LeafletMap" data-locations="{{ @data |> filter(@selected) |> Jason.encode!() }}">
+    <div class="card" phx-hook="HeatMap" data-locations="{{ @data |> filter(@selected) |> Jason.encode!() }}">
       <div class="card-content">
         <div class="level">
           <div class="level-left">

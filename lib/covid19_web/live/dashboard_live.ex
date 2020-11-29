@@ -30,7 +30,7 @@ defmodule Covid19Web.DashboardLive do
 
     assigns = %{
       summary_data: summary_data(data, dates, index),
-      country_data: country_data(dates, index),
+      country_data: country_data(dates, index)
     }
 
     {:noreply, assign(socket, assigns)}
@@ -43,7 +43,7 @@ defmodule Covid19Web.DashboardLive do
 
     assigns = %{
       summary_data: summary_data(data, dates, index),
-      country_data: country_data(dates, index),
+      country_data: country_data(dates, index)
     }
 
     {:noreply, assign(socket, assigns)}
