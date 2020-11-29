@@ -6,10 +6,10 @@
           <Covid19Web.ControlComponent 
             dates={{ @dates }}
             selected_index={{ @selected_index }}
-            oldest={{ "oldest" }}
-            older={{ "older" }}
-            newest={{ "newest" }}
-            newer={{ "newer" }} />
+            oldest="oldest"
+            older="older"
+            newest="newest"
+            newer="newer" />
         </div>
       </div>
       <div class="columns">
@@ -20,6 +20,7 @@
       <div class="columns">
         <div class="column">
           <Covid19Web.CRDPieChartComponent 
+            did="c_crd_pie_chart"
             heading="World Pie Chart"
             data={{ @summary_data}} />
         </div>
@@ -43,29 +44,32 @@
       </div>
       <div class="columns">
         <div class="column">
-          <Covid19Web.CountryMapComponent id="w_map" data={{ @location_data }} />
+          <Covid19Web.CountryMapComponent 
+            id="w_map"
+            selected_index={{ @selected_index}}
+            dates={{ @dates }} />
         </div>
       </div>
       <div class="columns">
         <div class="column">
           <Covid19Web.CRDChartComponent
             id="w_confirmed_crd_chart"
-            heading={{ "Confirmed Cases" }}
-            type={{ "confirmed" }}
+            heading="Confirmed Cases"
+            type="confirmed"
             data={{ @world_summary }} />
         </div>
         <div class="column">
           <Covid19Web.CRDChartComponent
             id="w_deaths_crd_chart"
-            heading={{ "Mortality Count" }}
-            type={{ "deaths" }}
+            heading="Mortality Count"
+            type="deaths"
             data={{ @world_summary }} />
         </div>
         <div class="column">
           <Covid19Web.CRDChartComponent
             id="w_recovered_crd_chart"
-            heading={{ "Recoveries" }}
-            type={{ "recovered" }}
+            heading="Recoveries"
+            type="recovered"
             data={{ @world_summary }} />
         </div>
       </div>

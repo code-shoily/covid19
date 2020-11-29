@@ -6,7 +6,7 @@
       </div>
       <div class="level-right">
         <div class="level-item">
-          <form :on-change="filter" :on-submit="filter">
+          <form :on-submit="filter">
             <div class="field has-addons">
               <div class="control has-icons-left">
                 <input name="term" class="input is-wide" type="text" placeholder="Search" value="{{ @term }}">

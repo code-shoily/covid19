@@ -22,15 +22,21 @@ export default {
         return map
     },
     mounted() {
+        let locations = this.parseLocations()
         this.map = this.initMap()
         this.heatLayer = new HeatOverlay(cfg)
-        this.updateHeatLayer(JSON.parse(this.el.dataset.locations), true)
+        this.updateHeatLayer(locations, true)
     },
     updated() {
-        this.updateHeatLayer(JSON.parse(this.el.dataset.locations), false)
+        let locations = this.parseLocations()
+        this.updateHeatLayer(locations, false)
     },
     updateHeatLayer(locations, create) {
         this.heatLayer.setData({max: 100, data: locations});
         create ? this.heatLayer.addTo(this.map) : null
+    },
+    parseLocations() {
+        return JSON.parse(this.el.dataset.locations)
+            .map(([count, latitude, longitude]) => ({count, latitude, longitude}))
     }
 }

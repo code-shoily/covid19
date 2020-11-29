@@ -15,8 +15,7 @@ defmodule Covid19Web.DashboardLive do
       dates: dates,
       selected_index: selected_index,
       summary_data: summary_data(world_summary, dates, selected_index),
-      country_data: country_data(dates, selected_index),
-      location_data: location_data(dates, selected_index)
+      country_data: country_data(dates, selected_index)
     }
 
     {:ok, assign(socket, assigns)}
@@ -32,7 +31,6 @@ defmodule Covid19Web.DashboardLive do
     assigns = %{
       summary_data: summary_data(data, dates, index),
       country_data: country_data(dates, index),
-      location_data: location_data(dates, index)
     }
 
     {:noreply, assign(socket, assigns)}
@@ -46,7 +44,6 @@ defmodule Covid19Web.DashboardLive do
     assigns = %{
       summary_data: summary_data(data, dates, index),
       country_data: country_data(dates, index),
-      location_data: location_data(dates, index)
     }
 
     {:noreply, assign(socket, assigns)}
@@ -66,9 +63,5 @@ defmodule Covid19Web.DashboardLive do
 
   defp country_data(dates, selected_index) do
     Queries.summary_by_country(Enum.at(dates, selected_index))
-  end
-
-  defp location_data(dates, selected_index) do
-    Queries.locations_for_date(Enum.at(dates, selected_index))
   end
 end
