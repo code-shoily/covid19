@@ -27,16 +27,16 @@ defmodule Covid19Web.CountryMapComponent do
           </div>
           <div class="level-right">
             <div class="buttons has-addons">
-              <button :on-click="confirmed" class="button is-small {{ maybe_selected(:confirmed, @selected) }}">
+              <button :on-click="confirmed" class="button is-small has-text-weight-semibold {{ maybe_selected(:confirmed, @selected) }}">
                 Confirmed
               </button>
-              <button :on-click="active" class="button is-small {{ maybe_selected(:active, @selected) }}">
+              <button :on-click="active" class="button is-small has-text-weight-semibold {{ maybe_selected(:active, @selected) }}">
                 Active
               </button>
-              <button :on-click="recovered" class="button is-small {{ maybe_selected(:recovered, @selected) }}">
+              <button :on-click="recovered" class="button is-small has-text-weight-semibold {{ maybe_selected(:recovered, @selected) }}">
                 Recovered
               </button>
-              <button :on-click="deaths" class="button is-small {{ maybe_selected(:deaths, @selected) }}">
+              <button :on-click="deaths" class="button is-small has-text-weight-semibold {{ maybe_selected(:deaths, @selected) }}">
                 Deaths
               </button>
             </div>
@@ -62,7 +62,7 @@ defmodule Covid19Web.CountryMapComponent do
 
   defp maybe_selected(:deaths, :deaths), do: "is-danger"
   defp maybe_selected(:recovered, :recovered), do: "is-success"
-  defp maybe_selected(a, a), do: "is-primary"
+  defp maybe_selected(a, a), do: "is-info"
   defp maybe_selected(_, _), do: ""
 
   defp filter(data, selected) do

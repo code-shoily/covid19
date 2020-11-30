@@ -23,25 +23,25 @@ defmodule Covid19Web.ControlComponent do
           dates={{ MapSet.new(@dates) }} />
         <hr />
         <div class="buttons has-addons is-centered">
-          <button class="button is-danger is-small" :on-click={{ @oldest }}>
+          <button class="button is-danger is-small has-text-weight-semibold" :on-click={{ @oldest }}>
             <span class="icon">
               <i class="fas fa-angle-double-left"></i>
             </span>
             <span>Start</span>
           </button>
-          <button class="button is-info is-small" :on-click={{ @older }}>
+          <button class="button is-info is-small has-text-weight-semibold" :on-click={{ @older }}>
             <span class="icon">
               <i class="fas fa-angle-left"></i>
             </span>
             <span>Prev</span>
           </button>
-          <button class="button is-info is-small" :on-click={{ @newer }}>
+          <button class="button is-info is-small has-text-weight-semibold" :on-click={{ @newer }}>
             <span>Next</span>
             <span class="icon">
               <i class="fas fa-angle-right"></i>
             </span>
           </button>
-          <button class="button is-danger is-small" :on-click={{ @newest }}>
+          <button class="button is-danger is-small has-text-weight-semibold" :on-click={{ @newest }}>
             <span>End</span>
             <span class="icon">
               <i class="fas fa-angle-double-right"></i>

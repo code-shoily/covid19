@@ -25,7 +25,7 @@
       </div>
     </div>
     <div class="table-container" style="max-height: 450px; overflow: auto">
-      <table class="table is-striped is-narrow is-fullwidth">
+      <table class="table is-striped is-bordered is-narrow is-fullwidth">
         <thead>
           <tr>
             <th>#</th>
@@ -69,7 +69,7 @@
         <tbody>
           <tr :for={{ {d, idx} <- sorted(@data, @by, @dir, @term, @type_attr) }}>
             <td>{{ idx }}</td>
-            <td>
+            <td class="has-text-weight-semibold">
               <span :if={{ @type_attr == :country_or_region }}>
                 <LivePatch
                   label={{ d.country_or_region }}
@@ -79,12 +79,12 @@
                 {{ d.province_or_state }}
               </span>
             </td>
-            <td class="has-text-weight-semibold has-text-right">{{ Helpers.format_number(d.confirmed) }}</td>
-            <td class="has-text-weight-semibold has-text-right">{{ Helpers.format_number(d.new_confirmed) }}</td>
-            <td class="has-text-weight-semibold has-text-right">{{ Helpers.format_number(d.active) }}</td>
-            <td class="has-background-primary has-text-weight-semibold has-text-centered">{{ Helpers.format_number(d.recovered) }}</td>
-            <td class="has-text-weight-semibold has-text-centered">{{ Helpers.format_number(d.deaths) }}</td>
-            <td class="has-background-danger has-text-weight-semibold has-text-centered">{{ Helpers.format_number(d.new_deaths) }}</td>
+            <td class="has-text-right">{{ Helpers.format_number(d.confirmed) }}</td>
+            <td class="has-text-right">{{ Helpers.format_number(d.new_confirmed) }}</td>
+            <td class="has-text-right">{{ Helpers.format_number(d.active) }}</td>
+            <td class="has-background-success has-text-light has-text-centered">{{ Helpers.format_number(d.recovered) }}</td>
+            <td class="has-text-centered">{{ Helpers.format_number(d.deaths) }}</td>
+            <td class="has-background-danger has-text-light has-text-centered">{{ Helpers.format_number(d.new_deaths) }}</td>
           </tr>
         </tbody>
       </table>

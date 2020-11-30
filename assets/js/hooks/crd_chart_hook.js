@@ -3,9 +3,9 @@ import Plotly from "../plotly-custom";
 import { makeChart } from "./helpers";
 
 var colorMap = {
-  confirmed: "lightblue",
-  deaths: "pink",
-  recovered: "lightgreen",
+  confirmed: "#2980b9",
+  deaths: "#e74c3c",
+  recovered: "#27ae60",
 };
 
 export default {

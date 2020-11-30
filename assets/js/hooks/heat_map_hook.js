@@ -3,7 +3,7 @@ import Plotly from "../plotly-custom";
 const dataConfig = {
   type: "densitymapbox",
   colorscale: "Jet",
-  radius: 15,
+  radius: 18,
   hoverinfo: "skip",
   showscale: false,
 };

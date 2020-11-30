@@ -2,6 +2,8 @@ import Plotly from "../plotly-custom";
 
 import { makeChart } from "./helpers";
 
+const colors = ["#f1c40f", "#2980b9", "#e74c3c", "#27ae60"];
+
 export default {
   newCases: [],
   recoveries: [],
@@ -31,6 +33,7 @@ export default {
       type: "pie",
       textinfo: "label+percent",
       hole: 0.4,
+      marker: { colors },
     });
 
     Plotly.newPlot("new-pie-chart", this.newCases, layout, config);
@@ -41,6 +44,7 @@ export default {
       type: "pie",
       textinfo: "label+percent",
       hole: 0.4,
+      marker: { colors },
     });
 
     Plotly.newPlot("total-pie-chart", this.recoveries, layout, config);
