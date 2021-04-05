@@ -7,18 +7,18 @@
   },
   "dependencies": {
     "bulma-extensions": "^6.2.7",
-    "jquery": "^3.5.0",
+    "jquery": "^3.6.0",
     "nprogress": "^0.2.0",
     "phoenix": "file:../deps/phoenix",
     "phoenix_html": "file:../deps/phoenix_html",
     "phoenix_live_view": "file:../deps/phoenix_live_view",
-    "plotly.js": "^1.57.1"
+    "plotly.js": "^1.58.4"
   },
   "devDependencies": {
-    "@babel/core": "^7.0.0",
-    "@babel/preset-env": "^7.0.0",
-    "babel-loader": "^8.0.0",
-    "bulma": "^0.9.1",
+    "@babel/core": "^7.13.14",
+    "@babel/preset-env": "^7.13.12",
+    "babel-loader": "^8.2.2",
+    "bulma": "^0.9.2",
     "copy-webpack-plugin": "^5.1.1",
     "css-loader": "^3.4.2",
     "hard-source-webpack-plugin": "^0.13.1",
