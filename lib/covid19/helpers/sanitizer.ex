@@ -67,7 +67,7 @@ defmodule Covid19.Helpers.Sanitizer do
   def sanitize_heading("Total_Test_Results"), do: :total_test_results
 
   @doc """
-  Translates country names found in the file into standard country names.
+  Translates country names found in the file into country names that matches with `Countries` lib.
   """
   def sanitize_country_or_region("Bolivia"), do: "Bolivia (Plurinational State of)"
   def sanitize_country_or_region("Brunei"), do: "Brunei Darussalam"
