@@ -13,7 +13,7 @@ export default {
 
     var layout = {
       margin: { t: 0, b: 30, l: 30, r: 10 },
-      showlegend: false,
+      showlegend: true,
     };
 
     var config = config || {
@@ -29,9 +29,10 @@ export default {
         data.new_deaths,
         data.new_recovered,
       ],
+      hoverinfo: 'percent+value',
       labels: ["Active", "Confirmed", "Deaths", "Recovered"],
       type: "pie",
-      textinfo: "label+percent",
+      textinfo: "none",
       hole: 0.4,
       marker: { colors },
     });
@@ -40,10 +41,11 @@ export default {
 
     this.recoveries.push({
       values: [data.active, data.confirmed, data.deaths, data.recovered],
+      hole: 0.4,
+      hoverinfo: 'percent+value',
       labels: ["Active", "Confirmed", "Deaths", "Recovered"],
       type: "pie",
-      textinfo: "label+percent",
-      hole: 0.4,
+      textinfo: "none",
       marker: { colors },
     });
 
