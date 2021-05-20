@@ -25,11 +25,6 @@
             data={{ @summary_data }} />
         </div>
       </div>
-      <div class="columns">
-        <div class="column">
-          <Covid19Web.TimelineComponent />
-        </div>
-      </div>
     </div>
     <div class="column">
       <div class="columns">
