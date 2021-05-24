@@ -32,6 +32,7 @@ defmodule Covid19Web.Endpoint do
     socket "/phoenix/live_reload/socket", Phoenix.LiveReloader.Socket
     plug Phoenix.LiveReloader
     plug Phoenix.CodeReloader
+    plug Phoenix.Ecto.CheckRepoStatus, otp_app: :covid19
   end
 
   plug Phoenix.LiveDashboard.RequestLogger,
