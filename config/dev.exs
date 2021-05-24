@@ -56,6 +56,7 @@ config :covid19, Covid19Web.Endpoint,
 
 # Watch static and templates for browser reloading.
 config :covid19, Covid19Web.Endpoint,
+  reloadable_compilers: [:phoenix, :elixir, :surface],
   live_reload: [
     patterns: [
       ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
@@ -63,6 +64,7 @@ config :covid19, Covid19Web.Endpoint,
       ~r"lib/covid19_web/(live|views)/.*(ex)$",
       ~r"lib/covid19_web/templates/.*(eex)$",
       ~r"lib/covid19_web/live/.*(sface)$",
+      ~r"lib/covid19/(live|components)/.*(ex|js)$"
     ]
   ]
 

@@ -13,7 +13,7 @@ defmodule Covid19Web.CRDChartComponent do
     ~H"""
     <div
       class="card"
-      phx-hook="CRDChart"
+      :hook="CRDChart"
       data-type="{{ @type }}"
       data-statistics="{{ Jason.encode!(filter(@data, @type)) }}"
       data-logarithmic="{{ Jason.encode!(@logarithmic) }}">

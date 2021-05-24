@@ -2,7 +2,7 @@ import { Socket } from "phoenix";
 import LiveSocket from "phoenix_live_view";
 import NProgress from "nprogress";
 
-import Hooks from "./hooks";
+import Hooks from "./_hooks";
 import css from "../css/app.scss";
 
 let csrfToken = document

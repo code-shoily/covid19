@@ -19,7 +19,7 @@ defmodule Covid19Web.CountryMapComponent do
 
   def render(assigns) do
     ~H"""
-    <div class="card" phx-hook="HeatMap" data-locations="{{ @data |> filter(@selected) |> Jason.encode!() }}">
+    <div class="card" :hook="HeatMap" data-locations="{{ @data |> filter(@selected) |> Jason.encode!() }}">
       <div class="card-content">
         <div class="level">
           <div class="level-left">

@@ -1,5 +1,7 @@
 .iex.exs
 .envrc
+# Ignore auto-generated hook files
+/assets/js/_hooks/
 data/
 # The directory Mix will write compiled artifacts to.
 /_build/

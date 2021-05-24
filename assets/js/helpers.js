@@ -1,4 +1,4 @@
-import Plotly from "../plotly-custom";
+import Plotly from "./plotly-custom";
 
 export function formatDate(dateStr) {
   const [year, month, day] = dateStr.split("-");
