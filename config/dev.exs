@@ -61,10 +61,8 @@ config :covid19, Covid19Web.Endpoint,
     patterns: [
       ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
       ~r"priv/gettext/.*(po)$",
-      ~r"lib/covid19_web/(live|views)/.*(ex)$",
+      ~r"lib/covid19_web/(live|views|components)/.*(ex|js|sface)$",
       ~r"lib/covid19_web/templates/.*(eex)$",
-      ~r"lib/covid19_web/live/.*(sface)$",
-      ~r"lib/covid19/(live|components)/.*(ex|js)$"
     ]
   ]
 
