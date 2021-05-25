@@ -3,7 +3,7 @@
     <div class="column is-one-quarter-fullhd is-one-third-desktop">
       <div class="columns">
         <div class="column">
-          <Covid19Web.ControlComponent 
+          <ControlComponent 
             dates={{ @dates }}
             selected_index={{ @selected_index }}
             oldest="oldest"
@@ -14,12 +14,12 @@
       </div>
       <div class="columns">
         <div class="column">
-          <Covid19Web.SummaryComponent data={{ @summary_data }} />
+          <SummaryComponent data={{ @summary_data }} />
         </div>
       </div>
       <div class="columns">
         <div class="column">
-          <Covid19Web.CRDPieChartComponent 
+          <CRDPieChartComponent 
             did="c_crd_pie_chart"
             heading="World Pie Chart"
             data={{ @summary_data }} />
@@ -29,7 +29,7 @@
     <div class="column">
       <div class="columns">
         <div class="column">
-          <Covid19Web.CountrywiseSummaryComponent
+          <CountrywiseSummaryComponent
             id="w_country_summary"
             data={{ @country_data }}
             type_heading="Country or Regional Table (World)"
@@ -39,7 +39,7 @@
       </div>
       <div class="columns">
         <div class="column">
-          <Covid19Web.CountryMapComponent 
+          <CountryMapComponent 
             id="w_map"
             selected_index={{ @selected_index}}
             dates={{ @dates }} />
@@ -47,21 +47,21 @@
       </div>
       <div class="columns">
         <div class="column">
-          <Covid19Web.CRDChartComponent
+          <CRDChartComponent
             id="w_confirmed_crd_chart"
             heading="Confirmed Cases"
             type="confirmed"
             data={{ @world_summary }} />
         </div>
         <div class="column">
-          <Covid19Web.CRDChartComponent
+          <CRDChartComponent
             id="w_deaths_crd_chart"
             heading="Mortality Count"
             type="deaths"
             data={{ @world_summary }} />
         </div>
         <div class="column">
-          <Covid19Web.CRDChartComponent
+          <CRDChartComponent
             id="w_recovered_crd_chart"
             heading="Recoveries"
             type="recovered"
@@ -70,7 +70,7 @@
       </div>
       <div class="columns">
         <div class="column">
-          <Covid19Web.DailyTableComponent
+          <DailyTableComponent
             id="w_daily_table"
             data={{ @world_summary }} />
         </div>

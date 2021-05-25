@@ -4,6 +4,16 @@ defmodule Covid19Web.DetailLive do
   use Covid19Web, :surface
 
   alias Covid19.Queries
+  alias Covid19Web.{
+    CalendarComponent,
+    ControlComponent,
+    CountryInfoComponent,
+    CountrywiseSummaryComponent,
+    CRDChartComponent,
+    CRDPieChartComponent,
+    DailyTableComponent,
+    SummaryComponent,
+  }
 
   def mount(%{"country_or_region" => country_or_region}, _session, socket) do
     dates = tl(Queries.processed_dates_for_country(country_or_region))

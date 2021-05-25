@@ -4,6 +4,16 @@ defmodule Covid19Web.DashboardLive do
   use Covid19Web, :surface
 
   alias Covid19.Queries
+  alias Covid19Web.{
+    CalendarComponent,
+    ControlComponent,
+    CountrywiseSummaryComponent,
+    CountryMapComponent,
+    CRDChartComponent,
+    CRDPieChartComponent,
+    DailyTableComponent,
+    SummaryComponent,
+  }
 
   def mount(_params, _session, socket) do
     world_summary = Queries.world_summary()

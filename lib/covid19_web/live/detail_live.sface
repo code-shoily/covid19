@@ -3,14 +3,14 @@
     <div class="column is-one-quarter-fullhd is-one-third-desktop">
       <div class="columns">
         <div class="column">
-          <Covid19Web.CountryInfoComponent
+          <CountryInfoComponent
             country={{ Queries.get_country_info(@country_or_region) }}
             date={{ Enum.at(@dates, @selected_index) }} />
         </div>
       </div>
       <div class="columns">
         <div class="column">
-          <Covid19Web.ControlComponent
+          <ControlComponent
             dates= {{ @dates }}
             selected_index= {{ @selected_index }}
             oldest="oldest"
@@ -21,12 +21,12 @@
       </div>
       <div class="columns">
         <div class="column">
-          <Covid19Web.SummaryComponent data={{ @summary_data }} />
+          <SummaryComponent data={{ @summary_data }} />
         </div>
       </div>
       <div class="columns">
         <div class="column">
-          <Covid19Web.CRDPieChartComponent
+          <CRDPieChartComponent
             did="c_crd_pie_chart"
             heading={{ @country_or_region <> " Pie Chart" }}
             data={{ @summary_data }} />
@@ -36,21 +36,21 @@
     <div class="column">
       <div class="columns">
         <div class="column">
-          <Covid19Web.CRDChartComponent
+          <CRDChartComponent
             id="c_confirmed_crd_chart"
             type="confirmed"
             heading="Confirmed Cases"
             data={{ @country_summary }} />
         </div>
         <div class="column">
-          <Covid19Web.CRDChartComponent
+          <CRDChartComponent
             id="c_deaths_crd_chart"
             type="deaths"
             heading="Mortality Count"
             data={{ @country_summary }} />
         </div>
         <div class="column">
-          <Covid19Web.CRDChartComponent
+          <CRDChartComponent
             id="c_recovered_crd_chart"
             type="recovered"
             heading="Recoveries"
@@ -59,7 +59,7 @@
       </div>
       <div class="columns" :if={{ @show_admin_table }}>
         <div class="column">
-          <Covid19Web.CountrywiseSummaryComponent
+          <CountrywiseSummaryComponent
             id="c_admin_summary"
             data={{ @admin_data }}
             type_heading={{ "Province or State Table (#{@country_or_region})" }}
@@ -69,7 +69,7 @@
       </div>
       <div class="columns">
         <div class="column">
-          <Covid19Web.DailyTableComponent
+          <DailyTableComponent
             id="c_daily_table"
             data={{ @country_summary }} />
         </div>
