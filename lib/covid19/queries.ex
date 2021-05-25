@@ -11,7 +11,7 @@ defmodule Covid19.Queries do
 
   use Nebulex.Caching
 
-  @ttl Nebulex.Time.expiry_time(1, :hour)
+  @ttl :timer.hours(1)
 
   @type country_name :: String.t()
   @type country_type :: %{
@@ -216,6 +216,7 @@ defmodule Covid19.Queries do
     end
   end
 
+  Nebulex.Time
   @decorate cacheable(cache: Cache, key: :gbd, opts: [ttl: @ttl])
   defp group_by_dates do
     DailyData
