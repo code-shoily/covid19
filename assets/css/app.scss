@@ -1,7 +1,13 @@
 @charset "utf-8";
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @import "nprogress.scss";
 
-// html {
-//   background: $clouds;
-// }
+@import "./theme.scss";
+
+html {
+  background: $clouds;
+}
