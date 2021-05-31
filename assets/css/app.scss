@@ -50,6 +50,14 @@
       mx-0;
   }
 
+a {
+  @apply text-blue-600 underline;
+}
+
+.footer {
+  @apply flex-grow bg-white p-6;
+}
+
 .table-container {
     table {
       @apply shadow-lg bg-white w-full;
