@@ -23,7 +23,7 @@ defmodule Covid19Web.CountryMapComponent do
       <div class="card-content">
         <div class="level">
           <div class="level-left">
-            <p class="level-item title is-5 is-uppercase">World Map</p>
+            <p class="card-title">World Map</p>
           </div>
           <div class="level-right">
             <div class="buttons has-addons">

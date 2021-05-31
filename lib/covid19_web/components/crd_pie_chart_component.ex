@@ -11,14 +11,14 @@ defmodule Covid19Web.CRDPieChartComponent do
     ~H"""
     <div id={{ @did }} class="card" :hook="CRDPieChart" data-statistics="{{ Jason.encode! @data }}">
       <div class="card-content">
-        <p class="title is-5 is-uppercase has-text-centered">{{ @heading }}</p>
+        <p class="card-title">{{ @heading }}</p>
         <div phx-update="ignore">
-          <p class="title is-6 is-uppercase has-text-centered">Per Day</p>
+          <p class="subtitle">Per Day</p>
           <div id="new-pie-chart" style="height: 250px"></div>
         </div>
         <hr />
         <div phx-update="ignore">
-          <p class="title is-6 is-uppercase has-text-centered">Total</p>
+          <p class="subtitle">Total</p>
           <div id="total-pie-chart" style="height: 250px"></div>
         </div>
       </div>

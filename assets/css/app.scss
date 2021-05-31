@@ -2,11 +2,32 @@
 
 @tailwind base;
 @tailwind components;
+
+// APPLIED CLASSES
+.columns {
+  @apply mt-3 mx-3;
+}
+
+.column {
+  @apply flex w-full;
+}
+
+.card {
+  @apply bg-white p-4 w-full flex flex-col rounded-xl;
+}
+
+.card-title {
+  @apply text-center text-xl leading-10 uppercase;
+}
+
+.subtitle {
+  @apply text-center text-lg leading-loose uppercase;
+}
+
 @tailwind utilities;
 
-@import "nprogress.scss";
-
 @import "./theme.scss";
+@import "nprogress.scss";
 
 html {
   background: $clouds;

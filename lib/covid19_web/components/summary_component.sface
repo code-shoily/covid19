@@ -1,6 +1,6 @@
 <div class="card">
   <div class="card-content">
-    <p class="title is-5 is-uppercase has-text-centered">{{ Helpers.format_date(@data.date) }}</p>
+    <p class="card-title">{{ Helpers.format_date(@data.date) }}</p>
     <p class="subtitle has-text-centered">Summary</p>
     <table class="table is-fullwidth">
       <tbody>

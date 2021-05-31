@@ -18,17 +18,17 @@ defmodule Covid19Web.CRDChartComponent do
       data-statistics="{{ Jason.encode!(filter(@data, @type)) }}"
       data-logarithmic="{{ Jason.encode!(@logarithmic) }}">
       <div class="card-content">
-        <p class="title is-5 is-uppercase has-text-centered">{{ @heading }}</p>
-        <p class="subtitle is-6 is-uppercase has-text-centered has-text-monospace">
+        <p class="card-title">{{ @heading }}</p>
+        <p class="subsubtitle has-text-monospace">
           {{ Helpers.format_date(Enum.at(@data, 0).date) }} - {{ Helpers.format_date(Enum.at(@data, -1).date) }}
         </p>
         <div phx-update="ignore">
-          <p class="title is-6 is-uppercase has-text-centered">Daily</p>
+          <p class="subtitle">Daily</p>
           <div id="new-{{ @type }}-chart" style="height: 180px"></div>
         </div>
         <hr />
         <div phx-update="ignore">
-          <p class="title is-6 is-uppercase has-text-centered">Cumulative</p>
+          <p class="subtitle">Cumulative</p>
           <div id="cumulative-{{ @type }}-chart" style="height: 180px"></div>
         </div>
 
