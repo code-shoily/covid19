@@ -19,11 +19,7 @@
             newer="newer" />
         </div>
       </div>
-      <div class="columns">
-        <div class="column">
-          <SummaryComponent data={{ @summary_data }} />
-        </div>
-      </div>
+      <SummaryComponent data={{ @summary_data }} />
       <div class="columns">
         <div class="column">
           <CRDPieChartComponent

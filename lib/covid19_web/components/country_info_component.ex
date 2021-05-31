@@ -8,21 +8,19 @@ defmodule Covid19Web.CountryInfoComponent do
 
   def render(assigns) do
     ~H"""
-    <div class="card">
-      <div class="card-content has-text-centered">
-        <p class="title is-6">
+    <div class="info-card bg-gray-600 text-white">
+        <div class="heading">
           {{ Helpers.format_date(@date) }}
-        </p>
-        <p class="title is-3">
+        </div>
+        <div class="value">
           {{ @country[:name] }}
-        </p>
-        <p class="subtitle">
+        </div>
+        <div class="sub-value">
           {{ @country[:continent] }}
-        </p>
-        <p>
+        </div>
+        <div class="text-sm pt-4 text-blue-200">
           <LivePatch label="Back to World Data" to="/" />
-        </p>
-      </div>
+        </div>
     </div>
     """
   end

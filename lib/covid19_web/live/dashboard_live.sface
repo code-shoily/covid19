@@ -12,11 +12,7 @@
             newer="newer" />
         </div>
       </div>
-      <div class="columns">
-        <div class="column">
-          <SummaryComponent data={{ @summary_data }} />
-        </div>
-      </div>
+      <SummaryComponent data={{ @summary_data }} />
       <div class="columns">
         <div class="column">
           <CRDPieChartComponent 
@@ -32,7 +28,7 @@
           <CountrywiseSummaryComponent
             id="w_country_summary"
             data={{ @country_data }}
-            type_heading="Country or Regional Table (World)"
+            type_heading="Regional Table (World)"
             type_name="Country/Region"
             type_attr={{ :country_or_region }} />
         </div>

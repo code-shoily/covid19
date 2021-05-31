@@ -1,67 +1,44 @@
-<div class="card">
-  <div class="card-content">
-    <p class="card-title">{{ Helpers.format_date(@data.date) }}</p>
-    <p class="subtitle has-text-centered">Summary</p>
-    <table class="table is-fullwidth">
-      <tbody>
-        <tr :if={{ Map.get(@data, :number_of_countries) }}>
-          <th class="has-text-left" style="vertical-align: middle">Countries/Regions</th>
-          <td class="has-text-right">
-            <p>{{ Helpers.format_number(@data.number_of_countries) }}</p>
-            <p class="heading has-text-weight-bold has-text-danger">
-              ({{ Helpers.format_number(@data.number_of_states) }} areas)
-            </p>
-          </td>
-        </tr>
-        <tr>
-          <th class="has-text-left" style="vertical-align: middle">Confirmed</th>
-          <td class="has-text-right">
-            <p>{{ Helpers.format_number(@data.confirmed) }}</p>
-            <p class="heading has-text-weight-bold">
-              ({{ Helpers.format_signed_number(@data.new_confirmed) }})
-            </p>
-          </td>
-        </tr>
-        <tr>
-          <th class="has-text-left" style="vertical-align: middle">Recovered</th>
-          <td class="has-text-right">
-            <p>{{ Helpers.format_number(@data.recovered) }}</p>
-            <p class="heading has-text-weight-bold has-text-success">
-              ({{ Helpers.format_signed_number(@data.new_recovered) }})
-            </p>
-          </td>
-        </tr>
-        <tr>
-          <th class="has-text-left" style="vertical-align: middle">Active</th>
-          <td class="has-text-right">
-            <p>{{ Helpers.format_number(@data.active) }}</p>
-            <p class="heading has-text-weight-bold">
-              ({{ Helpers.format_signed_number(@data.new_active) }})
-            </p>
-          </td>
-        </tr>
-        <tr>
-          <th class="has-text-left" style="vertical-align: middle">Deaths</th>
-          <td class="has-text-right">
-            <p>{{ Helpers.format_number(@data.deaths) }}</p>
-            <p class="heading has-text-weight-bold has-text-danger">
-              ({{ Helpers.format_signed_number(@data.new_deaths) }})
-            </p>
-          </td>
-        </tr>
-        <tr>
-          <th class="has-text-left" style="vertical-align: middle">Source</th>
-          <td class="has-text-right">
-            <p>{{ get_filename(@data.src) }}</p>
-            <p class="heading has-text-weight-bold has-text-danger">
-              <a target="_blank" href="{{ extract_link(@data.src) }}">
-                <i class="fas fa-external-link-alt"></i>
-                Link
-              </a>
-            </p>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+<div class="columns">
+  <div class="info-card" :if={{ Map.get(@data, :number_of_countries) }}>
+    <div class="heading">Regions</div>
+    <div class="value">{{ Helpers.format_number(@data.number_of_countries) }}</div>
+    <div class="sub-value">({{ Helpers.format_number(@data.number_of_states) }} areas)</div>
+  </div>
+</div>
+
+<div class="columns">
+  <div class="info-card bg-blue-500 text-white">
+    <div class="heading">Confirmed</div>
+    <div class="value">{{ Helpers.format_number(@data.confirmed) }}</div>
+    <div class="sub-value">({{ Helpers.format_signed_number(@data.new_confirmed) }})</div>
+  </div>
+</div>
+
+<div class="columns">
+  <div class="info-card bg-green-500 text-white">
+    <div class="heading">Recovered</div>
+    <div class="value">{{ Helpers.format_number(@data.recovered) }}</div>
+    <div class="sub-value">({{ Helpers.format_signed_number(@data.new_recovered) }})</div>
+  </div>
+</div>
+
+<div class="columns">
+  <div class="info-card bg-red-500 text-white">
+    <div class="heading">Deaths</div>
+    <div class="value">{{ Helpers.format_number(@data.deaths) }}</div>
+    <div class="sub-value">({{ Helpers.format_signed_number(@data.new_deaths) }})</div>
+  </div>
+</div>
+
+<div class="columns">
+  <div class="info-card bg-yellow-500">
+    <div class="heading">Source</div>
+    <div class="value">{{ get_filename(@data.src) }}</div>
+    <div class="sub-value">
+      <a target="_blank" href="{{ extract_link(@data.src) }}">
+        <i class="fas fa-external-link-alt"></i>
+        Link
+      </a>
+    </div>
   </div>
 </div>

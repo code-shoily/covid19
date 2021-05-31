@@ -17,13 +17,13 @@ defmodule Covid19Web.CalendarDayComponent do
     <td
       phx-click="pick-date"
       phx-value-date="{{ Timex.format!(@day, "%Y-%m-%d", :strftime) }}"
-      class="{{ @day_class }}  has-text-centered" style="cursor: pointer">
+      class="{{ @day_class }} p-1 text-sm text-center" style="cursor: pointer">
       {{ Timex.format!(@day, "%d", :strftime) }}
     </td>
     """
 
     invalid_cell = ~H"""
-    <td class="{{ @day_class }}  has-text-centered">
+    <td class="{{ @day_class }} p-1 text-sm text-center">
       {{ Timex.format!(@day, "%d", :strftime) }}
     </td>
     """
@@ -31,25 +31,25 @@ defmodule Covid19Web.CalendarDayComponent do
     (invalid?(assigns.day_class) && invalid_cell) || valid_cell
   end
 
-  defp invalid?("has-text-grey-light"), do: true
+  defp invalid?("text-gray-300"), do: true
   defp invalid?(_), do: false
 
   defp day_class(assigns) do
     cond do
       invalid_date?(assigns) ->
-        "has-text-grey-light"
+        "text-gray-300"
 
       today?(assigns) ->
-        "has-text-primary"
+        "text-green-500"
 
       current_date?(assigns) ->
-        "has-text-danger has-text-weight-bold"
+        "text-blue-500 font-bold"
 
       other_month?(assigns) ->
-        "has-text-grey"
+        "text-gray-400"
 
       true ->
-        "has-text-black-bis"
+        "text-black"
     end
   end
 

@@ -1,28 +1,22 @@
 <div class="card">
   <div class="card-content">
-    <div class="level">
-      <div class="level-left">
-        <p class="card-title">{{ @type_heading }}</p>
-      </div>
-      <div class="level-right">
-        <div class="level-item">
-          <form :on-submit="filter">
-            <div class="field has-addons">
-              <div class="control has-icons-left">
-                <input name="term" class="input is-wide" type="text" placeholder="Search" value="{{ @term }}">
-                <span class="icon is-small is-left">
-                  <i class="fas fa-search"></i>
-                </span>
-              </div>
-              <div class="control">
-                <a :on-click="clear-term" class="button is-danger">
-                  <i class="fas fa-trash"></i>
-                </a>
-              </div>
-            </div>
-          </form>
+    <div class="card-title">{{ @type_heading }}</div>
+    <div class="flex flex-row justify-end">
+      <form :on-submit="filter" class="w-full">
+        <div class="flex flex-row py-4 items-center justify-end">
+          <input 
+            name="term" 
+            class="border border-gray-400 leading-2 rounded-lg p-1 pl-3 w-1/3"
+            type="text" 
+            placeholder="Search" 
+            value="{{ @term }}" />
+          <div class="p-4 cursor-pointer hover:text-black text-red-500">
+            <a :on-click="clear-term" class="button is-danger">
+              <i class="fas fa-trash"></i>
+            </a>
+          </div>
         </div>
-      </div>
+      </form>
     </div>
     <div class="table-container" style="max-height: 450px; overflow: auto">
       <table class="table is-striped is-bordered is-narrow is-fullwidth">
@@ -69,7 +63,7 @@
         <tbody>
           <tr :for={{ {d, idx} <- sorted(@data, @by, @dir, @term, @type_attr) }}>
             <td>{{ idx }}</td>
-            <td class="has-text-weight-semibold">
+            <td class="text-center text-blue-500 underline">
               <span :if={{ @type_attr == :country_or_region }}>
                 <LivePatch
                   label={{ d.country_or_region }}
@@ -79,12 +73,12 @@
                 {{ d.province_or_state }}
               </span>
             </td>
-            <td class="has-text-right">{{ Helpers.format_number(d.confirmed) }}</td>
-            <td class="has-text-right">{{ Helpers.format_number(d.new_confirmed) }}</td>
-            <td class="has-text-right">{{ Helpers.format_number(d.active) }}</td>
-            <td class="has-background-success has-text-light has-text-centered">{{ Helpers.format_number(d.recovered) }}</td>
-            <td class="has-text-centered">{{ Helpers.format_number(d.deaths) }}</td>
-            <td class="has-background-danger has-text-light has-text-centered">{{ Helpers.format_number(d.new_deaths) }}</td>
+            <td class="text-right bg-blue-500 text-white">{{ Helpers.format_number(d.confirmed) }}</td>
+            <td class="text-right">{{ Helpers.format_number(d.new_confirmed) }}</td>
+            <td class="text-right">{{ Helpers.format_number(d.active) }}</td>
+            <td class="text-center bg-green-500 text-white">{{ Helpers.format_number(d.recovered) }}</td>
+            <td class="text-center bg-red-500 text-white">{{ Helpers.format_number(d.deaths) }}</td>
+            <td class="text-center">{{ Helpers.format_number(d.new_deaths) }}</td>
           </tr>
         </tbody>
       </table>

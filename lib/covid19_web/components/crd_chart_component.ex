@@ -19,7 +19,7 @@ defmodule Covid19Web.CRDChartComponent do
       data-logarithmic="{{ Jason.encode!(@logarithmic) }}">
       <div class="card-content">
         <p class="card-title">{{ @heading }}</p>
-        <p class="subsubtitle has-text-monospace">
+        <p class="subtitle text-base">
           {{ Helpers.format_date(Enum.at(@data, 0).date) }} - {{ Helpers.format_date(Enum.at(@data, -1).date) }}
         </p>
         <div phx-update="ignore">
@@ -32,13 +32,13 @@ defmodule Covid19Web.CRDChartComponent do
           <div id="cumulative-{{ @type }}-chart" style="height: 180px"></div>
         </div>
 
-        <p class="has-text-centered has-text-monospace">
+        <div class="flex justify-center w-full pt-4">
           <button
-              class="button is-small {{ button_class(@type) }}"
+              class="btn {{ button_class(@type) }}"
               :on-click="toggle-log-chart">
             {{ @logarithmic && "Show Linear" || "Show Logarithmic" }}
           </button>
-        </p>
+        </div>
       </div>
     </div>
     """
@@ -70,7 +70,7 @@ defmodule Covid19Web.CRDChartComponent do
     }[type]
   end
 
-  defp button_class("confirmed"), do: "is-info"
-  defp button_class("deaths"), do: "is-danger"
-  defp button_class("recovered"), do: "is-success"
+  defp button_class("confirmed"), do: "bg-blue-500 text-white"
+  defp button_class("deaths"), do: "bg-red-500 text-white"
+  defp button_class("recovered"), do: "bg-green-500 text-white"
 end
