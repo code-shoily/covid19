@@ -34,15 +34,15 @@
       </div>
     </div>
     <div class="flex flex-col flex-grow">
-      <div class="columns">
-        <div class="column">
+      <div class="columns flex flex-row">
+        <div class="column mr-4">
           <CRDChartComponent
             id="c_confirmed_crd_chart"
             type="confirmed"
             heading="Confirmed Cases"
             data={{ @country_summary }} />
         </div>
-        <div class="column">
+        <div class="column mr-4">
           <CRDChartComponent
             id="c_deaths_crd_chart"
             type="deaths"

@@ -45,15 +45,15 @@
             dates={{ @dates }} />
         </div>
       </div>
-      <div class="columns">
-        <div class="column">
+      <div class="columns flex flex-row">
+        <div class="column mr-4">
           <CRDChartComponent
             id="w_confirmed_crd_chart"
             heading="Confirmed Cases"
             type="confirmed"
             data={{ @world_summary }} />
         </div>
-        <div class="column">
+        <div class="column mr-4">
           <CRDChartComponent
             id="w_deaths_crd_chart"
             heading="Mortality Count"
