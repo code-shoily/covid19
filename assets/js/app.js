@@ -7,6 +7,8 @@ import css from "../css/app.scss";
 
 import Alpine from "alpinejs";
 
+Alpine.start();
+window.Alpine = Alpine;
 
 let csrfToken = document
   .querySelector("meta[name='csrf-token']")
@@ -16,7 +18,7 @@ let liveSocket = new LiveSocket("/live", Socket, {
   params: { _csrf_token: csrfToken },
   dom: {
     onBeforeElUpdated(from, to){
-      if(from.__x){ Alpine.clone(from.__x, to) }
+      if(from.__x){ window.Alpine.clone(from.__x, to) }
     }
   }
 });
