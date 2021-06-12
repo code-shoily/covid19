@@ -6,10 +6,9 @@ defmodule Covid19Web.DashboardLive do
   alias Covid19.Queries
 
   alias Covid19Web.{
-    CalendarComponent,
     ControlComponent,
-    CountrywiseSummaryComponent,
     CountryMapComponent,
+    CountrywiseSummaryComponent,
     CRDChartComponent,
     CRDPieChartComponent,
     DailyTableComponent,

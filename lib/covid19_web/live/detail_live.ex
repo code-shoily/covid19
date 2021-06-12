@@ -6,7 +6,6 @@ defmodule Covid19Web.DetailLive do
   alias Covid19.Queries
 
   alias Covid19Web.{
-    CalendarComponent,
     ControlComponent,
     CountryInfoComponent,
     CountrywiseSummaryComponent,
