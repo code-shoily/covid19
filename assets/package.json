@@ -6,7 +6,7 @@
     "watch": "webpack --mode development --watch"
   },
   "dependencies": {
-    "alpinejs": "^3.0.1",
+    "alpinejs": "^2.3.4",
     "bulma-extensions": "^6.2.7",
     "jquery": "^3.6.0",
     "nprogress": "^0.2.0",
