@@ -19,7 +19,11 @@ defmodule Covid19Web.CountryMapComponent do
 
   def render(assigns) do
     ~H"""
-    <div class="card" :hook="HeatMap" data-locations="{{ @data |> filter(@selected) |> Jason.encode!() }}">
+    <div
+      class="card"
+      :hook="HeatMap"
+      data-locations="{{ @data |> filter(@selected) |> Jason.encode!() }}"
+    >
       <div class="card-content">
         <div class="level">
           <div class="level-left">
@@ -27,23 +31,35 @@ defmodule Covid19Web.CountryMapComponent do
           </div>
           <div class="level-right">
             <div class="buttons has-addons">
-              <button :on-click="confirmed" class="button is-small has-text-weight-semibold {{ maybe_selected(:confirmed, @selected) }}">
+              <button
+                :on-click="confirmed"
+                class="button is-small has-text-weight-semibold {{ maybe_selected(:confirmed, @selected) }}"
+              >
                 Confirmed
               </button>
-              <button :on-click="active" class="button is-small has-text-weight-semibold {{ maybe_selected(:active, @selected) }}">
+              <button
+                :on-click="active"
+                class="button is-small has-text-weight-semibold {{ maybe_selected(:active, @selected) }}"
+              >
                 Active
               </button>
-              <button :on-click="recovered" class="button is-small has-text-weight-semibold {{ maybe_selected(:recovered, @selected) }}">
+              <button
+                :on-click="recovered"
+                class="button is-small has-text-weight-semibold {{ maybe_selected(:recovered, @selected) }}"
+              >
                 Recovered
               </button>
-              <button :on-click="deaths" class="button is-small has-text-weight-semibold {{ maybe_selected(:deaths, @selected) }}">
+              <button
+                :on-click="deaths"
+                class="button is-small has-text-weight-semibold {{ maybe_selected(:deaths, @selected) }}"
+              >
                 Deaths
               </button>
             </div>
           </div>
         </div>
         <div phx-update="ignore">
-          <div id="map" class="is-fullwidth" style="height: 550px"></div>
+          <div id="map" class="is-fullwidth" style="height: 550px" />
         </div>
       </div>
     </div>

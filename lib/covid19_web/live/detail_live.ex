@@ -4,6 +4,7 @@ defmodule Covid19Web.DetailLive do
   use Covid19Web, :surface
 
   alias Covid19.Queries
+
   alias Covid19Web.{
     CalendarComponent,
     ControlComponent,
@@ -12,7 +13,7 @@ defmodule Covid19Web.DetailLive do
     CRDChartComponent,
     CRDPieChartComponent,
     DailyTableComponent,
-    SummaryComponent,
+    SummaryComponent
   }
 
   def mount(%{"country_or_region" => country_or_region}, _session, socket) do

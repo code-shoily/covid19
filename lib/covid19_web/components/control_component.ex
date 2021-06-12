@@ -19,32 +19,33 @@ defmodule Covid19Web.ControlComponent do
       <div class="card-content">
         <CalendarComponent
           id="calendar_component"
-          current_date= {{ Enum.at(@dates, @selected_index) }}
-          dates={{ MapSet.new(@dates) }} />
-        <hr />
+          current_date={{ Enum.at(@dates, @selected_index) }}
+          dates={{ MapSet.new(@dates) }}
+        />
+        <hr>
         <div class="buttons has-addons is-centered">
           <button class="button is-danger is-small has-text-weight-semibold" :on-click={{ @oldest }}>
             <span class="icon">
-              <i class="fas fa-angle-double-left"></i>
+              <i class="fas fa-angle-double-left" />
             </span>
             <span>Start</span>
           </button>
           <button class="button is-info is-small has-text-weight-semibold" :on-click={{ @older }}>
             <span class="icon">
-              <i class="fas fa-angle-left"></i>
+              <i class="fas fa-angle-left" />
             </span>
             <span>Prev</span>
           </button>
           <button class="button is-info is-small has-text-weight-semibold" :on-click={{ @newer }}>
             <span>Next</span>
             <span class="icon">
-              <i class="fas fa-angle-right"></i>
+              <i class="fas fa-angle-right" />
             </span>
           </button>
           <button class="button is-danger is-small has-text-weight-semibold" :on-click={{ @newest }}>
             <span>End</span>
             <span class="icon">
-              <i class="fas fa-angle-double-right"></i>
+              <i class="fas fa-angle-double-right" />
             </span>
           </button>
         </div>
