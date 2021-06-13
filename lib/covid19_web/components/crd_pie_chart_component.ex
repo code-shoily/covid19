@@ -9,7 +9,7 @@ defmodule Covid19Web.CRDPieChartComponent do
 
   def render(assigns) do
     ~H"""
-    <div id={{ @did }} class="card" :hook="CRDPieChart" data-statistics="{{ Jason.encode!(@data) }}">
+    <div id={{ @did }} class="card" phx-hook="CRDPieChart" data-statistics="{{ Jason.encode!(@data) }}">
       <div class="card-content">
         <p class="title is-5 is-uppercase has-text-centered">{{ @heading }}</p>
         <div phx-update="ignore">

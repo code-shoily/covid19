@@ -1,0 +1,14 @@
+;; shadow-cljs configuration
+{:source-paths
+ ["src"]
+
+ :dependencies
+ []
+
+ :dev-http {9080 "../priv/static/js/"}
+
+ :builds {:app {:output-dir "../priv/static/js/"
+                :asset-path "/js",
+                :target :browser
+                :modules {:app {:init-fn app.main/main!}}
+                :devtools {:after-load app.main/reload!}}}}
