@@ -21,13 +21,7 @@ config :covid19, Covid19Web.Endpoint,
   code_reloader: true,
   check_origin: false,
   watchers: [
-    node: [
-      "node_modules/webpack/bin/webpack.js",
-      "--mode",
-      "development",
-      "--watch-stdin",
-      cd: Path.expand("../assets", __DIR__)
-    ]
+    npm: ["run", "watch", cd: Path.expand("../assets", __DIR__)]
   ]
 
 # ## SSL Support
@@ -62,7 +56,7 @@ config :covid19, Covid19Web.Endpoint,
       ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
       ~r"priv/gettext/.*(po)$",
       ~r"lib/covid19_web/(live|views|components)/.*(ex|js|sface)$",
-      ~r"lib/covid19_web/templates/.*(eex)$",
+      ~r"lib/covid19_web/templates/.*(eex)$"
     ]
   ]
 

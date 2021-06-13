@@ -5,7 +5,7 @@ defmodule Covid19.MixProject do
     [
       app: :covid19,
       version: "0.1.0",
-      elixir: "~> 1.11",
+      elixir: "~> 1.12",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers() ++ [:surface],
       start_permanent: Mix.env() == :prod,
@@ -50,7 +50,8 @@ defmodule Covid19.MixProject do
       {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
       {:nebulex, "2.1.0"},
       {:decorator, "~> 1.3"},
-      {:surface, "~> 0.3"},
+      {:surface, "~> 0.4.1"},
+      {:surface_formatter, "~> 0.4.1"},
       {:phoenix_live_view, "~> 0.15"},
       {:phoenix_live_dashboard, "~> 0.3"},
       {:telemetry_poller, "~> 0.5"},

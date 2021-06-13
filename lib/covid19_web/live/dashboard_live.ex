@@ -4,15 +4,15 @@ defmodule Covid19Web.DashboardLive do
   use Covid19Web, :surface
 
   alias Covid19.Queries
+
   alias Covid19Web.{
-    CalendarComponent,
     ControlComponent,
-    CountrywiseSummaryComponent,
     CountryMapComponent,
+    CountrywiseSummaryComponent,
     CRDChartComponent,
     CRDPieChartComponent,
     DailyTableComponent,
-    SummaryComponent,
+    SummaryComponent
   }
 
   def mount(_params, _session, socket) do

@@ -5,12 +5,22 @@ import NProgress from "nprogress";
 import Hooks from "./_hooks";
 import css from "../css/app.scss";
 
+import Alpine from "alpinejs";
+
+Alpine.start();
+window.Alpine = Alpine;
+
 let csrfToken = document
   .querySelector("meta[name='csrf-token']")
   .getAttribute("content");
 let liveSocket = new LiveSocket("/live", Socket, {
   hooks: Hooks,
   params: { _csrf_token: csrfToken },
+  dom: {
+    onBeforeElUpdated(from, to){
+      if(from.__x){ window.Alpine.clone(from.__x, to) }
+    }
+  }
 });
 
 window.addEventListener("phx:page-loading-start", (info) => NProgress.start());
