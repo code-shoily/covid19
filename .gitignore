@@ -1,6 +1,11 @@
 .iex.exs
 .envrc
 .elixir_ls/
+
+# Ignore Parcel files
+.cache/
+.parcel-cache
+
 # Ignore auto-generated hook files
 /assets/js/_hooks/
 data/
