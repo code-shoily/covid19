@@ -1,7 +1,6 @@
 (ns app.hooks.crd-chart
   [:require [app.hooks.helpers :refer [plotly-instance make-chart]]])
 
-
 (def Plotly (plotly-instance))
 
 (deftype CRDChart []

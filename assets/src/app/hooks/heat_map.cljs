@@ -3,10 +3,11 @@
 
 (def Plotly (plotly-instance))
 
-(defn parse-locations [hook] (let [locations (js/JSON.parse (.. hook -el -dataset -locations))]
-                               (clj->js [(->> locations (map #(get %1 1)))
-                                         (->> locations (map #(get %1 2)))
-                                         (->> locations (map #(js/Math.log (get %1 0))))])))
+(defn parse-locations [hook]
+  (let [locations (js/JSON.parse (.. hook -el -dataset -locations))]
+    (clj->js [(->> locations (map #(get %1 1)))
+              (->> locations (map #(get %1 2)))
+              (->> locations (map #(js/Math.log (get %1 0))))])))
 
 (deftype HeatMap []
   Object

@@ -7,7 +7,10 @@
    [app.hooks.crd-chart :refer [CRDChart]]
    [app.hooks.crd-pie-chart :refer [CRDPieChart]]])
 
-(def csrf-token (-> "meta[name='csrf-token']" (js/document.querySelector) (.getAttribute "content")))
+(def csrf-token (-> "meta[name='csrf-token']"
+                    (js/document.querySelector)
+                    (.getAttribute "content")))
+
 (def live-socket-params
   (clj->js {"params" {"_csrf_token" csrf-token}
             "hooks" {"HeatMap" (HeatMap.)
