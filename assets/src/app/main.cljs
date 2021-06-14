@@ -12,10 +12,10 @@
                     (.getAttribute "content")))
 
 (def live-socket-params
-  (clj->js {"params" {"_csrf_token" csrf-token}
-            "hooks" {"HeatMap" (HeatMap.)
-                     "CRDChart" (CRDChart.)
-                     "CRDPieChart" (CRDPieChart.)}}))
+  (clj->js {:params {:_csrf_token csrf-token}
+            :hooks {:HeatMap (HeatMap.)
+                    :CRDChart (CRDChart.)
+                    :CRDPieChart (CRDPieChart.)}}))
 
 (set!
  (.. js/window -liveSocket)
@@ -27,10 +27,6 @@
   (js/window.addEventListener "phx:page-loading-start" (fn [_] (.start nprogress)))
   (js/window.addEventListener "phx:page-loading-stop" (fn [_] (.done nprogress))))
 
-(defn main! []
-  (init-progress-bar)
-  (.connect live-socket))
+(init-progress-bar)
 
-(defn reload! []
-  (init-progress-bar)
-  (.connect live-socket))
+(.connect live-socket)

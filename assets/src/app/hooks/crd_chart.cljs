@@ -3,9 +3,9 @@
 
 (def Plotly (plotly-instance))
 
-(defn make-chart [element data-set]
-  (let [el (js/document.getElementById element)
-        layout (clj->js {:margin {:t 0, :b 30, :l 30, :r 10}
+(defn make-chart [element-id data-set]
+  (let [el (js/document.getElementById element-id)
+        layout (clj->js {:margin {:t 0 :b 30 :l 30 :r 10}
                          :showlegend false
                          :yaxis {:type "linear"
                                  :autorange true}})
@@ -31,9 +31,12 @@
                                          :y (->> data (map #(get %1 1)))
                                          :type "lines"
                                          :line {:color (color-map type)
-                                                :width 1.5}}])]
-      (make-chart (str "new-" type "-chart") data-set-new)
-      (make-chart (str "cumulative-" type "-chart") data-set-cumulative)))
+                                                :width 1.5}}])
+          new-id (str "new-" type "-chart")
+          cumulative-id (str "cumulative-" type "-chart")]
+      (make-chart new-id data-set-new)
+      (make-chart cumulative-id data-set-cumulative)))
+
   (updated [this]
     (let [logarithmic? (js/JSON.parse (.. this -el -dataset -logarithmic))
           type (.. this -el -dataset -type)

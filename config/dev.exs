@@ -60,9 +60,10 @@ config :covid19, Covid19Web.Endpoint,
   reloadable_compilers: [:phoenix, :elixir, :surface],
   live_reload: [
     patterns: [
+      ~r"priv/static/js/app.js$",
       ~r"priv/static/.*(css|png|jpeg|jpg|gif|svg)$",
       ~r"priv/gettext/.*(po)$",
-      ~r"lib/covid19_web/(live|views|components)/.*(ex|js|sface)$",
+      ~r"lib/covid19_web/(live|views|components)/.*(ex|sface)$",
       ~r"lib/covid19_web/templates/.*(eex)$"
     ]
   ]
