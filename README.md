@@ -10,6 +10,8 @@ Stay home, flatten the curve
 
 ## Setup
 
+#### TODO Write instructions for setting up ClojureScript
+
 To start your Phoenix server:
 
 * Pull the Covid19 dataset submodule with `git submodule update --init --recursive`
