@@ -1,7 +1,18 @@
 (ns app.hooks.crd-chart
-  [:require [app.hooks.helpers :refer [plotly-instance make-chart]]])
+  [:require [app.hooks.helpers :refer [plotly-instance]]])
 
 (def Plotly (plotly-instance))
+
+(defn make-chart [element data-set]
+  (let [el (js/document.getElementById element)
+        layout (clj->js {:margin {:t 0, :b 30, :l 30, :r 10}
+                         :showlegend false
+                         :yaxis {:type "linear"
+                                 :autorange true}})
+        config (clj->js {:responsive true
+                         :displayModeBar false
+                         :scrollZoom true})]
+    (.newPlot Plotly el data-set layout config)))
 
 (deftype CRDChart []
   Object
