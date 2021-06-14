@@ -21,7 +21,14 @@ config :covid19, Covid19Web.Endpoint,
   code_reloader: true,
   check_origin: false,
   watchers: [
-    npm: ["run", "watch", cd: Path.expand("../assets", __DIR__)]
+    npm: ["run", "watch", cd: Path.expand("../assets", __DIR__)],
+    bash: [
+      "cljs-start.sh",
+      "node_modules/.bin/shadow-cljs",
+      "watch",
+      "app",
+      cd: Path.expand("../assets", __DIR__)
+    ]
   ]
 
 # ## SSL Support
@@ -53,7 +60,7 @@ config :covid19, Covid19Web.Endpoint,
   reloadable_compilers: [:phoenix, :elixir, :surface],
   live_reload: [
     patterns: [
-      ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
+      ~r"priv/static/.*(css|png|jpeg|jpg|gif|svg)$",
       ~r"priv/gettext/.*(po)$",
       ~r"lib/covid19_web/(live|views|components)/.*(ex|js|sface)$",
       ~r"lib/covid19_web/templates/.*(eex)$"
