@@ -27,6 +27,6 @@
   (js/window.addEventListener "phx:page-loading-start" (fn [_] (.start nprogress)))
   (js/window.addEventListener "phx:page-loading-stop" (fn [_] (.done nprogress))))
 
-(init-progress-bar)
-
-(.connect live-socket)
+(defn main! []
+  (init-progress-bar)
+  (.connect live-socket))

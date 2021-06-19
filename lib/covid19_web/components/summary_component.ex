@@ -6,7 +6,9 @@ defmodule Covid19Web.SummaryComponent do
   prop data, :map
 
   defp get_filename(src) do
-    src |> String.split("/") |> Enum.at(-1)
+    src
+    |> String.split("/")
+    |> Enum.at(-1)
   end
 
   defp extract_link("data/covid19" <> rest) do

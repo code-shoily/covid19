@@ -17,6 +17,7 @@
           <SummaryComponent data={@summary_data} />
         </div>
       </div>
+
       <div class="columns">
         <div class="column">
           <CRDPieChartComponent 
@@ -50,21 +51,21 @@
           <CRDChartComponent
             id="w_confirmed_crd_chart"
             heading="Confirmed Cases"
-            type="confirmed"
+            type={"confirmed"}
             data={@world_summary} />
         </div>
         <div class="column">
           <CRDChartComponent
             id="w_deaths_crd_chart"
             heading="Mortality Count"
-            type="deaths"
+            type={"deaths"}
             data={@world_summary} />
         </div>
         <div class="column">
           <CRDChartComponent
             id="w_recovered_crd_chart"
             heading="Recoveries"
-            type="recovered"
+            type={"recovered"}
             data={@world_summary} />
         </div>
       </div>
@@ -75,6 +76,6 @@
             data={@world_summary} />
         </div>
       </div>
-    </div>
+    </div> 
   </div>
 </div>

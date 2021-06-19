@@ -9,7 +9,7 @@
           <form :on-submit="filter">
             <div class="field has-addons">
               <div class="control has-icons-left">
-                <input name="term" class="input is-wide" type="text" placeholder="Search" value="{@term}">
+                <input name="term" class="input is-wide" type="text" placeholder="Search" value={@term}>
                 <span class="icon is-small is-left">
                   <i class="fas fa-search"></i>
                 </span>
@@ -30,7 +30,7 @@
           <tr>
             <th>#</th>
             <th>
-              <a href="#" :on-click="sort" phx-value-by="{Atom.to_string(@type_attr)}">
+              <a href="#" :on-click="sort" phx-value-by={Atom.to_string(@type_attr)}>
                 {@type_name} {show_sort_icon(@type_attr, @by, @dir)}
               </a>
             </th>
@@ -67,17 +67,21 @@
           </tr>
         </thead>
         <tbody>
-          <tr :for={{d, idx} <- sorted(@data, @by, @dir, @term, @type_attr)}>
+          {#for {d, idx} <- sorted(@data, @by, @dir, @term, @type_attr)}
+          <tr>
             <td>{idx}</td>
             <td class="has-text-weight-semibold">
-              <span :if={@type_attr == :country_or_region}>
+              {#if @type_attr == :country_or_region}
+              <span>
                 <LivePatch
                   label={d.country_or_region}
                   to={"/detail/" <> d.country_or_region} />
               </span>
-              <span :if={@type_attr != :country_or_region}>
+              {#else}
+              <span>
                 {d.province_or_state}
               </span>
+              {/if}
             </td>
             <td class="has-text-right">{Helpers.format_number(d.confirmed)}</td>
             <td class="has-text-right">{Helpers.format_number(d.new_confirmed)}</td>
@@ -86,6 +90,7 @@
             <td class="has-text-centered">{Helpers.format_number(d.deaths)}</td>
             <td class="has-background-danger has-text-light has-text-centered">{Helpers.format_number(d.new_deaths)}</td>
           </tr>
+          {/for}
         </tbody>
       </table>
     </div>

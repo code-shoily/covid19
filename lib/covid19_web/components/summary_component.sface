@@ -4,7 +4,8 @@
     <p class="subtitle has-text-centered">Summary</p>
     <table class="table is-fullwidth">
       <tbody>
-        <tr :if={Map.get(@data, :number_of_countries)}>
+        {#if Map.get(@data, :number_of_countries)}
+        <tr>
           <th class="has-text-left" style="vertical-align: middle">Countries/Regions</th>
           <td class="has-text-right">
             <p>{Helpers.format_number(@data.number_of_countries)}</p>
@@ -13,6 +14,7 @@
             </p>
           </td>
         </tr>
+        {/if}
         <tr>
           <th class="has-text-left" style="vertical-align: middle">Confirmed</th>
           <td class="has-text-right">
@@ -54,7 +56,7 @@
           <td class="has-text-right">
             <p>{get_filename(@data.src)}</p>
             <p class="heading has-text-weight-bold has-text-danger">
-              <a target="_blank" href="{extract_link(@data.src)}">
+              <a target="_blank" href={extract_link(@data.src)}>
                 <i class="fas fa-external-link-alt"></i>
                 Link
               </a>

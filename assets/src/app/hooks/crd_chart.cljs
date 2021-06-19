@@ -4,15 +4,14 @@
 (def Plotly (plotly-instance))
 
 (defn make-chart [element-id data-set]
-  (let [el (js/document.getElementById element-id)
-        layout (clj->js {:margin {:t 0 :b 30 :l 30 :r 10}
+  (let [layout (clj->js {:margin {:t 0 :b 30 :l 30 :r 10}
                          :showlegend false
                          :yaxis {:type "linear"
                                  :autorange true}})
         config (clj->js {:responsive true
                          :displayModeBar false
                          :scrollZoom true})]
-    (.newPlot Plotly el data-set layout config)))
+    (.newPlot Plotly element-id data-set layout config)))
 
 (deftype CRDChart []
   Object

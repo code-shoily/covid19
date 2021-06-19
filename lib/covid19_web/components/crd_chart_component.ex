@@ -14,9 +14,9 @@ defmodule Covid19Web.CRDChartComponent do
     <div
       class="card"
       phx-hook="CRDChart"
-      data-type="{@type}"
-      data-statistics="{Jason.encode!(filter(@data, @type))}"
-      data-logarithmic="{Jason.encode!(@logarithmic)}"
+      data-type={@type}
+      data-statistics={Jason.encode!(filter(@data, @type))}
+      data-logarithmic={Jason.encode!(@logarithmic)}
     >
       <div class="card-content">
         <p class="title is-5 is-uppercase has-text-centered">{@heading}</p>
@@ -25,22 +25,30 @@ defmodule Covid19Web.CRDChartComponent do
         </p>
         <div phx-update="ignore">
           <p class="title is-6 is-uppercase has-text-centered">Daily</p>
-          <div id="new-{@type}-chart" style="height: 180px" />
+          <div id={get_new_id_for(@type)} style="height: 180px" />
         </div>
         <hr>
         <div phx-update="ignore">
           <p class="title is-6 is-uppercase has-text-centered">Cumulative</p>
-          <div id="cumulative-{@type}-chart" style="height: 180px" />
+          <div id={get_cumulative_id_for(@type)} style="height: 180px" />
         </div>
 
         <p class="has-text-centered has-text-monospace">
-          <button class="button is-small {button_class(@type)}" :on-click="toggle-log-chart">
+          <button class={"button is-small", button_class(@type)} :on-click="toggle-log-chart">
             {(@logarithmic && "Show Linear") || "Show Logarithmic"}
           </button>
         </p>
       </div>
     </div>
     """
+  end
+
+  def get_new_id_for(type) do
+    "new-" <> type <> "-chart"
+  end
+
+  def get_cumulative_id_for(type) do
+    "cumulative-" <> type <> "-chart"
   end
 
   def handle_event("toggle-log-chart", _, socket) do
@@ -58,7 +66,7 @@ defmodule Covid19Web.CRDChartComponent do
 
       [map.date, map[cumulative], map[new]]
     end)
-    |> Enum.filter(fn [_, u, v] -> v > 0 and u > 0 end)
+    |> Enum.filter(fn [_, u, v] -> v > 0 and u > 0 and not is_nil(v) end)
   end
 
   defp get_keys(type) do

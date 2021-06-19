@@ -16,14 +16,14 @@ defmodule Covid19Web.CalendarDayComponent do
     valid_cell = ~F"""
     <td
       phx-click="pick-date"
-      phx-value-date="{Timex.format!(@day, "%Y-%m-%d", :strftime)}"
-      class="{@day_class}  has-text-centered" style="cursor: pointer">
+      phx-value-date={Timex.format!(@day, "%Y-%m-%d", :strftime)}
+      class={@day_class, "has-text-centered"} style="cursor: pointer">
       {Timex.format!(@day, "%d", :strftime)}
     </td>
     """
 
     invalid_cell = ~F"""
-    <td class="{@day_class}  has-text-centered">
+    <td class={@day_class, "has-text-centered"}>
       {Timex.format!(@day, "%d", :strftime)}
     </td>
     """
