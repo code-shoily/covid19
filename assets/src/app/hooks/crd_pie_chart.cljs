@@ -1,5 +1,5 @@
 (ns app.hooks.crd-pie-chart
-  [:require [app.hooks.helpers :refer [plotly-instance]]])
+  (:require [app.hooks.helpers :refer [plotly-instance]]))
 
 (def Plotly (plotly-instance))
 

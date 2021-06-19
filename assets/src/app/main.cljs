@@ -1,11 +1,11 @@
 (ns app.main
-  [:require
+  (:require
    ["nprogress" :as nprogress]
    ["phoenix" :refer [Socket]]
    ["phoenix_live_view" :refer [LiveSocket]]
    [app.hooks.heat-map :refer [HeatMap]]
    [app.hooks.crd-chart :refer [CRDChart]]
-   [app.hooks.crd-pie-chart :refer [CRDPieChart]]])
+   [app.hooks.crd-pie-chart :refer [CRDPieChart]]))
 
 (def csrf-token (-> "meta[name='csrf-token']"
                     (js/document.querySelector)

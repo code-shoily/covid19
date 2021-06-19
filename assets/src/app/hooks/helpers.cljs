@@ -1,10 +1,9 @@
 (ns app.hooks.helpers
-  [:require
-   [clojure.string :as str]
+  (:require
    ["plotly.js/lib/core" :as Plotly]
    ["plotly.js/lib/bar" :as Bar]
    ["plotly.js/lib/densitymapbox" :as DensityMapBox]
-   ["plotly.js/lib/pie" :as Pie]])
+   ["plotly.js/lib/pie" :as Pie]))
 
 (.register Plotly #js [Bar DensityMapBox Pie])
 

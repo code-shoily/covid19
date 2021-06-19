@@ -1,5 +1,5 @@
 (ns app.hooks.heat-map
-  [:require [app.hooks.helpers :refer [plotly-instance]]])
+  (:require [app.hooks.helpers :refer [plotly-instance]]))
 
 (def Plotly (plotly-instance))
 
@@ -23,7 +23,7 @@
                           :showscale false}])
           layout (clj->js {:margin {:r 0 :t 0 :b 0 :l 0}
                            :showlegend false
-                           :mapbox {:center {:lon 0 :lat 30}
+                           :mapbox {:center {:lon 0 :lat 0}
                                     :style "stamen-terrain"}})
           config (clj->js {:responsive true
                            :displayModeBar false
