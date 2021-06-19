@@ -7,7 +7,7 @@ defmodule Covid19Web.CountryInfoComponent do
   prop country, :map
 
   def render(assigns) do
-    ~H"""
+    ~F"""
     <div class="card">
       <div class="card-content has-text-centered">
         <p class="title is-6">

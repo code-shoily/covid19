@@ -8,7 +8,7 @@ defmodule Covid19Web.CRDPieChartComponent do
   prop heading, :string, required: true
 
   def render(assigns) do
-    ~H"""
+    ~F"""
     <div id={{ @did }} class="card" phx-hook="CRDPieChart" data-statistics="{{ Jason.encode!(@data) }}">
       <div class="card-content">
         <p class="title is-5 is-uppercase has-text-centered">{{ @heading }}</p>

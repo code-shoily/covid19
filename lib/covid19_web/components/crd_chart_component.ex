@@ -10,7 +10,7 @@ defmodule Covid19Web.CRDChartComponent do
   data logarithmic, :boolean, default: false
 
   def render(assigns) do
-    ~H"""
+    ~F"""
     <div
       class="card"
       phx-hook="CRDChart"

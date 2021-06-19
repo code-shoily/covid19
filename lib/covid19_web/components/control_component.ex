@@ -14,7 +14,7 @@ defmodule Covid19Web.ControlComponent do
   prop newer, :event
 
   def render(assigns) do
-    ~H"""
+    ~F"""
     <div class="card">
       <div class="card-content">
         <CalendarComponent

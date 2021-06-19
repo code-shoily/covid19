@@ -18,7 +18,7 @@ defmodule Covid19Web.CountryMapComponent do
   end
 
   def render(assigns) do
-    ~H"""
+    ~F"""
     <div
       class="card"
       phx-hook="HeatMap"
