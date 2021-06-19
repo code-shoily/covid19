@@ -52,6 +52,8 @@ defmodule Covid19.MixProject do
       {:decorator, "~> 1.3"},
       {:surface, "~> 0.5.0"},
       {:surface_formatter, "~> 0.5.0"},
+      {:surface_atom_shorthand_converter, "~> 0.1.0",
+       github: "paulstatezny/surface_atom_shorthand_converter", ref: "master"},
       {:phoenix_live_view, "~> 0.15"},
       {:phoenix_live_dashboard, "~> 0.3"},
       {:telemetry_poller, "~> 0.5"},
