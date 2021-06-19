@@ -18,11 +18,11 @@ defmodule Covid19Web.CountryMapComponent do
   end
 
   def render(assigns) do
-    ~H"""
+    ~F"""
     <div
       class="card"
       phx-hook="HeatMap"
-      data-locations="{{ @data |> filter(@selected) |> Jason.encode!() }}"
+      data-locations={@data |> filter(@selected) |> Jason.encode!()}
     >
       <div class="card-content">
         <div class="level">
@@ -33,25 +33,25 @@ defmodule Covid19Web.CountryMapComponent do
             <div class="buttons has-addons">
               <button
                 :on-click="confirmed"
-                class="button is-small has-text-weight-semibold {{ maybe_selected(:confirmed, @selected) }}"
+                class={"button", "is-small", "has-text-weight-semibold", maybe_selected(:confirmed, @selected)}
               >
                 Confirmed
               </button>
               <button
                 :on-click="active"
-                class="button is-small has-text-weight-semibold {{ maybe_selected(:active, @selected) }}"
+                class={"button", "is-small", "has-text-weight-semibold", maybe_selected(:active, @selected)}
               >
                 Active
               </button>
               <button
                 :on-click="recovered"
-                class="button is-small has-text-weight-semibold {{ maybe_selected(:recovered, @selected) }}"
+                class={"button", "is-small", "has-text-weight-semibold", maybe_selected(:recovered, @selected)}
               >
                 Recovered
               </button>
               <button
                 :on-click="deaths"
-                class="button is-small has-text-weight-semibold {{ maybe_selected(:deaths, @selected) }}"
+                class={"button", "is-small", "has-text-weight-semibold", maybe_selected(:deaths, @selected)}
               >
                 Deaths
               </button>

@@ -8,56 +8,58 @@
             <th>#</th>
             <th>
               <a href="#"
-                  :on-click="sort"
-                  phx-value-by="date">
-                Date {{ show_sort_icon(:date, @by, @dir) }}
+                 :on-click="sort"
+                 phx-value-by="date">
+                Date {show_sort_icon(:date, @by, @dir)}
               </a>
             </th>
             <th class="has-text-right">
               <a href="#"
                   :on-click="sort"
                   phx-value-by="confirmed">
-                Confirmed {{ show_sort_icon(:confirmed, @by, @dir) }}
+                Confirmed {show_sort_icon(:confirmed, @by, @dir)}
               </a>
             </th>
             <th class="has-text-right">
               <a href="#" :on-click="sort" phx-value-by="new_confirmed" >
-                New Cases {{ show_sort_icon(:new_confirmed, @by, @dir) }}
+                New Cases {show_sort_icon(:new_confirmed, @by, @dir)}
               </a>
             </th>
             <th class="has-text-right">
               <a href="#" :on-click="sort" phx-value-by="active" >
-                Active {{ show_sort_icon(:active, @by, @dir) }}
+                Active {show_sort_icon(:active, @by, @dir)}
               </a>
             </th>
             <th class="has-text-centered">
               <a href="#" :on-click="sort" phx-value-by="recovered" >
-                Recovered {{ show_sort_icon(:recovered, @by, @dir) }}
+                Recovered {show_sort_icon(:recovered, @by, @dir)}
               </a>
             </th>
             <th class="has-text-centered">
               <a href="#" :on-click="sort" phx-value-by="deaths" >
-                Deaths {{ show_sort_icon(:deaths, @by, @dir) }}
+                Deaths {show_sort_icon(:deaths, @by, @dir)}
               </a>
             </th>
             <th class="has-text-centered">
               <a href="#" :on-click="sort" phx-value-by="new_deaths" >
-                New Deaths {{ show_sort_icon(:new_deaths, @by, @dir) }}
+                New Deaths {show_sort_icon(:new_deaths, @by, @dir)}
               </a>
             </th>
           </tr>
         </thead>
         <tbody>
-          <tr :for={{ {d, idx} <- sorted(@data, @by, @dir) }}>
-            <td>{{ idx }}</td>
-            <td class="has-text-weight-semibold">{{ Helpers.format_date(d.date) }}</td>
-            <td class="has-text-right">{{ Helpers.format_number(d.confirmed) }}</td>
-            <td class="has-text-right">{{ Helpers.format_number(d.new_confirmed) }}</td>
-            <td class="has-text-right">{{ Helpers.format_number(d.active) }}</td>
-            <td class="has-background-success has-text-light has-text-centered">{{ Helpers.format_number(d.recovered) }}</td>
-            <td class="has-text-centered">{{ Helpers.format_number(d.deaths) }}</td>
-            <td class="has-background-danger has-text-light has-text-centered">{{ Helpers.format_number(d.new_deaths) }}</td>
+          {#for {d, idx} <- sorted(@data, @by, @dir)}
+          <tr>
+            <td>{idx}</td>
+            <td class="has-text-weight-semibold">{Helpers.format_date(d.date)}</td>
+            <td class="has-text-right">{Helpers.format_number(d.confirmed)}</td>
+            <td class="has-text-right">{Helpers.format_number(d.new_confirmed)}</td>
+            <td class="has-text-right">{Helpers.format_number(d.active)}</td>
+            <td class="has-background-success has-text-light has-text-centered">{Helpers.format_number(d.recovered)}</td>
+            <td class="has-text-centered">{Helpers.format_number(d.deaths)}</td>
+            <td class="has-background-danger has-text-light has-text-centered">{Helpers.format_number(d.new_deaths)}</td>
           </tr>
+          {/for}
         </tbody>
       </table>
     </div>

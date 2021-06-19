@@ -4,15 +4,15 @@
       <div class="columns">
         <div class="column">
           <CountryInfoComponent
-            country={{ Queries.get_country_info(@country_or_region) }}
-            date={{ Enum.at(@dates, @selected_index) }} />
+            country={Queries.get_country_info(@country_or_region)}
+            date={Enum.at(@dates, @selected_index)} />
         </div>
       </div>
       <div class="columns">
         <div class="column">
           <ControlComponent
-            dates= {{ @dates }}
-            selected_index= {{ @selected_index }}
+            dates= {@dates}
+            selected_index= {@selected_index}
             oldest="oldest"
             older="older"
             newest="newest"
@@ -21,15 +21,15 @@
       </div>
       <div class="columns">
         <div class="column">
-          <SummaryComponent data={{ @summary_data }} />
+          <SummaryComponent data={@summary_data} />
         </div>
       </div>
       <div class="columns">
         <div class="column">
           <CRDPieChartComponent
             did="c_crd_pie_chart"
-            heading={{ @country_or_region <> " Pie Chart" }}
-            data={{ @summary_data }} />
+            heading={@country_or_region <> " Pie Chart"}
+            data={@summary_data} />
         </div>
       </div>
     </div>
@@ -40,38 +40,38 @@
             id="c_confirmed_crd_chart"
             type="confirmed"
             heading="Confirmed Cases"
-            data={{ @country_summary }} />
+            data={@country_summary} />
         </div>
         <div class="column">
           <CRDChartComponent
             id="c_deaths_crd_chart"
             type="deaths"
             heading="Mortality Count"
-            data={{ @country_summary }} />
+            data={@country_summary} />
         </div>
         <div class="column">
           <CRDChartComponent
             id="c_recovered_crd_chart"
             type="recovered"
             heading="Recoveries"
-            data={{ @country_summary }} />
+            data={@country_summary} />
         </div>
       </div>
-      <div class="columns" :if={{ @show_admin_table }}>
+      <div class="columns" :if={@show_admin_table}>
         <div class="column">
           <CountrywiseSummaryComponent
             id="c_admin_summary"
-            data={{ @admin_data }}
-            type_heading={{ "Province or State Table (#{@country_or_region})" }}
+            data={@admin_data}
+            type_heading={"Province or State Table (#{@country_or_region})"}
             type_name="Province or State"
-            type_attr={{ :province_or_state }} />
+            type_attr={:province_or_state} />
         </div>
       </div>
       <div class="columns">
         <div class="column">
           <DailyTableComponent
             id="c_daily_table"
-            data={{ @country_summary }} />
+            data={@country_summary} />
         </div>
       </div>
     </div>
