@@ -4,8 +4,8 @@
       <div class="columns">
         <div class="column">
           <ControlComponent 
-            dates={{ @dates }}
-            selected_index={{ @selected_index }}
+            dates={@dates}
+            selected_index={@selected_index}
             oldest="oldest"
             older="older"
             newest="newest"
@@ -14,7 +14,7 @@
       </div>
       <div class="columns">
         <div class="column">
-          <SummaryComponent data={{ @summary_data }} />
+          <SummaryComponent data={@summary_data} />
         </div>
       </div>
       <div class="columns">
@@ -22,7 +22,7 @@
           <CRDPieChartComponent 
             did="c_crd_pie_chart"
             heading="World Pie Chart"
-            data={{ @summary_data }} />
+            data={@summary_data} />
         </div>
       </div>
     </div>
@@ -31,18 +31,18 @@
         <div class="column">
           <CountrywiseSummaryComponent
             id="w_country_summary"
-            data={{ @country_data }}
+            data={@country_data}
             type_heading="Country or Regional Table (World)"
             type_name="Country/Region"
-            type_attr={{ :country_or_region }} />
+            type_attr={:country_or_region} />
         </div>
       </div>
       <div class="columns">
         <div class="column">
           <CountryMapComponent 
             id="w_map"
-            selected_index={{ @selected_index}}
-            dates={{ @dates }} />
+            selected_index={@selected_index}
+            dates={@dates} />
         </div>
       </div>
       <div class="columns">
@@ -51,28 +51,28 @@
             id="w_confirmed_crd_chart"
             heading="Confirmed Cases"
             type="confirmed"
-            data={{ @world_summary }} />
+            data={@world_summary} />
         </div>
         <div class="column">
           <CRDChartComponent
             id="w_deaths_crd_chart"
             heading="Mortality Count"
             type="deaths"
-            data={{ @world_summary }} />
+            data={@world_summary} />
         </div>
         <div class="column">
           <CRDChartComponent
             id="w_recovered_crd_chart"
             heading="Recoveries"
             type="recovered"
-            data={{ @world_summary }} />
+            data={@world_summary} />
         </div>
       </div>
       <div class="columns">
         <div class="column">
           <DailyTableComponent
             id="w_daily_table"
-            data={{ @world_summary }} />
+            data={@world_summary} />
         </div>
       </div>
     </div>

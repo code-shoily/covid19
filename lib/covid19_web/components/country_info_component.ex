@@ -11,13 +11,13 @@ defmodule Covid19Web.CountryInfoComponent do
     <div class="card">
       <div class="card-content has-text-centered">
         <p class="title is-6">
-          {{ Helpers.format_date(@date) }}
+          {Helpers.format_date(@date)}
         </p>
         <p class="title is-3">
-          {{ @country[:name] }}
+          {@country[:name]}
         </p>
         <p class="subtitle">
-          {{ @country[:continent] }}
+          {@country[:continent]}
         </p>
         <p>
           <LivePatch label="Back to World Data" to="/" />
