@@ -1,9 +1,8 @@
 @charset "utf-8";
 
 @import "theme.scss";
-@import "bulma";
+@import "../node_modules/bulma/bulma.sass";
 @import "nprogress.scss";
-@import "../node_modules/bulma-extensions/bulma-timeline/dist/css/bulma-timeline.min.css";
 
 html {
   background: $clouds;

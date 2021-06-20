@@ -21,14 +21,18 @@ config :covid19, Covid19Web.Endpoint,
   code_reloader: true,
   check_origin: false,
   watchers: [
-    npm: ["run", "watch", cd: Path.expand("../assets", __DIR__)],
     bash: [
       "cljs-start.sh",
       "node_modules/.bin/shadow-cljs",
       "watch",
       "app",
       cd: Path.expand("../assets", __DIR__)
-    ]
+    ],
+    sass: [
+      "--watch",
+      "assets/css/app.scss",
+      "priv/static/css/assets.css",
+    ],
   ]
 
 # ## SSL Support

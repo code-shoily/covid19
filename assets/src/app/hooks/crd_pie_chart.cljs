@@ -9,24 +9,22 @@
   Object
   (mounted [this]
     (let [data (parse-statistics this)
-          colors ["#f1c40f" "#2980b9" "#e74c3c" "#27ae60"]
+          colors ["#f1c40f" "#e74c3c" "#27ae60"]
           layout (clj->js {:margin {:t 0 :b 30 :l 30 :r 10}
                            :showlegend true})
           config (clj->js {:responsive true
                            :displayModeBar false
                            :scrollZoom true})
           chart-config {:hoverinfo "percent+value"
-                        :labels ["Active" "Confirmed" "Deaths" "Recovered"]
+                        :labels ["Active" "Deaths" "Recovered"]
                         :type "pie"
                         :textinfo "none"
                         :hole 0.4
                         :marker {:colors colors}}
           new-values {:values [(data "new_active")
-                               (data "new_confirmed")
                                (data "new_deaths")
                                (data "new_recovered")]}
           total-values {:values [(data "active")
-                                 (data "confirmed")
                                  (data "deaths")
                                  (data "recovered")]}
           new (clj->js [(merge new-values chart-config)])
@@ -37,11 +35,9 @@
   (updated [this]
     (let [data (parse-statistics this)
           new-values (clj->js {:values [[(data "new_active")
-                                         (data "new_confirmed")
                                          (data "new_deaths")
                                          (data "new_recovered")]]})
           total-values (clj->js {:values [[(data "active")
-                                           (data "confirmed")
                                            (data "deaths")
                                            (data "recovered")]]})]
       (.restyle Plotly "new-pie-chart" new-values)
