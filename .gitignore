@@ -1,7 +1,6 @@
 .iex.exs
 .envrc
 .elixir_ls/
-
 # Ignore Parcel files
 .cache/
 .parcel-cache

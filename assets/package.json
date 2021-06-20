@@ -1,13 +1,7 @@
 {
   "repository": {},
   "license": "MIT",
-  "scripts": {
-    "deploy": "cp -R static/* ../priv/static/ && parcel build js/assets.js --dist-dir ../priv/static/css --public-url /dist --no-cache",
-    "watch": "cp -R static/* ../priv/static/ && parcel watch js/assets.js --dist-dir ../priv/static/css --public-url /dist"
-  },
   "dependencies": {
-    "alpinejs": "^3.0.1",
-    "jquery": "^3.6.0",
     "nprogress": "^0.2.0",
     "phoenix": "file:../deps/phoenix",
     "phoenix_html": "file:../deps/phoenix_html",
@@ -16,7 +10,6 @@
   },
   "devDependencies": {
     "bulma": "^0.9.2",
-    "bulma-extensions": "^6.2.7",
     "shadow-cljs": "^2.14.5"
   }
 }
