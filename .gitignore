@@ -1,5 +1,8 @@
 .iex.exs
 .envrc
+.calva/
+.shadow-cljs/
+.parcel-cache/
 # Ignore auto-generated hook files
 /assets/js/_hooks/
 data/
