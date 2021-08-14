@@ -65,6 +65,8 @@ defmodule Covid19.Helpers.Sanitizer do
   def sanitize_heading("Testing_Rate"), do: :testing_rate
   def sanitize_heading("Hospitalization_Rate"), do: :hospitalization_rate
   def sanitize_heading("Total_Test_Results"), do: :total_test_results
+  def sanitize_heading("Cases_28_Days"), do: :cases_28_days
+  def sanitize_heading("Deaths_28_Days"), do: :deaths_28_days
 
   @doc """
   Translates country names found in the file into country names that matches with `Countries` lib.

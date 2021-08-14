@@ -25,6 +25,8 @@ defmodule Covid19.Schemas.DailyDataUS do
     field :mortality_rate, :decimal
     field :timestamp, :naive_datetime
     field :total_test_results, :decimal
+    field :cases_28_days, :decimal
+    field :deaths_28_days, :decimal
 
     timestamps()
   end
