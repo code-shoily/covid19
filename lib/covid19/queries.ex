@@ -115,12 +115,12 @@ defmodule Covid19.Queries do
       by_country = Map.get(yesterday, country, empty_country)
 
       data
-      |> Map.update(:new_deaths, 0, fn _ -> data.deaths - by_country.deaths end)
+      |> Map.update(:new_deaths, 0, fn _ -> data.deaths |> coerced_difference(by_country.deaths) end)
       |> Map.update(:new_confirmed, 0, fn _ ->
-        data.confirmed - by_country.confirmed
+        data.confirmed |> coerced_difference(by_country.confirmed)
       end)
       |> Map.update(:new_recovered, 0, fn _ ->
-        data.recovered - by_country.recovered
+        data.recovered |> coerced_difference(by_country.recovered)
       end)
     end)
   end
@@ -181,12 +181,17 @@ defmodule Covid19.Queries do
 
   defp calculate_diffs({yesterday, today}) do
     Map.merge(today, %{
-      new_confirmed: today.confirmed - yesterday.confirmed,
-      new_deaths: today.deaths - yesterday.deaths,
-      new_recovered: today.recovered - yesterday.recovered,
-      new_active: today.active - yesterday.active
+      new_confirmed: today.confirmed |> coerced_difference(yesterday.confirmed),
+      new_deaths: today.deaths |> coerced_difference(yesterday.deaths),
+      new_recovered: today.recovered |> coerced_difference(yesterday.recovered),
+      new_active: today.active |> coerced_difference(yesterday.active)
     })
   end
+
+  defp coerced_difference(nil, nil), do: 0
+  defp coerced_difference(nil, value), do: -value
+  defp coerced_difference(value, nil), do: value
+  defp coerced_difference(a, b), do: a - b
 
   defp single_summary_by_country(%Date{} = date) do
     locations = country_locations()
@@ -223,11 +228,11 @@ defmodule Covid19.Queries do
     |> group_by([e], e.date)
     |> select([e], %{
       date: e.date,
-      deaths: coalesce(sum(e.deaths), 0),
-      confirmed: coalesce(sum(e.confirmed), 0),
-      recovered: coalesce(sum(e.recovered), 0),
+      deaths: coalesce(sum(e.deaths), nil),
+      confirmed: coalesce(sum(e.confirmed), nil),
+      recovered: coalesce(sum(e.recovered), nil),
       number_of_countries: fragment("COUNT(distinct country_or_region)"),
-      number_of_states: fragment("COUNT(country_or_region)"),
+      number_of_states: fragment("COUNT(distinct province_or_state)"),
       src: max(e.src),
       active:
         coalesce(sum(e.confirmed), 0) -
@@ -251,9 +256,9 @@ defmodule Covid19.Queries do
     |> group_by([e], e.country_or_region)
     |> select([e], %{
       country_or_region: e.country_or_region,
-      deaths: coalesce(sum(e.deaths), 0),
-      confirmed: coalesce(sum(e.confirmed), 0),
-      recovered: coalesce(sum(e.recovered), 0),
+      deaths: coalesce(sum(e.deaths), nil),
+      confirmed: coalesce(sum(e.confirmed), nil),
+      recovered: coalesce(sum(e.recovered), nil),
       active:
         coalesce(sum(e.confirmed), 0) -
           (coalesce(sum(e.recovered), 0) + coalesce(sum(e.deaths), 0))
@@ -272,9 +277,9 @@ defmodule Covid19.Queries do
       country_or_region: e.country_or_region,
       latitude: e.latitude,
       longitude: e.longitude,
-      deaths: coalesce(sum(e.deaths), 0),
-      confirmed: coalesce(sum(e.confirmed), 0),
-      recovered: coalesce(sum(e.recovered), 0),
+      deaths: coalesce(sum(e.deaths), nil),
+      confirmed: coalesce(sum(e.confirmed), nil),
+      recovered: coalesce(sum(e.recovered), nil),
       active:
         coalesce(sum(e.confirmed), 0) -
           (coalesce(sum(e.recovered), 0) + coalesce(sum(e.deaths), 0))
@@ -290,9 +295,9 @@ defmodule Covid19.Queries do
     |> group_by([d], [d.date, d.province_or_state])
     |> select([d], %{
       province_or_state: coalesce(d.province_or_state, "N/A"),
-      deaths: coalesce(sum(d.deaths), 0),
-      recovered: coalesce(sum(d.recovered), 0),
-      confirmed: coalesce(sum(d.confirmed), 0),
+      deaths: coalesce(sum(d.deaths), nil),
+      recovered: coalesce(sum(d.recovered), nil),
+      confirmed: coalesce(sum(d.confirmed), nil),
       active:
         coalesce(sum(d.confirmed), 0) -
           (coalesce(sum(d.recovered), 0) + coalesce(sum(d.deaths), 0))
@@ -317,9 +322,9 @@ defmodule Covid19.Queries do
       src: max(d.src),
       date: d.date,
       admins: count(d.province_or_state),
-      deaths: coalesce(sum(d.deaths), 0),
-      recovered: coalesce(sum(d.recovered), 0),
-      confirmed: coalesce(sum(d.confirmed), 0),
+      deaths: coalesce(sum(d.deaths), nil),
+      recovered: coalesce(sum(d.recovered), nil),
+      confirmed: coalesce(sum(d.confirmed), nil),
       active:
         coalesce(sum(d.confirmed), 0) -
           (coalesce(sum(d.recovered), 0) + coalesce(sum(d.deaths), 0))

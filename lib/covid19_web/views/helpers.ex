@@ -11,7 +11,7 @@ defmodule Covid19Web.Views.Helpers do
     Number.Delimit.number_to_delimited(number, precision: 0)
   end
 
-  def format_number(_), do: "0"
+  def format_number(_), do: "N/A"
 
   def format_signed_number(number) when is_number(number) do
     sign = (number > 0 && "+") || ""
