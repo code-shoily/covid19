@@ -8,7 +8,8 @@ import Config
 config :covid19, Covid19.Repo,
   username: System.get_env("TEST_DB_USER") || "postgres",
   password: System.get_env("TEST_DB_PASS") || "",
-  database: System.get_env("TEST_DB_NAME") || "covid19_test#{System.get_env("MIX_TEST_PARTITION")}",
+  database:
+    System.get_env("TEST_DB_NAME") || "covid19_test#{System.get_env("MIX_TEST_PARTITION")}",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox,
   pool_size: 10
