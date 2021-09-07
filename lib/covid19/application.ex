@@ -5,19 +5,19 @@ defmodule Covid19.Application do
 
   use Application
 
+  @impl true
   def start(_type, _args) do
-    # List all child processes to be supervised
     children = [
       # Start the Ecto repository
       Covid19.Repo,
-      Covid19.Telemetry,
-      # Start the pubsub system
+      # Start the Telemetry supervisor
+      Covid19Web.Telemetry,
+      # Start the PubSub system
       {Phoenix.PubSub, name: Covid19.PubSub},
-      Covid19.Cache,
-      # Start the endpoint when the application starts
+      # Start the Endpoint (http/https)
       Covid19Web.Endpoint
-      # Starts a worker by calling: Covid19.Worker.start_link(arg)
-      # {Covid19.Worker, arg},
+      # Start a worker by calling: Covid19.Worker.start_link(arg)
+      # {Covid19.Worker, arg}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
@@ -28,6 +28,7 @@ defmodule Covid19.Application do
 
   # Tell Phoenix to update the endpoint configuration
   # whenever the application is updated.
+  @impl true
   def config_change(changed, _new, removed) do
     Covid19Web.Endpoint.config_change(changed, removed)
     :ok

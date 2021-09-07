@@ -16,19 +16,37 @@ defmodule Covid19Web do
   below. Instead, define any helper function in modules
   and import those modules here.
   """
+
+  def controller do
+    quote do
+      use Phoenix.Controller, namespace: Covid19Web
+
+      import Plug.Conn
+      import Covid19Web.Gettext
+      alias Covid19Web.Router.Helpers, as: Routes
+    end
+  end
+
   def view do
     quote do
       use Phoenix.View,
         root: "lib/covid19_web/templates",
         namespace: Covid19Web
 
+      # Import convenience functions from controllers
+      import Phoenix.Controller,
+        only: [get_flash: 1, get_flash: 2, view_module: 1, view_template: 1]
+
+      # Include shared imports and aliases for views
       unquote(view_helpers())
     end
   end
 
   def live_view do
     quote do
-      use Phoenix.LiveView, layout: {Covid19Web.LayoutView, "live.html"}
+      use Phoenix.LiveView,
+        layout: {Covid19Web.LayoutView, "live.html"}
+
       unquote(view_helpers())
     end
   end
@@ -41,36 +59,10 @@ defmodule Covid19Web do
     end
   end
 
-  def surface_component do
-    quote do
-      use Surface.Component
-      alias Surface.Components.LivePatch
-
-      unquote(view_helpers())
-    end
-  end
-
-  def surface_live_component do
-    quote do
-      use Surface.LiveComponent
-      alias Surface.Components.LivePatch
-
-      unquote(view_helpers())
-    end
-  end
-
-  def surface do
-    quote do
-      use Surface.LiveView, layout: {Covid19Web.LayoutView, "live.html"}
-      alias Surface.Components.LivePatch
-
-      unquote(view_helpers())
-    end
-  end
-
   def router do
     quote do
       use Phoenix.Router
+
       import Plug.Conn
       import Phoenix.Controller
       import Phoenix.LiveView.Router
@@ -89,13 +81,15 @@ defmodule Covid19Web do
       # Use all HTML functionality (forms, tags, etc)
       use Phoenix.HTML
 
-      # Import convenience functions for LiveView rendering
+      # Import LiveView and .heex helpers (live_render, live_patch, <.form>, etc)
       import Phoenix.LiveView.Helpers
+
+      # Import basic rendering functionality (render, render_layout, etc)
+      import Phoenix.View
 
       import Covid19Web.ErrorHelpers
       import Covid19Web.Gettext
       alias Covid19Web.Router.Helpers, as: Routes
-      alias Covid19Web.Views.Helpers
     end
   end
 

@@ -14,14 +14,14 @@ defmodule Covid19Web.ChannelCase do
   by setting `use Covid19Web.ChannelCase, async: true`, although
   this option is not recommended for other databases.
   """
-  alias Ecto.Adapters.SQL.Sandbox
 
   use ExUnit.CaseTemplate
 
   using do
     quote do
       # Import conveniences for testing with channels
-      use Phoenix.ChannelTest
+      import Phoenix.ChannelTest
+      import Covid19Web.ChannelCase
 
       # The default endpoint for testing
       @endpoint Covid19Web.Endpoint
@@ -29,12 +29,8 @@ defmodule Covid19Web.ChannelCase do
   end
 
   setup tags do
-    :ok = Sandbox.checkout(Covid19.Repo)
-
-    unless tags[:async] do
-      Sandbox.mode(Covid19.Repo, {:shared, self()})
-    end
-
+    pid = Ecto.Adapters.SQL.Sandbox.start_owner!(Covid19.Repo, shared: not tags[:async])
+    on_exit(fn -> Ecto.Adapters.SQL.Sandbox.stop_owner(pid) end)
     :ok
   end
 end

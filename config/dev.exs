@@ -1,4 +1,4 @@
-use Mix.Config
+import Config
 
 # Configure your database
 config :covid19, Covid19.Repo,
@@ -14,25 +14,17 @@ config :covid19, Covid19.Repo,
 #
 # The watchers configuration can be used to run external
 # watchers to your application. For example, we use it
-# with webpack to recompile .js and .css sources.
+# with esbuild to bundle .js and .css sources.
 config :covid19, Covid19Web.Endpoint,
-  http: [port: 4000],
+  # Binding to loopback ipv4 address prevents access from other machines.
+  # Change to `ip: {0, 0, 0, 0}` to allow access from other machines.
+  http: [ip: {127, 0, 0, 1}, port: 4000],
   debug_errors: true,
   code_reloader: true,
   check_origin: false,
   watchers: [
-    bash: [
-      "cljs-start.sh",
-      "node_modules/.bin/shadow-cljs",
-      "watch",
-      "app",
-      cd: Path.expand("../assets", __DIR__)
-    ],
-    sass: [
-      "--watch",
-      "assets/css/app.scss",
-      "priv/static/css/assets.css",
-    ],
+    # Start the esbuild watcher by calling Esbuild.install_and_run(:default, args)
+    esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]}
   ]
 
 # ## SSL Support
@@ -61,13 +53,11 @@ config :covid19, Covid19Web.Endpoint,
 
 # Watch static and templates for browser reloading.
 config :covid19, Covid19Web.Endpoint,
-  reloadable_compilers: [:phoenix, :elixir, :surface],
   live_reload: [
     patterns: [
-      ~r"priv/static/js/app.js$",
-      ~r"priv/static/.*(css|png|jpeg|jpg|gif|svg)$",
+      ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
       ~r"priv/gettext/.*(po)$",
-      ~r"lib/covid19_web/(live|views|components)/.*(ex|sface)$",
+      ~r"lib/covid19_web/(live|views)/.*(ex)$",
       ~r"lib/covid19_web/templates/.*(eex)$"
     ]
   ]

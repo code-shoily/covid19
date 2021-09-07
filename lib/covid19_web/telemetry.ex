@@ -1,6 +1,5 @@
-defmodule Covid19.Telemetry do
+defmodule Covid19Web.Telemetry do
   @moduledoc false
-
   use Supervisor
   import Telemetry.Metrics
 
@@ -8,9 +7,14 @@ defmodule Covid19.Telemetry do
     Supervisor.start_link(__MODULE__, arg, name: __MODULE__)
   end
 
+  @impl true
   def init(_arg) do
     children = [
+      # Telemetry poller will execute the given period measurements
+      # every 10_000ms. Learn more here: https://hexdocs.pm/telemetry_metrics
       {:telemetry_poller, measurements: periodic_measurements(), period: 10_000}
+      # Add reporters as children of your supervision tree.
+      # {Telemetry.Metrics.ConsoleReporter, metrics: metrics()}
     ]
 
     Supervisor.init(children, strategy: :one_for_one)
@@ -22,23 +26,33 @@ defmodule Covid19.Telemetry do
       summary("phoenix.endpoint.stop.duration",
         unit: {:native, :millisecond}
       ),
-      summary("phoenix.endpoint.stop.duration",
-        tags: [:method, :request_path],
-        tag_values: &tag_method_and_request_path/1,
-        unit: {:native, :millisecond}
-      ),
       summary("phoenix.router_dispatch.stop.duration",
-        tags: [:controller_action],
-        tag_values: &tag_controller_action/1,
+        tags: [:route],
         unit: {:native, :millisecond}
       ),
 
-      # Database Time Metrics
-      summary("covid19.repo.query.total_time", unit: {:native, :millisecond}),
-      summary("covid19.repo.query.decode_time", unit: {:native, :millisecond}),
-      summary("covid19.repo.query.query_time", unit: {:native, :millisecond}),
-      summary("covid19.repo.query.queue_time", unit: {:native, :millisecond}),
-      summary("covid19.repo.query.idle_time", unit: {:native, :millisecond}),
+      # Database Metrics
+      summary("covid19.repo.query.total_time",
+        unit: {:native, :millisecond},
+        description: "The sum of the other measurements"
+      ),
+      summary("covid19.repo.query.decode_time",
+        unit: {:native, :millisecond},
+        description: "The time spent decoding the data received from the database"
+      ),
+      summary("covid19.repo.query.query_time",
+        unit: {:native, :millisecond},
+        description: "The time spent executing the query"
+      ),
+      summary("covid19.repo.query.queue_time",
+        unit: {:native, :millisecond},
+        description: "The time spent waiting for a database connection"
+      ),
+      summary("covid19.repo.query.idle_time",
+        unit: {:native, :millisecond},
+        description:
+          "The time the connection spent waiting before being checked out for the query"
+      ),
 
       # VM Metrics
       summary("vm.memory.total", unit: {:byte, :kilobyte}),
@@ -49,20 +63,10 @@ defmodule Covid19.Telemetry do
   end
 
   defp periodic_measurements do
-    []
-  end
-
-  # Extracts labels like "GET /"
-  defp tag_method_and_request_path(metadata) do
-    Map.take(metadata.conn, [:method, :request_path])
-  end
-
-  # Extracts controller#action from route dispatch
-  defp tag_controller_action(%{plug: plug, plug_opts: plug_opts}) when is_atom(plug_opts) do
-    %{controller_action: "#{inspect(plug)}##{plug_opts}"}
-  end
-
-  defp tag_controller_action(%{plug: plug}) do
-    %{controller_action: inspect(plug)}
+    [
+      # A module, function and arguments to be invoked periodically.
+      # This function must call :telemetry.execute/3 and a metric must be added above.
+      # {Covid19Web, :count_users, []}
+    ]
   end
 end
