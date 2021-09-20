@@ -1,3 +1,4 @@
+.DS_Store
 .iex.exs
 .envrc
 .elixir_ls/
