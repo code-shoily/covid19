@@ -1,6 +1,6 @@
 # Covid19
 
-** NOTE (September 21, 2021): I am rebooting this project, the future work on this will be done [in this branch](https://github.com/code-shoily/covid19/tree/mafinar/covid19%2Fupgrade), also, the current default branch uses ClojureScript as hooks, to get the JS version [the tailwind branch](https://github.com/code-shoily/covid19/tree/mafinar/try-out-tailwind) has it. The the upgrade branch will be swapped in as the main branch once it is at feature parity (think last week of October 2021).
+### NOTE (September 21, 2021): I am rebooting this project, the future work on this will be done [in this branch](https://github.com/code-shoily/covid19/tree/mafinar/covid19%2Fupgrade), also, the current default branch uses ClojureScript as hooks, to get the JS version [the tailwind branch](https://github.com/code-shoily/covid19/tree/mafinar/try-out-tailwind) has it. The the upgrade branch will be swapped in as the main branch once it is at feature parity (think last week of October 2021).
 
 **WIP WARNING** This is very much work in progress, done in haste, focusing more on learning `LiveView` than caring about best practices, tests, and even sanctity of data. Will be dealt with in due time. Also, see the disclaimer below.
 
