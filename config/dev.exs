@@ -76,4 +76,4 @@ config :phoenix, :plug_init_mode, :runtime
 # Covid19 data source
 config :covid19, :data_source,
   daily_dir: System.get_env("GLOBAL_DATA_SOURCE"),
-  daily_dir_us: System.get_env("US_DATA_SOURCE"),
+  daily_dir_us: System.get_env("US_DATA_SOURCE")

@@ -1,8 +1,5 @@
-alias Covid19.{Operations, Queries}
-alias Covid19.DataSource.DailyCSV
-alias Covid19.Helpers.{Converters, Inspector, PathHelpers, Sanitizer}
+alias Covid19.Collect.Helpers, as: CollectHelpers
 alias Covid19.Repo
-alias Covid19.Schemas.{DailyData, DailyDataUS}
 
 import_file_if_available("~/.iex.exs")
 import_if_available(Ecto.Query)

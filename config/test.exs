@@ -28,3 +28,8 @@ config :logger, level: :warn
 
 # Initialize plugs at runtime for faster test compilation
 config :phoenix, :plug_init_mode, :runtime
+
+# Covid19 test data source
+config :covid19, :data_source,
+  daily_dir: "test/fixtures/daily_data/global",
+  daily_dir_us: "test/fixtures/daily_data/us"
