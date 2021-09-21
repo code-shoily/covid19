@@ -51,7 +51,8 @@ defmodule Covid19.MixProject do
       {:plug_cowboy, "~> 2.5"},
       {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
       {:surface, "~> 0.5.1"},
-      {:countries, "~> 1.6"}
+      {:countries, "~> 1.6"},
+      {:nimble_csv, "~> 1.1.0"}
     ]
   end
 
