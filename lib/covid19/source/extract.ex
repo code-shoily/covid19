@@ -58,12 +58,22 @@ defmodule Covid19.Source.Extract do
 
   @doc """
   Get all the dates for global data that are available.
+
+      iex> Extract.us_dates()
+      [~D[2021-01-01], ~D[2021-01-02], ~D[2021-01-03], ~D[2021-01-04]]
+
   """
   @spec global_dates() :: [Date.t()]
   def global_dates, do: global_resources() |> Map.keys() |> Enum.sort(Date)
 
   @doc """
   Get all the dates for us data that are available.
+
+  ## Examples
+
+      iex> Extract.us_dates()
+      [~D[2021-01-01], ~D[2021-01-02], ~D[2021-01-03], ~D[2021-01-04]]
+
   """
   @spec us_dates() :: [Date.t()]
   def us_dates, do: us_resources() |> Map.keys() |> Enum.sort(Date)
