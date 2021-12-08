@@ -5,7 +5,7 @@ defmodule Covid19.Source.Checkers do
   They are to be used in the REPL by the developer and not called by the app.
   """
   alias Covid19.Source.Extract
-  alias Covid19.Source.PathHelpers, as: Helpers
+  alias Covid19.Source.Transform
 
   @doc """
   Find countries that are present on dataset but spelling does not match with
@@ -14,10 +14,11 @@ defmodule Covid19.Source.Checkers do
   @spec missing_countries_for_date(Date.t()) :: MapSet.t()
   def missing_countries_for_date(date) do
     date
-    |> Extract.daily_global_data()
-    |> Enum.map(&Map.get(&1, "country_or_region"))
+    |> Extract.global_data()
+    |> Transform.daily_data_to_map()
+    |> Enum.map(&Map.get(&1, :country_or_region))
     |> MapSet.new()
-    |> MapSet.difference(Helpers.country_names() |> MapSet.new())
+    |> MapSet.difference(Extract.country_names() |> MapSet.new())
   end
 
   @doc """
@@ -26,13 +27,14 @@ defmodule Covid19.Source.Checkers do
   """
   @spec all_missing_countries() :: MapSet.t()
   def all_missing_countries do
-    Helpers.global_dates()
-    |> Enum.reduce(MapSet.new(), fn date, acc ->
-      IO.puts(date)
-
+    Extract.global_dates()
+    |> Enum.flat_map(fn date ->
       date
-      |> missing_countries_for_date()
-      |> MapSet.union(acc)
+      |> Extract.global_data()
+      |> Transform.daily_data_to_map()
+      |> Enum.map(&Map.get(&1, :country_or_region))
     end)
+    |> Enum.into(%MapSet{})
+    |> MapSet.difference(MapSet.new(Extract.country_names()))
   end
 end

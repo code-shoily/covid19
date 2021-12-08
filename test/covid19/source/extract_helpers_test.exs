@@ -1,20 +1,20 @@
-defmodule Covid19.Source.HelpersTest do
+defmodule Covid19.Source.ExtractTest do
   use ExUnit.Case
 
-  alias Covid19.Source.PathHelpers, as: Helpers
+  alias Covid19.Source.Extract, as: Extract
 
-  doctest Helpers
+  doctest Extract
 
   @global_directory "test/fixtures/daily_data/global"
   @us_directory "test/fixtures/daily_data/us"
 
-  describe "Testing the directory helpers" do
+  describe "Testing the directory" do
     test "Test global directory shows the correct directory path" do
-      assert Helpers.global_directory() == @global_directory
+      assert Extract.global_directory() == @global_directory
     end
 
     test "Test US directory shows the correct directory path" do
-      assert Helpers.us_directory() == @us_directory
+      assert Extract.us_directory() == @us_directory
     end
   end
 
@@ -27,7 +27,7 @@ defmodule Covid19.Source.HelpersTest do
         ~D[2021-01-04] => "test/fixtures/daily_data/global/01-04-2021.csv"
       }
 
-      assert Helpers.global_resources() == expected_resources
+      assert Extract.global_resources() == expected_resources
     end
 
     test "US resources are returned" do
@@ -38,7 +38,7 @@ defmodule Covid19.Source.HelpersTest do
         ~D[2021-01-04] => "test/fixtures/daily_data/us/01-04-2021.csv"
       }
 
-      assert Helpers.us_resources() == expected_resources
+      assert Extract.us_resources() == expected_resources
     end
 
     test "Returns global dates correctly" do
@@ -46,10 +46,10 @@ defmodule Covid19.Source.HelpersTest do
         ~D[2021-01-01],
         ~D[2021-01-02],
         ~D[2021-01-03],
-        ~D[2021-01-04],
+        ~D[2021-01-04]
       ]
 
-      assert Helpers.global_dates() == expected_dates
+      assert Extract.global_dates() == expected_dates
     end
   end
 end

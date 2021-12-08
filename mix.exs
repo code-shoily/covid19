@@ -53,6 +53,7 @@ defmodule Covid19.MixProject do
       {:surface, "~> 0.6"},
       {:countries, "~> 1.6"},
       {:nimble_csv, "~> 1.1.0"},
+      {:timex, "~> 3.7"},
       {:stream_data, "~> 0.5", only: [:dev, :test]}
     ]
   end
