@@ -4,7 +4,7 @@ defmodule Covid19.Source.Checkers do
 
   They are to be used in the REPL by the developer and not called by the app.
   """
-  alias Covid19.Source
+  alias Covid19.Source.Extract
   alias Covid19.Source.Helpers
 
   @doc """
@@ -14,7 +14,7 @@ defmodule Covid19.Source.Checkers do
   @spec missing_countries_for_date(Date.t()) :: MapSet.t()
   def missing_countries_for_date(date) do
     date
-    |> Source.daily_global_data()
+    |> Extract.daily_global_data()
     |> Enum.map(&Map.get(&1, "country_or_region"))
     |> MapSet.new()
     |> MapSet.difference(Helpers.country_names() |> MapSet.new())

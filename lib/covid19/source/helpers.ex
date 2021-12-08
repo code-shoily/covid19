@@ -1,4 +1,4 @@
-defmodule Covid19.Collect.Helpers do
+defmodule Covid19.Source.Helpers do
   @moduledoc """
   A collection of helper functions to facilitate data collection from
   the covid19 repository
