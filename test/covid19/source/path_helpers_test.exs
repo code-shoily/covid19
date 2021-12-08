@@ -1,7 +1,7 @@
 defmodule Covid19.Source.HelpersTest do
   use ExUnit.Case
 
-  alias Covid19.Source.Helpers
+  alias Covid19.Source.PathHelpers, as: Helpers
 
   doctest Helpers
 

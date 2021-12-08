@@ -5,7 +5,7 @@ defmodule Covid19.Source.Checkers do
   They are to be used in the REPL by the developer and not called by the app.
   """
   alias Covid19.Source.Extract
-  alias Covid19.Source.Helpers
+  alias Covid19.Source.PathHelpers, as: Helpers
 
   @doc """
   Find countries that are present on dataset but spelling does not match with
