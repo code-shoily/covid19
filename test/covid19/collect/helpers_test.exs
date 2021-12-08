@@ -1,7 +1,9 @@
-defmodule Covid19.Collect.HelpersTest do
+defmodule Covid19.Source.HelpersTest do
   use ExUnit.Case
 
-  alias Covid19.Collect.Helpers
+  alias Covid19.Source.Helpers
+
+  doctest Helpers
 
   @global_directory "test/fixtures/daily_data/global"
   @us_directory "test/fixtures/daily_data/us"
@@ -37,6 +39,17 @@ defmodule Covid19.Collect.HelpersTest do
       }
 
       assert Helpers.us_resources() == expected_resources
+    end
+
+    test "Returns global dates correctly" do
+      expected_dates = [
+        ~D[2021-01-01],
+        ~D[2021-01-02],
+        ~D[2021-01-03],
+        ~D[2021-01-04],
+      ]
+
+      assert Helpers.global_dates() == expected_dates
     end
   end
 end

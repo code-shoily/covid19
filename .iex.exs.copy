@@ -1,4 +1,4 @@
-alias Covid19.Collect.Helpers, as: CollectHelpers
+alias Covid19.Source
 alias Covid19.Repo
 
 import_file_if_available("~/.iex.exs")
