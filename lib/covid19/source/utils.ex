@@ -1,6 +1,6 @@
-defmodule Covid19.Source.Tools do
+defmodule Covid19.Source.Utils do
   @moduledoc """
-  This module contains functions that help with checking the sanity of the data.
+  This module contains utilitiy functions that help with checking/validating.
 
   They are to be used in the REPL by the developer and not called by the app.
   """

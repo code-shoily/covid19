@@ -2,15 +2,6 @@ defmodule Covid19.Source.Transform do
   @moduledoc """
   Transforms extracted data for loading
   """
-  @integer_keys ~w/
-    active
-    confirmed
-    deaths
-    people_hospitalized
-    people_tested
-    recovered
-    total_test_results
-  /a
 
   @decimal_keys ~w/
     case_fatality_ratio
@@ -21,13 +12,35 @@ defmodule Covid19.Source.Transform do
     testing_rate
     total_rest_results
   /a
-  def daily_data_to_map([headers | rows]) do
+
+  @integer_keys ~w/
+    active
+    confirmed
+    deaths
+    people_hospitalized
+    people_tested
+    recovered
+    total_test_results
+  /a
+
+  @doc """
+  Converts daily data extract into a map with transformed fields.
+
+  Countries are coerced into the `Country.all` country names, in case of
+  missing name, the value is used as-is. Use functions from `Tools` module to
+  check for any unhandled country and deal with them.
+
+  Headings are fixed, any heading that is not handled in the heading map will
+  raise an exception.
+  """
+  @spec daily_data_to_map([[binary()]]) :: [map()]
+  def daily_data_to_map([headers | rows]) when is_list(rows) do
     headers = Enum.map(headers, &heading/1)
 
     rows
     |> Enum.map(fn row ->
       row
-      |> then(fn row -> Enum.zip(headers, row) end)
+      |> then(&Enum.zip(headers, &1))
       |> Enum.into(%{})
       |> Map.map(fn
         {:country_or_region, country} -> country_or_region(country)
@@ -120,7 +133,7 @@ defmodule Covid19.Source.Transform do
     "Recovered" => :recovered,
     "Testing_Rate" => :testing_rate,
     "Total_Test_Results" => :total_test_results,
-    "UID" => :uid,
+    "UID" => :uid
   }
 
   defp heading(data), do: Map.fetch!(@global_headers, data)
@@ -183,8 +196,8 @@ defmodule Covid19.Source.Transform do
     "Vatican City" => "Holy See",
     "Venezuela" => "Venezuela (Bolivarian Republic of)",
     "Vietnam" => "Viet Nam",
-    "West Bank and Gaza" => "West Bank and Gaza",
+    "West Bank and Gaza" => "West Bank and Gaza"
   }
 
-  defp country_or_region(data), do: Map.fetch!(@country_or_region, data)
+  defp country_or_region(data), do: Map.get(@country_or_region, data, data)
 end
