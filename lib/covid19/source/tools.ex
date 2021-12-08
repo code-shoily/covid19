@@ -1,4 +1,4 @@
-defmodule Covid19.Source.Checkers do
+defmodule Covid19.Source.Tools do
   @moduledoc """
   This module contains functions that help with checking the sanity of the data.
 
