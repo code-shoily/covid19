@@ -80,7 +80,10 @@ defmodule Covid19.Source.Transform do
   defp to_datetime(str) do
     case Timex.parse(str, "{ISO:Extended}") do
       {:ok, _} = date -> date
-      {:error, _} -> Timex.parse(format_date(str), "%m/%d/%y %R", :strftime)
+      {:error, _} ->
+        str
+        |> format_date()
+        |> Timex.parse("%m/%d/%y %R", :strftime)
     end
   end
 
@@ -100,12 +103,12 @@ defmodule Covid19.Source.Transform do
     end
   end
 
-  @global_headers %{
+  @headers %{
     "\uFEFFFIPS" => :fips,
     "\uFEFFProvince/State" => :province_or_state,
     "Active" => :active,
     "Admin2" => :county,
-    "Case_Fatality_Ratio" => :case_fatility_ratio,
+    "Case_Fatality_Ratio" => :case_fatality_ratio,
     "Case-Fatality_Ratio" => :case_fatality_ratio,
     "Cases_28_Days" => :cases_28_days,
     "Combined_Key" => :combined_key,
@@ -136,8 +139,11 @@ defmodule Covid19.Source.Transform do
     "UID" => :uid
   }
 
-  defp heading(data), do: Map.fetch!(@global_headers, data)
+  defp heading(data), do: Map.fetch!(@headers, data)
 
+  # Note: The mapper tries to map country or region names given on the CSVs with
+  # the names given in `Countries` module. In case they are absent in the module
+  # the name is used as-is.
   @country_or_region %{
     " Azerbaijan" => "Azerbaijan",
     "Bahamas, The" => "Bahamas",
