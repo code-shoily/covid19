@@ -6,19 +6,19 @@ defmodule Covid19.Source.Transform do
     active
     confirmed
     deaths
-    recovered
-    people_tested
     people_hospitalized
+    people_tested
+    recovered
     total_test_results
   /a
 
   @decimal_keys ~w/
+    case_fatality_ratio
+    hospitalization_rate
+    incidence_rate
     latitude
     longitude
-    case_fatality_ratio
-    incidence_rate
     testing_rate
-    hospitalization_rate
     total_rest_results
   /a
   def daily_data_to_map([headers | rows]) do
@@ -88,104 +88,103 @@ defmodule Covid19.Source.Transform do
   end
 
   @global_headers %{
-    "Admin2" => :county,
+    "\uFEFFFIPS" => :fips,
+    "\uFEFFProvince/State" => :province_or_state,
     "Active" => :active,
+    "Admin2" => :county,
+    "Case_Fatality_Ratio" => :case_fatility_ratio,
+    "Case-Fatality_Ratio" => :case_fatality_ratio,
+    "Cases_28_Days" => :cases_28_days,
     "Combined_Key" => :combined_key,
     "Confirmed" => :confirmed,
-    "Country/Region" => :country_or_region,
     "Country_Region" => :country_or_region,
+    "Country/Region" => :country_or_region,
+    "Deaths_28_Days" => :deaths_28_days,
     "Deaths" => :deaths,
     "FIPS" => :fips,
-    "\uFEFFFIPS" => :fips,
+    "Hospitalization_Rate" => :hospitalization_rate,
+    "Incidence_Rate" => :incidence_rate,
+    "Incident_Rate" => :incident_rate,
+    "ISO3" => :iso3,
     "Last Update" => :timestamp,
     "Last_Update" => :timestamp,
-    "Recovered" => :recovered,
-    "\uFEFFProvince/State" => :province_or_state,
-    "Province/State" => :province_or_state,
-    "Province_State" => :province_or_state,
-    "Latitude" => :latitude,
     "Lat" => :latitude,
-    "Longitude" => :longitude,
+    "Latitude" => :latitude,
     "Long_" => :longitude,
-    "Incidence_Rate" => :incidence_rate,
-    "Case-Fatality_Ratio" => :case_fatality_ratio,
-    "Case_Fatality_Ratio" => :case_fatility_ratio,
-    "Incident_Rate" => :incident_rate,
-    "People_Tested" => :people_tested,
-    "People_Hospitalized" => :people_hospitalized,
+    "Longitude" => :longitude,
     "Mortality_Rate" => :mortality_rate,
-    "UID" => :uid,
-    "ISO3" => :iso3,
+    "People_Hospitalized" => :people_hospitalized,
+    "People_Tested" => :people_tested,
+    "Province_State" => :province_or_state,
+    "Province/State" => :province_or_state,
+    "Recovered" => :recovered,
     "Testing_Rate" => :testing_rate,
-    "Hospitalization_Rate" => :hospitalization_rate,
     "Total_Test_Results" => :total_test_results,
-    "Cases_28_Days" => :cases_28_days,
-    "Deaths_28_Days" => :deaths_28_days
+    "UID" => :uid,
   }
 
-  defp heading(extracted_heading), do: Map.fetch!(@global_headers, extracted_heading)
+  defp heading(data), do: Map.fetch!(@global_headers, data)
 
   @country_or_region %{
     " Azerbaijan" => "Azerbaijan",
+    "Bahamas, The" => "Bahamas",
     "Bolivia" => "Bolivia (Plurinational State of)",
     "Brunei" => "Brunei Darussalam",
-    "Congo (Kinshasa)" => "Congo (Democratic Republic of the)",
-    "Channel Islands" => "Channel Islands",
-    "Cote d'Ivoire" => "Côte d'Ivoire",
-    "Ivory Coast" => "Côte d'Ivoire",
-    "Czechia" => "Czech Republic",
-    "Vatican City" => "Holy See",
-    "Hong Kong SAR" => "Hong Kong",
-    "Republic of Ireland" => "Ireland",
-    "South Korea" => "Korea (Democratic People's Republic of)",
-    "Iran" => "Iran (Islamic Republic of)",
-    "Korea, South" => "Korea (Democratic People's Republic of)",
-    "Republic of Korea" => "Korea (Republic of)",
-    "Macao SAR" => "Macao",
-    "Macau" => "Macao",
-    "North Macedonia" => "Macedonia (the former Yugoslav Republic of)",
-    "Moldova" => "Moldova (Republic of)",
-    "Republic of Moldova" => "Moldova (Republic of)",
-    "Mainland China" => "China",
-    "North Ireland" => "United Kingdom of Great Britain and Northern Ireland",
-    "occupied Palestinian territory" => "Palestine, State of",
-    "Palestine" => "Palestine, State of",
-    "Reunion" => "Réunion",
-    "Russia" => "Russian Federation",
-    "Saint Barthelemy" => "Saint Barthélemy",
-    "Saint Martin" => "Saint Martin (French part)",
-    "St. Martin" => "Saint Martin (French part)",
-    "Taiwan" => "Taiwan, Province of China",
-    "Taiwan*" => "Taiwan, Province of China",
-    "Taipei and environs" => "Taiwan, Province of China",
-    "UK" => "United Kingdom of Great Britain and Northern Ireland",
-    "United Kingdom" => "United Kingdom of Great Britain and Northern Ireland",
-    "US" => "United States of America",
-    "Vietnam" => "Viet Nam",
-    "Bahamas, The" => "Bahamas",
     "Burma" => "Myanmar",
     "Cape Verde" => "Cabo Verde",
+    "Channel Islands" => "Channel Islands",
     "Congo (Brazzaville)" => "Congo",
+    "Congo (Kinshasa)" => "Congo (Democratic Republic of the)",
+    "Cote d'Ivoire" => "Côte d'Ivoire",
     "Cruise Ship" => "Cruise Ship",
     "Curacao" => "Curaçao",
+    "Czechia" => "Czech Republic",
     "Diamond Princess" => "Diamond Princess",
     "East Timor" => "Timor-Leste",
     "Eswatini" => "eSwatini",
     "Gambia, The" => "Gambia",
+    "Hong Kong SAR" => "Hong Kong",
+    "Iran" => "Iran (Islamic Republic of)",
+    "Ivory Coast" => "Côte d'Ivoire",
+    "Korea, South" => "Korea (Democratic People's Republic of)",
     "Kosovo" => "Kosovo",
     "Laos" => "Lao People's Democratic Republic",
+    "Macao SAR" => "Macao",
+    "Macau" => "Macao",
+    "Mainland China" => "China",
+    "Moldova" => "Moldova (Republic of)",
     "MS Zaandam" => "MS Zaandam",
+    "North Ireland" => "United Kingdom of Great Britain and Northern Ireland",
+    "North Macedonia" => "Macedonia (the former Yugoslav Republic of)",
+    "occupied Palestinian territory" => "Palestine, State of",
     "Others" => "Others",
+    "Palestine" => "Palestine, State of",
+    "Republic of Ireland" => "Ireland",
+    "Republic of Korea" => "Korea (Republic of)",
+    "Republic of Moldova" => "Moldova (Republic of)",
     "Republic of the Congo" => "Congo",
+    "Reunion" => "Réunion",
+    "Russia" => "Russian Federation",
+    "Saint Barthelemy" => "Saint Barthélemy",
+    "Saint Martin" => "Saint Martin (French part)",
+    "South Korea" => "Korea (Democratic People's Republic of)",
+    "St. Martin" => "Saint Martin (French part)",
+    "Summer Olympics 2020" => "Summer Olympics 2020",
     "Syria" => "Syrian Arab Republic",
+    "Taipei and environs" => "Taiwan, Province of China",
+    "Taiwan" => "Taiwan, Province of China",
+    "Taiwan*" => "Taiwan, Province of China",
     "Tanzania" => "Tanzania, United Republic of",
     "The Bahamas" => "Bahamas",
     "The Gambia" => "Gambia",
+    "UK" => "United Kingdom of Great Britain and Northern Ireland",
+    "United Kingdom" => "United Kingdom of Great Britain and Northern Ireland",
+    "US" => "United States of America",
+    "Vatican City" => "Holy See",
     "Venezuela" => "Venezuela (Bolivarian Republic of)",
+    "Vietnam" => "Viet Nam",
     "West Bank and Gaza" => "West Bank and Gaza",
-    "Summer Olympics 2020" => "Summer Olympics 2020"
   }
 
-  defp country_or_region(extracted_contry_or_region),
-    do: Map.fetch!(@country_or_region, extracted_contry_or_region)
+  defp country_or_region(data), do: Map.fetch!(@country_or_region, data)
 end
