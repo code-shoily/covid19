@@ -9,10 +9,12 @@ defmodule Covid19.Schemas.DailyData do
     field :active, :integer
     field :case_fatality_ratio, :decimal
     field :confirmed, :integer
+    field :combined_key, :string
     field :country_or_region, :string
     field :county, :string
     field :date, :date
     field :deaths, :integer
+    field :fips, :decimal
     field :incidence_rate, :decimal
     field :latitude, :decimal
     field :longitude, :decimal
@@ -28,10 +30,12 @@ defmodule Covid19.Schemas.DailyData do
     active
     case_fatality_ratio
     confirmed
+    combined_key
     country_or_region
     county
     date
     deaths
+    fips
     incidence_rate
     latitude
     longitude
