@@ -1,4 +1,4 @@
-defmodule Covid19.Source.Extract do
+defmodule Covid19.Source.CSSE.Extract do
   @moduledoc """
   Extracts data from CSV sources
   """
@@ -18,14 +18,14 @@ defmodule Covid19.Source.Extract do
   Sources daily data from the world data source. Returns the validated data
   with the desired field and types casted to desired ones.
   """
-  @spec global_data(Date.t()) :: [[String.t()]]
+  @spec global_data(Date.t()) :: [[String.t()]] | nil
   def global_data(date), do: daily_data(date, global_resources())
 
   @doc """
   Sources daily data from the US data source. Returns the validated data with
   the desired field and types casted to desired ones.
   """
-  @spec us_data(Date.t()) :: [[String.t()]]
+  @spec us_data(Date.t()) :: [[String.t()]] | nil
   def us_data(date), do: daily_data(date, us_resources())
 
   @doc """
@@ -134,5 +134,7 @@ defmodule Covid19.Source.Extract do
     |> File.stream!()
     |> ResourceParser.parse_stream(skip_headers: false)
     |> Enum.to_list()
+  rescue
+    _ -> nil
   end
 end

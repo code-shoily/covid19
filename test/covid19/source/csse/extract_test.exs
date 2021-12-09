@@ -1,7 +1,7 @@
-defmodule Covid19.Source.ExtractTest do
+defmodule Covid19.Source.CSSE.ExtractTest do
   use ExUnit.Case
 
-  alias Covid19.Source.Extract
+  alias Covid19.Source.CSSE.Extract
 
   doctest Extract
 
@@ -54,6 +54,10 @@ defmodule Covid19.Source.ExtractTest do
   end
 
   describe "global_data/1" do
+    test "returns nil on unavailable date" do
+      assert is_nil(Extract.global_data(~D[2018-10-10]))
+    end
+
     test "gets the header correctly" do
       data = Extract.global_data(~D[2021-01-01])
       assert hd(data) == ~w/
@@ -87,6 +91,10 @@ defmodule Covid19.Source.ExtractTest do
   end
 
   describe "us_data/1" do
+    test "returns nil on unavailable date" do
+      assert is_nil(Extract.us_data(~D[2018-10-10]))
+    end
+
     test "gets the header correctly" do
       data = Extract.us_data(~D[2021-01-01])
       assert hd(data) == ~w/

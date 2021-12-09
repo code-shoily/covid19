@@ -1,4 +1,4 @@
-defmodule Covid19.Source.Transform do
+defmodule Covid19.Source.CSSE.Transform do
   @moduledoc """
   Transforms extracted data for loading
   """
@@ -33,7 +33,9 @@ defmodule Covid19.Source.Transform do
   Headings are fixed, any heading that is not handled in the heading map will
   raise an exception.
   """
-  @spec daily_data_to_map([[binary()]]) :: [map()]
+  @spec daily_data_to_map([[binary()]] | nil) :: [map()]
+  def daily_data_to_map(nil), do: nil
+
   def daily_data_to_map([headers | rows]) when is_list(rows) do
     headers = Enum.map(headers, &heading/1)
 
@@ -79,7 +81,9 @@ defmodule Covid19.Source.Transform do
 
   defp to_datetime(str) do
     case Timex.parse(str, "{ISO:Extended}") do
-      {:ok, _} = date -> date
+      {:ok, _} = date ->
+        date
+
       {:error, _} ->
         str
         |> format_date()

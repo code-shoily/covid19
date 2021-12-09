@@ -1,11 +1,11 @@
-defmodule Covid19.Source.Utils do
+defmodule Covid19.Source.CSSE.Utils do
   @moduledoc """
   This module contains utilitiy functions that help with checking/validating.
 
   They are to be used in the REPL by the developer and not called by the app.
   """
-  alias Covid19.Source.Extract
-  alias Covid19.Source.Transform
+  alias Covid19.Source.CSSE.Extract
+  alias Covid19.Source.CSSE.Transform
 
   @doc """
   Find countries that are present on dataset but spelling does not match with

@@ -1,7 +1,7 @@
-defmodule Covid19.Source.TransformTest do
+defmodule Covid19.Source.CSSE.TransformTest do
   use ExUnit.Case
 
-  alias Covid19.Source.{Extract, Transform}
+  alias Covid19.Source.CSSE.{Extract, Transform}
 
   @headers ~w/
     active
@@ -77,6 +77,10 @@ defmodule Covid19.Source.TransformTest do
       transformed = Transform.daily_data_to_map(extracted)
 
       {:ok, %{extracted: extracted, transformed: transformed}}
+    end
+
+    test "nil value transforms to nil" do
+      assert is_nil(Transform.daily_data_to_map(nil))
     end
 
     test "correct number of entries are transformed",
