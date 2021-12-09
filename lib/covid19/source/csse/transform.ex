@@ -138,6 +138,7 @@ defmodule Covid19.Source.CSSE.Transform do
     "Province_State" => :province_or_state,
     "Province/State" => :province_or_state,
     "Recovered" => :recovered,
+    "src" => :src,
     "Testing_Rate" => :testing_rate,
     "Total_Test_Results" => :total_test_results,
     "UID" => :uid

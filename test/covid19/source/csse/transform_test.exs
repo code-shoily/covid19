@@ -31,6 +31,7 @@ defmodule Covid19.Source.CSSE.TransformTest do
     province_or_state
     province_or_state
     recovered
+    src
     testing_rate
     timestamp
     timestamp

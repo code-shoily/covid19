@@ -61,6 +61,7 @@ defmodule Covid19.Source.CSSE.ExtractTest do
     test "gets the header correctly" do
       data = Extract.global_data(~D[2021-01-01])
       assert hd(data) == ~w/
+        src
         FIPS
         Admin2
         Province_State
@@ -83,9 +84,21 @@ defmodule Covid19.Source.CSSE.ExtractTest do
           ~D[2021-01-04] => 3986
         } do
       @tag params: {date, row_count}
-      test "has the correct number of rows for #{date}", %{params: params} do
-        {date, row_count} = params
+      test "has the correct number of rows on #{date}",
+           %{params: {date, row_count}} do
         assert length(Extract.global_data(date)) == row_count
+      end
+    end
+
+    for date <- @dates do
+      @tag params: date
+      test "has the source correctly presented on #{date}", %{params: date} do
+        [headers | rows] = Extract.global_data(date)
+        assert hd(headers) == "src"
+
+        assert rows |> Enum.map(&hd/1) |> Enum.uniq() == [
+                 Extract.global_resources() |> Map.get(date)
+               ]
       end
     end
   end
@@ -98,6 +111,7 @@ defmodule Covid19.Source.CSSE.ExtractTest do
     test "gets the header correctly" do
       data = Extract.us_data(~D[2021-01-01])
       assert hd(data) == ~w/
+        src
         Province_State
         Country_Region
         Last_Update
@@ -126,9 +140,21 @@ defmodule Covid19.Source.CSSE.ExtractTest do
           ~D[2021-01-04] => 59
         } do
       @tag params: {date, row_count}
-      test "has the correct number of rows for #{date}", %{params: params} do
-        {date, row_count} = params
+      test "has the correct number of rows for #{date}",
+           %{params: {date, row_count}} do
         assert length(Extract.us_data(date)) == row_count
+      end
+    end
+
+    for date <- @dates do
+      @tag params: date
+      test "has the source correctly presented on #{date}", %{params: date} do
+        [headers | rows] = Extract.us_data(date)
+        assert hd(headers) == "src"
+
+        assert rows |> Enum.map(&hd/1) |> Enum.uniq() == [
+                 Extract.us_resources() |> Map.get(date)
+               ]
       end
     end
   end
