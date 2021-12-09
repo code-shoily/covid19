@@ -5,10 +5,12 @@ defmodule Covid19.Source.CSSE.Transform do
 
   @decimal_keys ~w/
     case_fatality_ratio
+    fips
     hospitalization_rate
     incidence_rate
     latitude
     longitude
+    mortality_rate
     testing_rate
     total_rest_results
   /a
@@ -119,12 +121,13 @@ defmodule Covid19.Source.CSSE.Transform do
     "Confirmed" => :confirmed,
     "Country_Region" => :country_or_region,
     "Country/Region" => :country_or_region,
+    "date" => :date,
     "Deaths_28_Days" => :deaths_28_days,
     "Deaths" => :deaths,
     "FIPS" => :fips,
     "Hospitalization_Rate" => :hospitalization_rate,
     "Incidence_Rate" => :incidence_rate,
-    "Incident_Rate" => :incident_rate,
+    "Incident_Rate" => :incidence_rate,
     "ISO3" => :iso3,
     "Last Update" => :timestamp,
     "Last_Update" => :timestamp,

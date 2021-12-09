@@ -62,6 +62,7 @@ defmodule Covid19.Source.CSSE.ExtractTest do
       data = Extract.global_data(~D[2021-01-01])
       assert hd(data) == ~w/
         src
+        date
         FIPS
         Admin2
         Province_State
@@ -101,6 +102,16 @@ defmodule Covid19.Source.CSSE.ExtractTest do
                ]
       end
     end
+
+    for date <- @dates do
+      @tag params: date
+      test "has the date correctly presented on #{date}", %{params: date} do
+        [headers | rows] = Extract.global_data(date)
+        assert hd(tl(headers)) == "date"
+
+        assert rows |> Enum.map(fn [_, v | _] -> v end) |> Enum.uniq() == [date]
+      end
+    end
   end
 
   describe "us_data/1" do
@@ -112,6 +123,7 @@ defmodule Covid19.Source.CSSE.ExtractTest do
       data = Extract.us_data(~D[2021-01-01])
       assert hd(data) == ~w/
         src
+        date
         Province_State
         Country_Region
         Last_Update
@@ -155,6 +167,16 @@ defmodule Covid19.Source.CSSE.ExtractTest do
         assert rows |> Enum.map(&hd/1) |> Enum.uniq() == [
                  Extract.us_resources() |> Map.get(date)
                ]
+      end
+    end
+
+    for date <- @dates do
+      @tag params: date
+      test "has the date correctly presented on #{date}", %{params: date} do
+        [headers | rows] = Extract.us_data(date)
+        assert hd(tl(headers)) == "date"
+
+        assert rows |> Enum.map(fn [_, v | _] -> v end) |> Enum.uniq() == [date]
       end
     end
   end

@@ -13,5 +13,5 @@ defmodule Covid19.Source.CSSE.Load do
   def insert(data, :global), do: insert_all(DailyData, data)
   def insert(data, :us), do: insert_all(DailyDataUS, data)
 
-  defp insert_all(schema, data), do: Repo.insert_all(schema, data)
+  defp insert_all(schema, data), do: Repo.insert_all(schema, Enum.uniq(data))
 end

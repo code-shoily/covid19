@@ -12,13 +12,12 @@ defmodule Covid19.Source.CSSE.TransformTest do
     country_or_region
     country_or_region
     county
+    date
     deaths
     deaths_28_days
     fips
-    fips
     hospitalization_rate
     incidence_rate
-    incident_rate
     iso3
     latitude
     latitude
@@ -54,6 +53,7 @@ defmodule Covid19.Source.CSSE.TransformTest do
 
   @decimal_keys ~w/
     case_fatality_ratio
+    fips
     hospitalization_rate
     incidence_rate
     latitude
@@ -181,15 +181,4 @@ defmodule Covid19.Source.CSSE.TransformTest do
              |> Enum.empty?()
     end
   end
-
-  # describe "transforming dates" do
-  #   for {input, output} <- %{
-  #     "2021-01-02 05:22:33" => ~N[2021-01-02 05:22:33]
-  #   } do
-  #     @tag @params: {input, output}
-  #     test "dates are transformed correctly for input #{input}",
-  #         %{params: {input, output}} do
-  #     end
-  #   end
-  # end
 end

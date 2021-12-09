@@ -4,7 +4,7 @@ defmodule Covid19.Repo.Migrations.AddFipsIso3CombineedKeyToUsData do
   def change do
     alter table(:daily_data_us) do
       add :iso3, :string, null: true
-      add :fips, :string, null: true
+      add :fips, :decimal, null: true
     end
   end
 end

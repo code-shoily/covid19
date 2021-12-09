@@ -135,12 +135,12 @@ defmodule Covid19.Source.CSSE.Extract do
     |> File.stream!()
     |> ResourceParser.parse_stream(skip_headers: false)
     |> Enum.to_list()
-    |> add_source(resource)
+    |> add_source(resource, date)
   rescue
     _ -> nil
   end
 
-  defp add_source([headers | rows], resource) do
-    [["src" | headers] | Enum.map(rows, fn row -> [resource | row] end)]
+  defp add_source([headers | rows], resource, date) do
+    [["src", "date" | headers] | Enum.map(rows, fn row -> [resource, date | row] end)]
   end
 end

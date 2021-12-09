@@ -8,6 +8,7 @@ defmodule Covid19.Schemas.DailyDataUS do
   schema "daily_data_us" do
     field :active, :integer
     field :cases_28_days, :decimal
+    field :case_fatality_ratio, :decimal
     field :confirmed, :integer
     field :country_or_region, :string
     field :date, :date
@@ -15,7 +16,7 @@ defmodule Covid19.Schemas.DailyDataUS do
     field :deaths, :integer
     field :fips, :decimal
     field :hospitalization_rate, :decimal
-    field :incident_rate, :decimal
+    field :incidence_rate, :decimal
     field :iso3, :string
     field :latitude, :decimal
     field :longitude, :decimal
@@ -41,7 +42,7 @@ defmodule Covid19.Schemas.DailyDataUS do
     deaths
     fips
     hospitalization_rate
-    incident_rate
+    incidence_rate
     iso3
     latitude
     longitude

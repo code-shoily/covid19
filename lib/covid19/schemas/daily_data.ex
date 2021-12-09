@@ -49,7 +49,6 @@ defmodule Covid19.Schemas.DailyData do
     daily_data
     |> cast(params, @fields)
     |> validate_required(@required_fields)
-    |> unique_constraint([:country_or_region, :county, :province_or_state, :src])
   end
 
   def new, do: %__MODULE__{}
