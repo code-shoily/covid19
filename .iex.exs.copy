@@ -1,4 +1,7 @@
+alias Covid19.Schema
+alias Covid19.Schema.{DailyData, DailyDataUS}
 alias Covid19.Source
+alias Covid19.Source.CSSE.{Extract, Transform, Load, Tools}
 alias Covid19.Repo
 
 import_file_if_available("~/.iex.exs")
