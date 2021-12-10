@@ -1,9 +1,9 @@
 defmodule Covid19.Schema.DailyDataUS do
-  @moduledoc false
+  @moduledoc """
+  Schema for daily datasets for US.
+  """
 
   use Ecto.Schema
-
-  import Ecto.Changeset
 
   schema "daily_data_us" do
     field :active, :integer
@@ -33,36 +33,4 @@ defmodule Covid19.Schema.DailyDataUS do
 
     timestamps()
   end
-
-  @fields ~w/
-    active
-    confirmed
-    country_or_region
-    date
-    deaths
-    fips
-    hospitalization_rate
-    incidence_rate
-    iso3
-    latitude
-    longitude
-    mortality_rate
-    people_hospitalized
-    people_tested
-    province_or_state
-    recovered
-    src
-    testing_rate
-    timestamp
-    uid
-  /a
-  @required_fields ~w/country_or_region date src/a
-  def changeset(daily_data, params) do
-    daily_data
-    |> cast(params, @fields)
-    |> validate_required(@required_fields)
-    |> unique_constraint([:src, :uid])
-  end
-
-  def new, do: %__MODULE__{}
 end

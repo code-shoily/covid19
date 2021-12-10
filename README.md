@@ -1,12 +1,10 @@
 # Covid19
 
-**WIP WARNING** This is very much work in progress, done in haste, focusing more on learning `LiveView` than caring about best practices, tests, and even sanctity of data. Will be dealt with in due time. Also, see the disclaimer below.
+**WIP WARNING** This is a work in progress. See the disclaimer below.
 
 This app reads Covid19 dataset from Johns Hopkins CSSE repository, loads it to a database and displays the data in a dashboard made with Phoenix LiveView.
 
 Big thanks goes to Johns Hopkins CSSE and by extension, people behind all those data sources for keeping us updated.
-
-Stay home, flatten the curve
 
 ## Setup
 
@@ -22,8 +20,11 @@ To start your Phoenix server:
 
 Now that the system is setup, let's load some data.
 
-* To get the latest dataset from the repository, update the submodules with `git submodule update --recursive --remote`
-* To update the Postgres database with the fetched data, run `mix covid19.load`. This will load all dates that have not been updated in the database, so the very first run might take a bit longer.
+To get the latest dataset from the repository, update the submodules with `git submodule update --recursive --remote`.
+
+Now, fire up `iex -S mix` and in the REPL, type `Source.sync_all()` to sync both
+global and US datasets. If you want to only sync US or Global datasets then you
+can type `Source.sync_all(:global)` for global and `Source.sync_all(:us)` for US.
 
 In order to keep the system updated, repeat the steps above.
 

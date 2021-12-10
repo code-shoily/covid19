@@ -1,15 +1,14 @@
-defmodule Covid19.Source.CSSE.Load do
+defmodule Covid19.Source.Load do
   @moduledoc """
   Loads data into store.
   """
   alias Covid19.Repo
   alias Covid19.Schema.{DailyData, DailyDataUS}
 
-  @type types() :: :global | :us
-
   @doc """
   Inserts all data into either global or us table.
   """
+  def insert(nil, _), do: {0, nil}
   def insert(data, :global), do: insert_all(DailyData, data)
   def insert(data, :us), do: insert_all(DailyDataUS, data)
 

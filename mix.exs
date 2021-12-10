@@ -10,7 +10,14 @@ defmodule Covid19.MixProject do
       compilers: [:gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
-      deps: deps()
+      deps: deps(),
+      test_coverage: [tool: ExCoveralls],
+      preferred_cli_env: [
+        coveralls: :test,
+        "coveralls.detail": :test,
+        "coveralls.post": :test,
+        "coveralls.html": :test
+      ]
     ]
   end
 
@@ -55,7 +62,8 @@ defmodule Covid19.MixProject do
       {:nimble_csv, "~> 1.1.0"},
       {:timex, "~> 3.7"},
       {:stream_data, "~> 0.5", only: [:dev, :test]},
-      {:ex_machina, "~> 2.7.0"}
+      {:ex_machina, "~> 2.7.0"},
+      {:excoveralls, "~> 0.10", only: :test}
     ]
   end
 

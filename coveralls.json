@@ -1,0 +1,20 @@
+{
+  "skip_files": [
+    "test/support",
+    "lib/covid19.ex",
+    "lib/covid19/application.ex",
+    "lib/covid19/mailer.ex",
+    "lib/covid19/repo.ex",
+    "lib/covid19/source/utils.ex",
+    "lib/covid19_web.ex",
+    "lib/covid19_web/endpoint.ex",
+    "lib/covid19_web/gettext.ex",
+    "lib/covid19_web/router.ex",
+    "lib/covid19_web/telemetry.ex",
+    "lib/covid19_web/views/layout_view.ex",
+    "lib/covid19_web/views/page_view.ex",
+    "lib/covid19_web/views/error_helpers.ex"
+  ]
+}
+
+

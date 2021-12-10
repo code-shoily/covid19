@@ -1,9 +1,9 @@
-defmodule Covid19.Source.CSSE.TransformTest do
+defmodule Covid19.Source.TransformTest do
   @moduledoc false
 
   use ExUnit.Case
 
-  alias Covid19.Source.CSSE.{Extract, Transform}
+  alias Covid19.Source.{Extract, Transform}
 
   @headers ~w/
     active
@@ -77,52 +77,58 @@ defmodule Covid19.Source.CSSE.TransformTest do
   describe "transforming global data extractions" do
     setup do
       extracted = Extract.global_data(~D[2021-01-01])
-      transformed = Transform.daily_data_to_map(extracted)
 
-      {:ok, %{extracted: extracted, transformed: transformed}}
+      {:ok, %{extracted: extracted}}
     end
 
     test "nil value transforms to nil" do
       assert is_nil(Transform.daily_data_to_map(nil))
     end
 
-    test "correct number of entries are transformed",
-         %{extracted: extracted, transformed: transformed} do
-      assert Enum.count(transformed) == Enum.count(extracted) - 1
+    test "correct number of entries are transformed", %{extracted: extracted} do
+      assert extracted
+             |> Transform.daily_data_to_map()
+             |> Enum.count() == Enum.count(extracted) - 1
     end
 
-    test "correct headers are transformed", %{transformed: transformed} do
+    test "correct headers are transformed", %{extracted: extracted} do
+      transformed = Transform.daily_data_to_map(extracted)
+
       assert MapSet.subset?(
                transformed |> Enum.flat_map(&Map.keys/1) |> MapSet.new(),
                MapSet.new(@headers)
              )
     end
 
-    test "us headers are not available", %{transformed: transformed} do
-      assert transformed
+    test "us headers are not available", %{extracted: extracted} do
+      assert extracted
+             |> Transform.daily_data_to_map()
              |> Enum.flat_map(&Map.take(&1, @us_headers))
              |> Keyword.values()
              |> Enum.empty?()
     end
 
-    test "all numeric data are cast", %{transformed: transformed} do
-      assert transformed
+    test "all numeric data are cast", %{extracted: extracted} do
+      assert extracted
+             |> Transform.daily_data_to_map()
              |> Enum.flat_map(&Map.take(&1, @integer_keys))
              |> Keyword.values()
              |> Enum.reject(fn v -> is_integer(v) || is_nil(v) end)
              |> Enum.empty?()
     end
 
-    test "all decimal data are cast", %{transformed: transformed} do
-      assert transformed
+    test "all decimal data are cast", %{extracted: extracted} do
+      assert extracted
+             |> Transform.daily_data_to_map()
              |> Enum.flat_map(&Map.take(&1, @decimal_keys))
              |> Keyword.values()
              |> Enum.reject(fn v -> match?(%Decimal{}, v) || is_nil(v) end)
              |> Enum.empty?()
     end
 
-    test "timestamps are in naive datetime", %{transformed: transformed} do
-      assert transformed
+    test "timestamps are in naive datetime", %{extracted: extracted} do
+      assert extracted
+             |> Transform.daily_data_to_map()
              |> Enum.map(&Map.get(&1, :timestamp))
              |> Enum.reject(&match?(%NaiveDateTime{}, &1))
              |> Enum.empty?()
@@ -132,48 +138,53 @@ defmodule Covid19.Source.CSSE.TransformTest do
   describe "transforming us data extractions" do
     setup do
       extracted = Extract.us_data(~D[2021-01-01])
-      transformed = Transform.daily_data_to_map(extracted)
 
-      {:ok, %{extracted: extracted, transformed: transformed}}
+      {:ok, %{extracted: extracted}}
     end
 
-    test "correct number of entries are transformed",
-         %{extracted: extracted, transformed: transformed} do
+    test "correct number of entries are transformed", %{extracted: extracted} do
+      transformed = Transform.daily_data_to_map(extracted)
       assert Enum.count(transformed) == Enum.count(extracted) - 1
     end
 
-    test "correct headers are transformed", %{transformed: transformed} do
+    test "correct headers are transformed", %{extracted: extracted} do
+      transformed = Transform.daily_data_to_map(extracted)
+
       assert MapSet.subset?(
                transformed |> Enum.flat_map(&Map.keys/1) |> MapSet.new(),
                MapSet.new(@headers)
              )
     end
 
-    test "all numeric data are cast", %{transformed: transformed} do
-      assert transformed
+    test "all numeric data are cast", %{extracted: extracted} do
+      assert extracted
+             |> Transform.daily_data_to_map()
              |> Enum.flat_map(&Map.take(&1, @integer_keys))
              |> Keyword.values()
              |> Enum.reject(fn v -> is_integer(v) || is_nil(v) end)
              |> Enum.empty?()
     end
 
-    test "us headers are available", %{transformed: transformed} do
-      assert transformed
+    test "us headers are available", %{extracted: extracted} do
+      assert extracted
+             |> Transform.daily_data_to_map()
              |> Enum.flat_map(&Map.take(&1, @us_headers))
              |> Keyword.values()
              |> Enum.any?()
     end
 
-    test "all decimal data are cast", %{transformed: transformed} do
-      assert transformed
+    test "all decimal data are cast", %{extracted: extracted} do
+      assert extracted
+             |> Transform.daily_data_to_map()
              |> Enum.flat_map(&Map.take(&1, @decimal_keys))
              |> Keyword.values()
              |> Enum.reject(fn v -> match?(%Decimal{}, v) || is_nil(v) end)
              |> Enum.empty?()
     end
 
-    test "timestamps are in naive datetime", %{transformed: transformed} do
-      assert transformed
+    test "timestamps are in naive datetime", %{extracted: extracted} do
+      assert extracted
+             |> Transform.daily_data_to_map()
              |> Enum.map(&Map.get(&1, :timestamp))
              |> Enum.reject(&match?(%NaiveDateTime{}, &1))
              |> Enum.empty?()

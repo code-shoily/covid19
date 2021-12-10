@@ -1,9 +1,9 @@
-defmodule Covid19.Source.CSSE.LoadTest do
+defmodule Covid19.Source.LoadTest do
   @moduledoc false
 
   use Covid19.DataCase
 
-  alias Covid19.Source.CSSE.Load
+  alias Covid19.Source.Load
 
   describe "loading to the global table" do
     setup do
@@ -66,6 +66,10 @@ defmodule Covid19.Source.CSSE.LoadTest do
       {:ok, %{single: single, multiple: multiple, duplicate: duplicate}}
     end
 
+    test "returns 0 when nil is attempted" do
+      assert {0, nil} = Load.insert(nil, :global)
+    end
+
     test "loads single data into table", %{single: single} do
       assert {1, nil} = Load.insert(single, :global)
     end
@@ -89,7 +93,7 @@ defmodule Covid19.Source.CSSE.LoadTest do
           confirmed: 843_161,
           country_or_region: "United States of America",
           date: ~D[2021-11-22],
-          deaths: 16073,
+          deaths: 16_073,
           fips: Decimal.new("1.0"),
           hospitalization_rate: nil,
           incidence_rate: Decimal.new("17196.189823553465"),
@@ -122,7 +126,7 @@ defmodule Covid19.Source.CSSE.LoadTest do
           longitude: Decimal.new("-89.6165"),
           mortality_rate: Decimal.new("5.118679050567596"),
           people_hospitalized: 1302,
-          people_tested: 54347,
+          people_tested: 54_347,
           province_or_state: "Wisconsin",
           recovered: nil,
           src: "data/covid19/csse_covid_19_data/csse_covid_19_daily_reports_us/04-22-2020.csv",
@@ -153,7 +157,7 @@ defmodule Covid19.Source.CSSE.LoadTest do
           uid: "84000056"
         },
         %{
-          active: -77366,
+          active: -77_366,
           confirmed: 0,
           country_or_region: "United States of America",
           date: ~D[2020-04-22],
@@ -168,7 +172,7 @@ defmodule Covid19.Source.CSSE.LoadTest do
           people_hospitalized: nil,
           people_tested: nil,
           province_or_state: "Recovered",
-          recovered: 77366,
+          recovered: 77_366,
           src: "data/covid19/csse_covid_19_data/csse_covid_19_daily_reports_us/04-22-2020.csv",
           testing_rate: nil,
           timestamp: ~N[2020-04-22 23:40:26],
@@ -179,6 +183,10 @@ defmodule Covid19.Source.CSSE.LoadTest do
       duplicate = single ++ single ++ single
 
       {:ok, %{single: single, multiple: multiple, duplicate: duplicate}}
+    end
+
+    test "returns 0 when nil is attempted" do
+      assert {0, nil} = Load.insert(nil, :us)
     end
 
     test "loads single data into table", %{single: single} do

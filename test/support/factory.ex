@@ -1,4 +1,7 @@
 defmodule Covid19.Factory do
+  @moduledoc """
+  The ex-machina factories for daily data and daily data us tables
+  """
   use ExMachina.Ecto, repo: Covid19.Repo
 
   def daily_data_factory(attrs) do

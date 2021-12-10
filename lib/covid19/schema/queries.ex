@@ -7,14 +7,13 @@ defmodule Covid19.Schema.Queries do
 
   import Ecto.Query
 
-  def dates_not_loaded(%Date{} = date, type), do: dates_not_loaded([date], type)
+  @type report_type :: :global | :us
 
-  def dates_not_loaded(dates, type) when is_list(dates) do
-    dates
-    |> MapSet.new()
-    |> MapSet.difference(dates_loaded(type))
-  end
-
+  @doc """
+  Returns a set of dates for which data is present in the database for either
+  global or us data.
+  """
+  @spec dates_loaded(report_type()) :: MapSet.t()
   def dates_loaded(type) do
     type
     |> get_schema()
@@ -22,6 +21,19 @@ defmodule Covid19.Schema.Queries do
     |> select([r], r.date)
     |> Repo.all()
     |> MapSet.new()
+  end
+
+  @doc """
+  Returns the latest dates that are in the table.
+  """
+  @spec latest(non_neg_integer(), report_type()) :: [Date.t()]
+  def latest(number_of_days, type) do
+    type
+    |> get_schema()
+    |> distinct(desc: :date)
+    |> order_by(desc: :date)
+    |> limit(^number_of_days)
+    |> Repo.all()
   end
 
   defp get_schema(:global), do: DailyData

@@ -1,4 +1,4 @@
-defmodule Covid19.Source.CSSE.Extract do
+defmodule Covid19.Source.Extract do
   @moduledoc """
   Extracts data from CSV sources
   """

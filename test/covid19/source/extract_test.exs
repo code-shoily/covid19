@@ -1,9 +1,9 @@
-defmodule Covid19.Source.CSSE.ExtractTest do
+defmodule Covid19.Source.ExtractTest do
   @moduledoc false
 
   use ExUnit.Case
 
-  alias Covid19.Source.CSSE.Extract
+  alias Covid19.Source.Extract
 
   doctest Extract
 
