@@ -1,4 +1,6 @@
 defmodule Covid19Web.ErrorViewTest do
+  @moduledoc false
+
   use Covid19Web.ConnCase, async: true
 
   # Bring render/3 and render_to_string/3 for testing custom views

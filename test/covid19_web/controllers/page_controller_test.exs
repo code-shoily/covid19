@@ -1,4 +1,6 @@
 defmodule Covid19Web.PageControllerTest do
+  @moduledoc false
+
   use Covid19Web.ConnCase
 
   test "GET /", %{conn: conn} do

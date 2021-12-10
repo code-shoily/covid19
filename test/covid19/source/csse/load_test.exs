@@ -1,4 +1,6 @@
 defmodule Covid19.Source.CSSE.LoadTest do
+  @moduledoc false
+
   use Covid19.DataCase
 
   alias Covid19.Source.CSSE.Load

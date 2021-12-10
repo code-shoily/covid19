@@ -3,7 +3,7 @@ defmodule Covid19.Source.CSSE.Load do
   Loads data into store.
   """
   alias Covid19.Repo
-  alias Covid19.Schemas.{DailyData, DailyDataUS}
+  alias Covid19.Schema.{DailyData, DailyDataUS}
 
   @type types() :: :global | :us
 

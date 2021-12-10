@@ -1,4 +1,6 @@
 defmodule Covid19Web.LayoutViewTest do
+  @moduledoc false
+
   use Covid19Web.ConnCase, async: true
 
   # When testing helpers, you may want to import Phoenix.HTML and

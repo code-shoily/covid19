@@ -1,4 +1,6 @@
 defmodule Covid19.Source.CSSE.TransformTest do
+  @moduledoc false
+
   use ExUnit.Case
 
   alias Covid19.Source.CSSE.{Extract, Transform}
@@ -107,8 +109,7 @@ defmodule Covid19.Source.CSSE.TransformTest do
       assert transformed
              |> Enum.flat_map(&Map.take(&1, @integer_keys))
              |> Keyword.values()
-             |> Enum.reject(&is_integer/1)
-             |> Enum.reject(&is_nil/1)
+             |> Enum.reject(fn v -> is_integer(v) || is_nil(v) end)
              |> Enum.empty?()
     end
 
@@ -116,8 +117,7 @@ defmodule Covid19.Source.CSSE.TransformTest do
       assert transformed
              |> Enum.flat_map(&Map.take(&1, @decimal_keys))
              |> Keyword.values()
-             |> Enum.reject(&match?(%Decimal{}, &1))
-             |> Enum.reject(&is_nil/1)
+             |> Enum.reject(fn v -> match?(%Decimal{}, v) || is_nil(v) end)
              |> Enum.empty?()
     end
 
@@ -153,8 +153,7 @@ defmodule Covid19.Source.CSSE.TransformTest do
       assert transformed
              |> Enum.flat_map(&Map.take(&1, @integer_keys))
              |> Keyword.values()
-             |> Enum.reject(&is_integer/1)
-             |> Enum.reject(&is_nil/1)
+             |> Enum.reject(fn v -> is_integer(v) || is_nil(v) end)
              |> Enum.empty?()
     end
 
@@ -169,8 +168,7 @@ defmodule Covid19.Source.CSSE.TransformTest do
       assert transformed
              |> Enum.flat_map(&Map.take(&1, @decimal_keys))
              |> Keyword.values()
-             |> Enum.reject(&match?(%Decimal{}, &1))
-             |> Enum.reject(&is_nil/1)
+             |> Enum.reject(fn v -> match?(%Decimal{}, v) || is_nil(v) end)
              |> Enum.empty?()
     end
 
