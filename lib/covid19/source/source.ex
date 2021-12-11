@@ -3,7 +3,8 @@ defmodule Covid19.Source do
   Functions to fetch data from source and updating the databases are here.
   """
   alias __MODULE__.{Extract, Load, Transform}
-  alias Covid19.Schema.{Operations, Queries}
+  alias Covid19.Queries.Common
+  alias Covid19.Schema.Operations
 
   @type report_type :: :global | :us
 
@@ -93,13 +94,13 @@ defmodule Covid19.Source do
 
   defp latest_dates(number_of_days, type) do
     number_of_days
-    |> Queries.latest(type)
+    |> Common.latest(type)
     |> Enum.map(& &1.date)
   end
 
   defp dates_not_loaded(dates, type) when is_list(dates) do
     dates
     |> MapSet.new()
-    |> MapSet.difference(Queries.dates_loaded(type))
+    |> MapSet.difference(Common.dates_loaded(type))
   end
 end

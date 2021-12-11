@@ -1,11 +1,11 @@
-defmodule Covid19.Schema.QueriesTest do
+defmodule Covid19.Queries.CommonTest do
   @moduledoc false
 
   use Covid19.DataCase
 
+  alias Covid19.Queries.Common, as: Queries
   alias Covid19.Repo
   alias Covid19.Schema.{DailyData, DailyDataUS}
-  alias Covid19.Schema.Queries
 
   import Covid19.Factory
 
@@ -90,6 +90,38 @@ defmodule Covid19.Schema.QueriesTest do
     test "empty dataset will return empty list for us" do
       Repo.delete_all(DailyDataUS)
       assert Queries.latest(1, :us) |> Enum.map(& &1.date) == []
+    end
+  end
+
+  describe "Queries.dates/1" do
+    setup do
+      date_range_1 = Date.range(~D[2020-01-01], ~D[2020-01-15])
+      for date <- date_range_1, do: insert(:daily_data, date: date)
+
+      date_range_2 = Date.range(~D[2021-01-01], ~D[2021-01-15])
+      for date <- date_range_2, do: insert(:daily_data_us, date: date)
+
+      {:ok, %{dates: {Enum.to_list(date_range_1), Enum.to_list(date_range_2)}}}
+    end
+
+    test "gobal - all inclusive dates will be returned in reverse order",
+         %{dates: {dates, _}} do
+      assert Queries.dates(:global) == Enum.reverse(dates)
+    end
+
+    test "global - empty dataset will return empty list" do
+      Repo.delete_all(DailyData)
+      assert Queries.dates(:global) == []
+    end
+
+    test "us - all inclusive dates will be returned in reverse order",
+         %{dates: {_, dates}} do
+      assert Queries.dates(:us) == Enum.reverse(dates)
+    end
+
+    test "us - empty dataset will return empty list" do
+      Repo.delete_all(DailyDataUS)
+      assert Queries.dates(:us) == []
     end
   end
 end
