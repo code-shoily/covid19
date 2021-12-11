@@ -2,7 +2,6 @@ defmodule Covid19.Schema.Operations do
   @moduledoc """
   All database mutation functions.
   """
-  alias Covid19.Queries.Summary
   alias Covid19.Repo
   alias Covid19.Schema.{DailyData, DailyDataUS}
 

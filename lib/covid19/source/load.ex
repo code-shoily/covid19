@@ -7,7 +7,12 @@ defmodule Covid19.Source.Load do
 
   @doc """
   Inserts all data into either global or us table.
+
+  * data - data map received from `Transform`
+  * type - dataset type either :us or :global
+
   """
+  @spec insert(map() | nil, type :: :us | :global) :: {integer(), any()}
   def insert(nil, _), do: {0, nil}
   def insert(data, :global), do: insert_all(DailyData, data)
   def insert(data, :us), do: insert_all(DailyDataUS, data)
