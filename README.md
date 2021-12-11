@@ -22,9 +22,13 @@ Now that the system is setup, let's load some data.
 
 To get the latest dataset from the repository, update the submodules with `git submodule update --recursive --remote`.
 
-Now, fire up `iex -S mix` and in the REPL, type `Source.sync_all()` to sync both
-global and US datasets. If you want to only sync US or Global datasets then you
-can type `Source.sync_all(:global)` for global and `Source.sync_all(:us)` for US.
+Now, fire up `iex -S mix` and in the REPL, type `Covid19.Source.sync_all()` to 
+sync both global and US datasets. If you want to only sync US or Global datasets 
+then you can type `Covid19.Source.sync_all(:global)` for global and 
+`Covid19.Source.sync_all(:us)` for US.
+
+There are some sensible aliases in `.iex.exs.copy` file. If you wish you can
+append them in your own `.iex.exs`.
 
 In order to keep the system updated, repeat the steps above.
 
@@ -38,11 +42,11 @@ TBA
 
 ### Main Dashboard
 
-![Dashboard](./screenshots/screenshot_1.png)
+TBA
 
 ### Detail View (WIP)
 
-![Detail View by Country](./screenshots/screenshot_2.png)
+TBA
 
 ## Disclaimer
 
