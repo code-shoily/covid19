@@ -63,7 +63,9 @@ defmodule Covid19.MixProject do
       {:timex, "~> 3.7"},
       {:stream_data, "~> 0.5", only: [:dev, :test]},
       {:ex_machina, "~> 2.7.0"},
-      {:excoveralls, "~> 0.10", only: :test}
+      {:excoveralls, "~> 0.10", only: :test},
+      {:vega_lite, "~> 0.1.2"},
+      {:kino, "~> 0.3.0"}
     ]
   end
 
