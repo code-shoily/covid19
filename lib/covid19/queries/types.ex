@@ -23,15 +23,15 @@ defmodule Covid19.Queries.Types do
   """
   @type world_summary :: [
           %{
+            required(:confirmed) => non_neg_integer(),
+            required(:country_or_region) => non_neg_integer(),
             required(:date) => Date.t(),
+            required(:deaths) => non_neg_integer(),
             required(:last_updated) => NaiveDateTime.t(),
             required(:new_confirmed) => non_neg_integer(),
             required(:new_deaths) => non_neg_integer(),
+            required(:province_or_state) => non_neg_integer(),
             required(:src) => String.t(),
-            required(:total_confirmed) => non_neg_integer(),
-            required(:total_country_or_region) => non_neg_integer(),
-            required(:total_deaths) => non_neg_integer(),
-            required(:total_province_or_state) => non_neg_integer()
           }
         ]
 
@@ -40,14 +40,13 @@ defmodule Covid19.Queries.Types do
   """
   @type country_summary :: [
           %{
+            required(:confirmed) => non_neg_integer(),
             required(:country_or_region) => String.t(),
             required(:date) => Date.t(),
-            required(:last_updated) => NaiveDateTime.t(),
+            required(:deaths) => non_neg_integer(),
             required(:new_confirmed) => non_neg_integer(),
             required(:new_deaths) => non_neg_integer(),
-            required(:total_confirmed) => non_neg_integer(),
-            required(:total_deaths) => non_neg_integer(),
-            required(:total_province_or_state) => non_neg_integer()
+            required(:province_or_state) => non_neg_integer()
           }
         ]
 
@@ -56,14 +55,13 @@ defmodule Covid19.Queries.Types do
   """
   @type province_or_state_summary :: [
           %{
+            required(:confirmed) => non_neg_integer(),
             required(:country_or_region) => String.t(),
             required(:date) => Date.t(),
-            required(:last_updated) => NaiveDateTime.t(),
+            required(:deaths) => non_neg_integer(),
             required(:new_confirmed) => non_neg_integer(),
             required(:new_deaths) => non_neg_integer(),
             required(:province_or_state) => non_neg_integer(),
-            required(:total_confirmed) => non_neg_integer(),
-            required(:total_deaths) => non_neg_integer()
           }
         ]
 
