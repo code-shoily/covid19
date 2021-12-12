@@ -91,7 +91,7 @@ defmodule Covid19.Queries do
     Repo
     |> Ecto.Adapters.SQL.query!(query, params)
     |> then(fn %{columns: columns, rows: rows} ->
-      columns = Enum.map(columns, &String.to_existing_atom/1)
+      columns = Enum.map(columns, &String.to_atom/1)
 
       Enum.map(rows, fn row ->
         Map.new(Enum.zip(columns, row))
