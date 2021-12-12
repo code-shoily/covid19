@@ -47,24 +47,29 @@ defmodule Covid19.Queries do
   @doc """
   Get datewise global summary. This will return global aggregate data per date.
   """
+  @spec summary_by_dates() :: Types.world_summary()
   def summary_by_dates, do: execute(SQL.summary_by_dates())
 
   @doc """
   Get datewise country summary. This will return country-wise aggregate data per
   date.
   """
+  @spec countries_or_regions_for_date(Date.t()) :: Types.country_summary()
   def countries_or_regions_for_date(date),
     do: execute(SQL.countries_or_regions_for_date(), [Date.add(date, -1), date])
 
   @doc """
   Get location summary. This will return data per location (Lat/Lng)
   """
+  @spec locations_for_date(Date.t()) :: Types.location_summary()
   def locations_for_date(date), do: execute(SQL.locations_for_date(), [date])
 
   @doc """
   Get country data summarized by dates. This will return datewise data for a
   country.
   """
+  @spec country_or_region_by_dates(Types.country_name()) ::
+          Types.country_summary()
   def country_or_region_by_dates(country),
     do: execute(SQL.country_or_region_by_dates(), [country])
 
@@ -72,6 +77,8 @@ defmodule Covid19.Queries do
   Get province or state data summarized for date. This will return all province
   or state data for a country for a given date.
   """
+  @spec provinces_or_states_for_date(Types.country_name(), Date.t()) ::
+          Types.province_or_state_summary()
   def provinces_or_states_for_date(country, date),
     do:
       execute(
@@ -79,10 +86,13 @@ defmodule Covid19.Queries do
         [Date.add(date, -1), date, country]
       )
 
+  @spec execute(String.t(), [Date.t() | String.t()]) :: [map()]
   defp execute(query, params \\ []) do
     Repo
     |> Ecto.Adapters.SQL.query!(query, params)
     |> then(fn %{columns: columns, rows: rows} ->
+      columns = Enum.map(columns, &String.to_existing_atom/1)
+
       Enum.map(rows, fn row ->
         Map.new(Enum.zip(columns, row))
       end)

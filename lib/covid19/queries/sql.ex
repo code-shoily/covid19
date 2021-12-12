@@ -41,7 +41,6 @@ defmodule Covid19.Queries.SQL do
           count(distinct province_or_state) total_province_or_state,
           sum(confirmed) total_confirmed,
           sum(deaths) total_deaths,
-          max(src) src,
           max(timestamp) last_updated
       FROM
           daily_data
@@ -49,13 +48,12 @@ defmodule Covid19.Queries.SQL do
       GROUP BY date, country_or_region
     ), secondary AS (
         SELECT date,
-              src,
               last_updated,
               country_or_region,
               total_province_or_state,
               total_confirmed,
               (total_confirmed -
-                lag(total_confirmed, 1) over (partition by country_or_region order by date))             new_confirmed,
+                lag(total_confirmed, 1) over (partition by country_or_region order by date)) new_confirmed,
               total_deaths,
               (total_deaths - lag(total_deaths, 1) over (partition by country_or_region order by date)) new_deaths
         FROM summary
@@ -67,7 +65,13 @@ defmodule Covid19.Queries.SQL do
   def locations_for_date do
     """
     SELECT
-        latitude, longitude, confirmed, deaths, case_fatality_ratio, incidence_rate
+        country_or_region,
+        latitude,
+        longitude,
+        confirmed,
+        deaths,
+        case_fatality_ratio,
+        incidence_rate
     FROM
         daily_data
     WHERE
@@ -84,7 +88,6 @@ defmodule Covid19.Queries.SQL do
           count(distinct province_or_state) total_province_or_state,
           sum(confirmed) total_confirmed,
           sum(deaths) total_deaths,
-          max(src) src,
           max(timestamp) last_updated
       FROM
           daily_data
@@ -93,7 +96,6 @@ defmodule Covid19.Queries.SQL do
     )
     SELECT
         date,
-        src,
         last_updated,
         country_or_region,
         total_province_or_state,
@@ -111,6 +113,7 @@ defmodule Covid19.Queries.SQL do
     WITH summary AS (
       SELECT
           date,
+          country_or_region,
           province_or_state,
           sum(confirmed) total_confirmed,
           sum(deaths) total_deaths,
@@ -119,11 +122,12 @@ defmodule Covid19.Queries.SQL do
       FROM
           daily_data
       WHERE date BETWEEN $1 AND $2 AND country_or_region = $3
-      GROUP BY date, province_or_state
+      GROUP BY date, country_or_region, province_or_state
     ), secondary AS (
         SELECT date,
               src,
               last_updated,
+              country_or_region,
               province_or_state,
               total_confirmed,
               (total_confirmed -
