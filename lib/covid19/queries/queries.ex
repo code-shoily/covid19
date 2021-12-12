@@ -91,12 +91,39 @@ defmodule Covid19.Queries do
     Repo
     |> Ecto.Adapters.SQL.query!(query, params)
     |> then(fn %{columns: columns, rows: rows} ->
-      columns = Enum.map(columns, &String.to_atom/1)
+      columns = Enum.map(columns, &column_to_atom/1)
 
       Enum.map(rows, fn row ->
         Map.new(Enum.zip(columns, row))
       end)
     end)
+  end
+
+  @valid_columns ~w/
+    case_fatality_ratio
+    confirmed
+    country_or_region
+    date
+    deaths
+    incidence_rate
+    last_updated
+    latitude
+    longitude
+    new_confirmed
+    new_deaths
+    province_or_state
+    src
+    total_confirmed
+    total_country_or_region
+    total_deaths
+    total_province_or_state
+  /
+  defp column_to_atom(column) do
+    if column in @valid_columns do
+      String.to_atom(column)
+    else
+      raise "Unknown Column Received - #{column}"
+    end
   end
 
   defp latest_query(type) do
