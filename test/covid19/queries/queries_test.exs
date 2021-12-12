@@ -1,9 +1,9 @@
-defmodule Covid19.Queries.SummaryTest do
+defmodule Covid19.Queries.QueriesTest do
   @moduledoc false
 
   use Covid19.DataCase
 
-  alias Covid19.Queries.Summary, as: Queries
+  alias Covid19.Queries
   alias Covid19.Repo
   alias Covid19.Schema.{DailyData, DailyDataUS}
 
