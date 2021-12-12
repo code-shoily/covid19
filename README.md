@@ -6,9 +6,17 @@ This app reads Covid19 dataset from Johns Hopkins CSSE repository, loads it to a
 
 Big thanks goes to Johns Hopkins CSSE and by extension, people behind all those data sources for keeping us updated.
 
-## Setup
+## Other Branches and UI
+As of right now, this branch (`main`) does not have any UI. UI is work in progress and will be updated soon.
 
-#### TODO Write instructions for setting up ClojureScript
+There are two experimental UI branches:
+
+1. [For ClojureScript + BulmaCSS](https://github.com/code-shoily/covid19/tree/clojurescript-experiment)
+2. [For TailwindCSS](https://github.com/code-shoily/covid19/tree/mafinar/try-out-tailwind)
+
+If you want to try out those branches, I'd suggest pull the data from the main branch following the instructions given here and then switch to those branches and compile. As the data syncing mechanism presented there are outdated and slow (30 minutes versus 3 minutes for global data sync)
+
+## Setup
 
 To start your Phoenix server:
 
