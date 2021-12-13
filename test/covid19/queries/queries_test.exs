@@ -359,4 +359,37 @@ defmodule Covid19.Queries.QueriesTest do
       assert Queries.locations_for_date(~D[2020-10-10]) == expected_summary
     end
   end
+
+  describe "Queries.countries_or_regions_for_date/1" do
+    setup do
+      :ok
+    end
+
+    test "empty data yields empty list" do
+      assert Queries.countries_or_regions_for_date(~D[2020-01-01]) == []
+    end
+  end
+
+  describe "Queries.country_or_region_by_dates" do
+    setup do
+      :ok
+    end
+
+    test "empty data yields empty list" do
+      assert Queries.country_or_region_by_dates("NotACountry") == []
+    end
+  end
+
+  describe "Queries.provinces_or_states_for_date/2" do
+    setup do
+      :ok
+    end
+
+    test "empty data yields empty list" do
+      assert Queries.provinces_or_states_for_date(
+               "NotACountry",
+               ~D[2020-01-01]
+             ) == []
+    end
+  end
 end
