@@ -11,6 +11,7 @@
     "lib/covid19.ex",
     "lib/covid19/application.ex",
     "lib/covid19/mailer.ex",
+    "lib/covid19/queries/sql.ex",
     "lib/covid19/queries/types.ex",
     "lib/covid19/repo.ex",
     "lib/covid19/source/utils.ex",
