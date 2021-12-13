@@ -56,7 +56,8 @@ defmodule Covid19.Queries do
       date: i.date,
       deaths: sum(i.deaths),
       last_updated: max(i.timestamp),
-      province_or_state: count(fragment("DISTINCT province_or_state"))
+      province_or_state: count(fragment("DISTINCT province_or_state")),
+      src: max(i.src)
     })
     |> group_by([i], i.date)
     |> subquery()
@@ -68,7 +69,8 @@ defmodule Covid19.Queries do
       last_updated: i.last_updated,
       new_confirmed: i.confirmed - over(lag(i.confirmed, 1), :window),
       new_deaths: i.deaths - over(lag(i.deaths, 1), :window),
-      province_or_state: i.province_or_state
+      province_or_state: i.province_or_state,
+      src: i.src
     })
     |> windows(window: [order_by: :date])
     |> Repo.all()
@@ -88,7 +90,7 @@ defmodule Covid19.Queries do
       country_or_region: i.country_or_region,
       date: i.date,
       deaths: sum(i.deaths),
-      province_or_state: count(fragment("DISTINCT province_or_state")),
+      province_or_state: count(fragment("DISTINCT province_or_state"))
     })
     |> where([i], i.date >= ^previous_date)
     |> where([i], i.date <= ^date)
@@ -101,7 +103,7 @@ defmodule Covid19.Queries do
       deaths: i.deaths,
       new_confirmed: i.confirmed - over(lag(i.confirmed, 1), :window),
       new_deaths: i.deaths - over(lag(i.deaths, 1), :window),
-      province_or_state: i.province_or_state,
+      province_or_state: i.province_or_state
     })
     |> windows(window: [partition_by: :country_or_region, order_by: :date])
     |> subquery()
@@ -124,7 +126,7 @@ defmodule Covid19.Queries do
       deaths: i.deaths,
       incidence_rate: i.incidence_rate,
       latitude: i.latitude,
-      longitude: i.longitude,
+      longitude: i.longitude
     })
     |> where([i], i.date >= ^previous_date)
     |> where([i], i.date <= ^date)

@@ -40,4 +40,25 @@ defmodule Covid19.Factory do
     |> ExMachina.merge_attributes(attrs)
     |> ExMachina.evaluate_lazy_attributes()
   end
+
+  def transformed_data_factory do
+    %{
+      active: 0,
+      case_fatality_ratio: nil,
+      combined_key: "Country-1",
+      confirmed: 0,
+      country_or_region: "Country-1",
+      county: "",
+      date: ~D[2020-10-10],
+      deaths: 0,
+      fips: nil,
+      incidence_rate: Decimal.new(0),
+      latitude: Decimal.new(0),
+      longitude: Decimal.new(0),
+      province_or_state: "Province/State-1",
+      recovered: 0,
+      src: "data/covid19/csse_covid_19_data/csse_covid_19_daily_reports/10-10-2020.csv",
+      timestamp: ~N[2020-10-11 04:23:46]
+    }
+  end
 end

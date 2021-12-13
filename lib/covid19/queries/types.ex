@@ -31,7 +31,7 @@ defmodule Covid19.Queries.Types do
             required(:new_confirmed) => non_neg_integer(),
             required(:new_deaths) => non_neg_integer(),
             required(:province_or_state) => non_neg_integer(),
-            required(:src) => String.t(),
+            required(:src) => String.t()
           }
         ]
 
@@ -61,7 +61,7 @@ defmodule Covid19.Queries.Types do
             required(:deaths) => non_neg_integer(),
             required(:new_confirmed) => non_neg_integer(),
             required(:new_deaths) => non_neg_integer(),
-            required(:province_or_state) => non_neg_integer(),
+            required(:province_or_state) => non_neg_integer()
           }
         ]
 
