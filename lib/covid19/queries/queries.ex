@@ -94,7 +94,7 @@ defmodule Covid19.Queries do
     })
     |> where([i], i.date >= ^previous_date)
     |> where([i], i.date <= ^date)
-    |> group_by([i], [i.date, i.country_or_region])
+    |> group_by([i], [i.country_or_region, i.date])
     |> subquery()
     |> select([i], %{
       confirmed: i.confirmed,

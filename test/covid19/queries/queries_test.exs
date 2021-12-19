@@ -362,27 +362,319 @@ defmodule Covid19.Queries.QueriesTest do
 
   describe "Queries.countries_or_regions_for_date/1" do
     setup do
-      :ok
+      transformed_data = [
+        build(:transformed_data, %{
+          country_or_region: "A",
+          confirmed: 50,
+          date: ~D[2019-12-31],
+          deaths: 10,
+          src: "S1",
+          timestamp: ~N[2020-10-11 04:23:46]
+        }),
+        build(:transformed_data, %{
+          country_or_region: "C",
+          confirmed: 100,
+          date: ~D[2019-12-31],
+          deaths: 0,
+          src: "S1",
+          timestamp: ~N[2020-10-11 04:23:46]
+        }),
+        build(:transformed_data, %{
+          country_or_region: "A",
+          confirmed: 100,
+          date: ~D[2020-01-01],
+          deaths: 15,
+          src: "S1",
+          timestamp: ~N[2020-10-11 04:23:46]
+        }),
+        build(:transformed_data, %{
+          confirmed: 130,
+          country_or_region: "B",
+          date: ~D[2020-01-01],
+          deaths: 10,
+          province_or_state: "S-1",
+          src: "S1",
+          timestamp: ~N[2020-10-11 04:23:46]
+        }),
+        build(:transformed_data, %{
+          confirmed: 200,
+          country_or_region: "C",
+          date: ~D[2020-10-01],
+          deaths: 11,
+          province_or_state: "S-2",
+          src: "S2",
+          timestamp: ~N[2020-10-11 04:23:46]
+        }),
+        build(:transformed_data, %{
+          country_or_region: "A",
+          confirmed: 400,
+          date: ~D[2020-01-02],
+          deaths: 23,
+          src: "S2",
+          timestamp: ~N[2020-10-11 04:23:46]
+        }),
+        build(:transformed_data, %{
+          country_or_region: "C",
+          confirmed: 500,
+          date: ~D[2020-01-01],
+          deaths: 30,
+          src: "S3",
+          timestamp: ~N[2020-10-11 04:23:46]
+        }),
+        build(:transformed_data, %{
+          country_or_region: "C",
+          confirmed: 100,
+          date: ~D[2020-01-01],
+          deaths: 4,
+          src: "S3",
+          province_or_state: "PS-1",
+          timestamp: ~N[2020-10-11 04:23:46]
+        })
+      ]
+
+      {:ok, %{transformed_data: transformed_data}}
     end
 
     test "empty data yields empty list" do
       assert Queries.countries_or_regions_for_date(~D[2020-01-01]) == []
     end
+
+    test "summarized data is presented correctly", %{transformed_data: data} do
+      Load.insert(data, :global)
+
+      expected_summary = [
+        %{
+          confirmed: 100,
+          country_or_region: "A",
+          date: ~D[2020-01-01],
+          deaths: 15,
+          new_confirmed: 50,
+          new_deaths: 5,
+          province_or_state: 1
+        },
+        %{
+          confirmed: 130,
+          country_or_region: "B",
+          date: ~D[2020-01-01],
+          deaths: 10,
+          new_confirmed: nil,
+          new_deaths: nil,
+          province_or_state: 1
+        },
+        %{
+          confirmed: 600,
+          country_or_region: "C",
+          date: ~D[2020-01-01],
+          deaths: 34,
+          new_confirmed: 500,
+          new_deaths: 34,
+          province_or_state: 2
+        }
+      ]
+
+      assert Queries.countries_or_regions_for_date(~D[2020-01-01]) == expected_summary
+    end
   end
 
   describe "Queries.country_or_region_by_dates" do
     setup do
-      :ok
+      transformed_data = [
+        build(:transformed_data, %{
+          country_or_region: "A",
+          confirmed: 100,
+          date: ~D[2020-01-01],
+          deaths: 0,
+          src: "S1",
+          timestamp: ~N[2020-10-11 04:23:46]
+        }),
+        build(:transformed_data, %{
+          confirmed: 130,
+          country_or_region: "B",
+          date: ~D[2020-01-01],
+          deaths: 10,
+          province_or_state: "S-1",
+          src: "S1",
+          timestamp: ~N[2020-10-11 04:23:46]
+        }),
+        build(:transformed_data, %{
+          confirmed: 200,
+          country_or_region: "C",
+          date: ~D[2020-01-02],
+          deaths: 11,
+          province_or_state: "S-2",
+          src: "S2",
+          timestamp: ~N[2020-10-11 04:23:46]
+        }),
+        build(:transformed_data, %{
+          country_or_region: "A",
+          confirmed: 400,
+          date: ~D[2020-01-02],
+          deaths: 23,
+          src: "S2",
+          timestamp: ~N[2020-10-11 04:23:46]
+        }),
+        build(:transformed_data, %{
+          country_or_region: "A",
+          confirmed: 500,
+          date: ~D[2020-01-03],
+          deaths: 30,
+          src: "S3",
+          timestamp: ~N[2020-10-11 04:23:46]
+        }),
+        build(:transformed_data, %{
+          country_or_region: "A",
+          confirmed: 100,
+          date: ~D[2020-01-03],
+          deaths: 4,
+          src: "S3",
+          province_or_state: "PS-1",
+          timestamp: ~N[2020-10-11 04:23:46]
+        }),
+        build(:transformed_data, %{
+          country_or_region: "A",
+          confirmed: 650,
+          date: ~D[2020-01-04],
+          deaths: 55,
+          src: "S4",
+          timestamp: ~N[2020-10-11 04:23:46]
+        })
+      ]
+
+      {:ok, %{transformed_data: transformed_data}}
     end
 
     test "empty data yields empty list" do
       assert Queries.country_or_region_by_dates("NotACountry") == []
     end
+
+    test "summarized data is presented correctly", %{transformed_data: data} do
+      Load.insert(data, :global)
+
+      expected_summary = [
+        %{
+          confirmed: 100,
+          country_or_region: "A",
+          date: ~D[2020-01-01],
+          deaths: 0,
+          new_confirmed: nil,
+          new_deaths: nil,
+          province_or_state: 1
+        },
+        %{
+          confirmed: 400,
+          country_or_region: "A",
+          date: ~D[2020-01-02],
+          deaths: 23,
+          new_confirmed: 300,
+          new_deaths: 23,
+          province_or_state: 1
+        },
+        %{
+          confirmed: 600,
+          country_or_region: "A",
+          date: ~D[2020-01-03],
+          deaths: 34,
+          new_confirmed: 200,
+          new_deaths: 11,
+          province_or_state: 2
+        },
+        %{
+          confirmed: 650,
+          country_or_region: "A",
+          date: ~D[2020-01-04],
+          deaths: 55,
+          new_confirmed: 50,
+          new_deaths: 21,
+          province_or_state: 1
+        }
+      ]
+
+      assert Queries.country_or_region_by_dates("A") == expected_summary
+    end
   end
 
   describe "Queries.provinces_or_states_for_date/2" do
     setup do
-      :ok
+      transformed_data = [
+        build(:transformed_data, %{
+          country_or_region: "A",
+          confirmed: 50,
+          date: ~D[2019-12-31],
+          deaths: 10,
+          src: "S1",
+          timestamp: ~N[2020-10-11 04:23:46]
+        }),
+        build(:transformed_data, %{
+          country_or_region: "C",
+          confirmed: 100,
+          date: ~D[2019-12-31],
+          deaths: 0,
+          src: "S1",
+          timestamp: ~N[2020-10-11 04:23:46]
+        }),
+        build(:transformed_data, %{
+          country_or_region: "A",
+          confirmed: 100,
+          date: ~D[2020-01-01],
+          deaths: 15,
+          src: "S1",
+          timestamp: ~N[2020-10-11 04:23:46]
+        }),
+        build(:transformed_data, %{
+          confirmed: 130,
+          country_or_region: "B",
+          date: ~D[2020-01-01],
+          deaths: 10,
+          province_or_state: nil,
+          src: "S1",
+          timestamp: ~N[2020-10-11 04:23:46]
+        }),
+        build(:transformed_data, %{
+          confirmed: 200,
+          country_or_region: "C",
+          date: ~D[2020-10-01],
+          deaths: 11,
+          province_or_state: "S-2",
+          src: "S2",
+          timestamp: ~N[2020-10-11 04:23:46]
+        }),
+        build(:transformed_data, %{
+          country_or_region: "A",
+          confirmed: 400,
+          date: ~D[2020-01-02],
+          deaths: 23,
+          src: "S2",
+          timestamp: ~N[2020-10-11 04:23:46]
+        }),
+        build(:transformed_data, %{
+          country_or_region: "C",
+          confirmed: 500,
+          date: ~D[2020-01-01],
+          deaths: 30,
+          src: "S3",
+          timestamp: ~N[2020-10-11 04:23:46]
+        }),
+        build(:transformed_data, %{
+          country_or_region: "C",
+          confirmed: 500,
+          date: ~D[2020-01-01],
+          deaths: 30,
+          province_or_state: "PS-0",
+          src: "S3",
+          timestamp: ~N[2020-10-11 04:23:46]
+        }),
+        build(:transformed_data, %{
+          country_or_region: "C",
+          confirmed: 100,
+          date: ~D[2020-01-01],
+          deaths: 4,
+          province_or_state: "PS-1",
+          src: "S3",
+          timestamp: ~N[2020-10-11 04:23:46]
+        })
+      ]
+
+      {:ok, %{transformed_data: transformed_data}}
     end
 
     test "empty data yields empty list" do
@@ -390,6 +682,60 @@ defmodule Covid19.Queries.QueriesTest do
                "NotACountry",
                ~D[2020-01-01]
              ) == []
+    end
+
+    test "summarized data is presented correctly", %{transformed_data: data} do
+      Load.insert(data, :global)
+
+      expected_summary = [
+        %{
+          confirmed: 500,
+          country_or_region: "C",
+          date: ~D[2020-01-01],
+          deaths: 30,
+          new_confirmed: nil,
+          new_deaths: nil,
+          province_or_state: "PS-0"
+        },
+        %{
+          confirmed: 100,
+          country_or_region: "C",
+          date: ~D[2020-01-01],
+          deaths: 4,
+          new_confirmed: nil,
+          new_deaths: nil,
+          province_or_state: "PS-1"
+        },
+        %{
+          confirmed: 500,
+          country_or_region: "C",
+          date: ~D[2020-01-01],
+          deaths: 30,
+          new_confirmed: 400,
+          new_deaths: 30,
+          province_or_state: "Province/State-1"
+        }
+      ]
+
+      assert Queries.provinces_or_states_for_date("C", ~D[2020-01-01]) == expected_summary
+    end
+
+    test "summarizes data without province correctly", %{transformed_data: data} do
+      Load.insert(data, :global)
+
+      expected_summary = [
+        %{
+          confirmed: 130,
+          country_or_region: "B",
+          date: ~D[2020-01-01],
+          deaths: 10,
+          new_confirmed: nil,
+          new_deaths: nil,
+          province_or_state: nil
+        }
+      ]
+
+      assert Queries.provinces_or_states_for_date("B", ~D[2020-01-01]) == expected_summary
     end
   end
 end
