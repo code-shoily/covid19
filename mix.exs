@@ -44,11 +44,11 @@ defmodule Covid19.MixProject do
       {:phoenix_ecto, "~> 4.4"},
       {:ecto_sql, "~> 3.7"},
       {:postgrex, ">= 0.0.0"},
-      {:phoenix_html, "~> 3.0"},
-      {:phoenix_live_reload, "~> 1.2", only: :dev},
-      {:phoenix_live_view, "~> 0.16.0"},
+      {:phoenix_html, "~> 3.2"},
+      {:phoenix_live_reload, "~> 1.3", only: :dev},
+      {:phoenix_live_view, "~> 0.17"},
       {:floki, ">= 0.31.0", only: :test},
-      {:phoenix_live_dashboard, "~> 0.5"},
+      {:phoenix_live_dashboard, "~> 0.6"},
       {:esbuild, "~> 0.4", runtime: Mix.env() == :dev},
       {:swoosh, "~> 1.5"},
       {:telemetry_metrics, "~> 0.6"},
@@ -57,15 +57,15 @@ defmodule Covid19.MixProject do
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
       {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
-      {:surface, "~> 0.6"},
       {:countries, "~> 1.6"},
-      {:nimble_csv, "~> 1.1.0"},
+      {:nimble_csv, "~> 1.2"},
       {:timex, "~> 3.7"},
       {:stream_data, "~> 0.5", only: [:dev, :test]},
-      {:ex_machina, "~> 2.7.0"},
-      {:excoveralls, "~> 0.10", only: :test},
+      {:ex_machina, "~> 2.7"},
+      {:excoveralls, "~> 0.14", only: :test},
+      {:ecto_psql_extras, "~> 0.6"},
       {:vega_lite, "~> 0.1.2"},
-      {:kino, "~> 0.3.0"}
+      {:kino, "~> 0.4"}
     ]
   end
 
