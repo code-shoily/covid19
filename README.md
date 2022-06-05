@@ -20,7 +20,7 @@ If you want to try out those branches, I'd suggest pull the data from the main b
 
 To start your Phoenix server:
 
-* Pull the Covid19 dataset submodule with `git submodule update --init --recursive`
+* Pull the Covid19 dataset submodule with `git submodule update --init --recursive --progress --depth 1`
 * Install dependencies with `mix deps.get`
 * Create and migrate your database with `mix ecto.setup`
 * Install Node.js dependencies with `cd assets && npm install`
