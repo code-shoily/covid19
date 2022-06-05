@@ -45,14 +45,14 @@ defmodule Covid19.Source.Transform do
     |> Enum.map(fn row ->
       row
       |> then(&Enum.zip(headers, &1))
-      |> Enum.into(%{})
-      |> Map.map(fn
-        {:country_or_region, country} -> country_or_region(country)
-        {:timestamp, timestamp} -> to_datetime!(timestamp)
-        {key, value} when key in @integer_keys -> to_integer(value)
-        {key, value} when key in @decimal_keys -> to_decimal(value)
-        {_, column} -> column
+      |> Enum.map(fn
+        {:country_or_region, country} -> {:country_or_region, country_or_region(country)}
+        {:timestamp, timestamp} -> {:timestamp, to_datetime!(timestamp)}
+        {key, value} when key in @integer_keys -> {key, to_integer(value)}
+        {key, value} when key in @decimal_keys -> {key, to_decimal(value)}
+        value -> value
       end)
+      |> Map.new()
     end)
   end
 
