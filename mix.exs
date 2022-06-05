@@ -64,8 +64,6 @@ defmodule Covid19.MixProject do
       {:ex_machina, "~> 2.7"},
       {:excoveralls, "~> 0.14", only: :test},
       {:ecto_psql_extras, "~> 0.6"},
-      {:vega_lite, "~> 0.1.2"},
-      {:kino, "~> 0.4"},
       {:nebulex, "~> 2.2"},
       {:shards, "~> 1.0"},
       {:decorator, "~> 1.4"},
