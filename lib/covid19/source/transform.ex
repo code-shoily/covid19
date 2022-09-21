@@ -39,7 +39,7 @@ defmodule Covid19.Source.Transform do
   def daily_data_to_map(nil), do: nil
 
   def daily_data_to_map([headers | rows]) when is_list(rows) do
-    headers = Enum.map(headers, &heading/1)
+    headers = Enum.map(headers, &heading/1) |> Enum.reject(&is_nil/1)
 
     rows
     |> Enum.map(fn row ->
@@ -147,7 +147,12 @@ defmodule Covid19.Source.Transform do
     "UID" => :uid
   }
 
-  defp heading(data), do: Map.fetch!(@headers, data)
+  defp heading(data) do
+    case Map.fetch(@headers, data) do
+      {:ok, value} -> value
+      _ -> nil
+    end
+  end
 
   # Note: The mapper tries to map country or region names given on the CSVs with
   # the names given in `Countries` module. In case they are absent in the module
