@@ -17,27 +17,22 @@ defmodule Covid19Web.ConnCase do
 
   use ExUnit.CaseTemplate
 
-  alias Ecto.Adapters.SQL
-
   using do
     quote do
-      # Import conveniences for testing with connections
-      import Plug.Conn
-      import Phoenix.ConnTest
-      import Covid19Web.ConnCase
-
-      alias Covid19Web.Router.Helpers, as: Routes
-
       # The default endpoint for testing
       @endpoint Covid19Web.Endpoint
 
       use Covid19Web, :verified_routes
+
+      # Import conveniences for testing with connections
+      import Plug.Conn
+      import Phoenix.ConnTest
+      import Covid19Web.ConnCase
     end
   end
 
   setup tags do
-    pid = SQL.Sandbox.start_owner!(Covid19.Repo, shared: not tags[:async])
-    on_exit(fn -> SQL.Sandbox.stop_owner(pid) end)
+    Covid19.DataCase.setup_sandbox(tags)
     {:ok, conn: Phoenix.ConnTest.build_conn()}
   end
 end

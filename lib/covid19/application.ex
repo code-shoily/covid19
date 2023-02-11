@@ -8,14 +8,16 @@ defmodule Covid19.Application do
   @impl true
   def start(_type, _args) do
     children = [
+      # Start the Telemetry supervisor
+      Covid19Web.Telemetry,
       # Start the Ecto repository
       Covid19.Repo,
       # Start the ParitionedCache
       Application.get_env(:covid19, :nebulex_cache, Covid19.PartitionedCache),
-      # Start the Telemetry supervisor
-      Covid19Web.Telemetry,
       # Start the PubSub system
       {Phoenix.PubSub, name: Covid19.PubSub},
+      # Start Finch
+      {Finch, name: Covid19.Finch},
       # Start the Endpoint (http/https)
       Covid19Web.Endpoint
       # Start a worker by calling: Covid19.Worker.start_link(arg)

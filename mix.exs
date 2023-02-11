@@ -4,8 +4,8 @@ defmodule Covid19.MixProject do
   def project do
     [
       app: :covid19,
-      version: "0.1.0",
-      elixir: "~> 1.12",
+      version: "0.2.0",
+      elixir: "~> 1.14",
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
@@ -46,17 +46,19 @@ defmodule Covid19.MixProject do
       # Web
       {:gettext, "~> 0.18"},
       {:jason, "~> 1.2"},
-      {:plug_cowboy, "~> 2.5"},
+      {:finch, "~> 0.13"},
       # Phoenix and friends
       {:phoenix, "~> 1.7.0-rc.2", override: true},
       {:phoenix_ecto, "~> 4.4"},
       {:phoenix_html, "~> 3.2"},
       {:phoenix_live_reload, "~> 1.3", only: :dev},
       {:phoenix_live_view, "~> 0.18"},
-      {:phoenix_view, "~> 2.0"},
       {:phoenix_live_dashboard, "~> 0.7.2"},
       {:swoosh, "~> 1.5"},
-      {:esbuild, "~> 0.4", runtime: Mix.env() == :dev},
+      {:heroicons, "~> 0.5"},
+      {:esbuild, "~> 0.5", runtime: Mix.env() == :dev},
+      {:tailwind, "~> 0.1.8", runtime: Mix.env() == :dev},
+      {:plug_cowboy, "~> 2.5"},
       # Scaping
       {:floki, ">= 0.31.0", only: :test},
       {:nimble_csv, "~> 1.2"},
@@ -86,11 +88,12 @@ defmodule Covid19.MixProject do
   # See the documentation for `Mix` for more info on aliases.
   defp aliases do
     [
-      setup: ["deps.get", "ecto.setup"],
+      setup: ["deps.get", "ecto.setup", "assets.setup"],
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
-      "assets.deploy": ["esbuild default --minify", "phx.digest"]
+      "assets.setup": ["tailwind.install --if-missing", "esbuild.install --if-missing"],
+      "assets.deploy": ["tailwind default --minify", "esbuild default --minify", "phx.digest"]
     ]
   end
 end

@@ -1,10 +1,8 @@
 defmodule Covid19Web.PageControllerTest do
-  @moduledoc false
-
   use Covid19Web.ConnCase
 
   test "GET /", %{conn: conn} do
-    conn = get(conn, "/")
-    assert html_response(conn, 200) =~ "Welcome to Phoenix!"
+    conn = get(conn, ~p"/")
+    assert html_response(conn, 200) =~ "Peace of mind from prototype to production"
   end
 end

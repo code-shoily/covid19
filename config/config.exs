@@ -14,7 +14,10 @@ config :covid19,
 config :covid19, Covid19Web.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "z+p8BXgrWgbt/jqTJEkO/NVEyxm55g+Z9k8v6KsJM56dqn1/lDqe9yVs6Q1jg5sH",
-  render_errors: [view: Covid19Web.ErrorView, accepts: ~w(html json), layout: false],
+  render_errors: [
+    formats: [html: Covid19Web.ErrorHTML, json: Covid19Web.ErrorJSON],
+    layout: false
+  ],
   pubsub_server: Covid19.PubSub,
   live_view: [signing_salt: "vOqYjEvR"]
 
@@ -38,11 +41,24 @@ config :swoosh, :api_client, false
 
 # Configure esbuild (the version is required)
 config :esbuild,
-  version: "0.12.18",
+  version: "0.14.41",
   default: [
-    args: ~w(js/app.js --bundle --target=es2016 --outdir=../priv/static/assets),
+    args:
+      ~w(js/app.js --bundle --target=es2017 --outdir=../priv/static/assets --external:/fonts/* --external:/images/*),
     cd: Path.expand("../assets", __DIR__),
     env: %{"NODE_PATH" => Path.expand("../deps", __DIR__)}
+  ]
+
+# Configure tailwind (the version is required)
+config :tailwind,
+  version: "3.2.4",
+  default: [
+    args: ~w(
+      --config=tailwind.config.js
+      --input=css/app.css
+      --output=../priv/static/assets/app.css
+    ),
+    cd: Path.expand("../assets", __DIR__)
   ]
 
 # Configures Elixir's Logger

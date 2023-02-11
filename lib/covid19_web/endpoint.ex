@@ -7,7 +7,8 @@ defmodule Covid19Web.Endpoint do
   @session_options [
     store: :cookie,
     key: "_covid19_key",
-    signing_salt: "IhJVGLs1"
+    signing_salt: "IhJVGLs1",
+    same_site: "Lax"
   ]
 
   socket "/live", Phoenix.LiveView.Socket, websocket: [connect_info: [session: @session_options]]

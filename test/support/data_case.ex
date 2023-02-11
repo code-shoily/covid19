@@ -16,8 +16,6 @@ defmodule Covid19.DataCase do
 
   use ExUnit.CaseTemplate
 
-  alias Ecto.Adapters.SQL
-
   using do
     quote do
       alias Covid19.Repo
@@ -30,9 +28,16 @@ defmodule Covid19.DataCase do
   end
 
   setup tags do
-    pid = SQL.Sandbox.start_owner!(Covid19.Repo, shared: not tags[:async])
-    on_exit(fn -> SQL.Sandbox.stop_owner(pid) end)
+    Covid19.DataCase.setup_sandbox(tags)
     :ok
+  end
+
+  @doc """
+  Sets up the sandbox based on the test tags.
+  """
+  def setup_sandbox(tags) do
+    pid = Ecto.Adapters.SQL.Sandbox.start_owner!(Covid19.Repo, shared: not tags[:async])
+    on_exit(fn -> Ecto.Adapters.SQL.Sandbox.stop_owner(pid) end)
   end
 
   @doc """
