@@ -18,6 +18,12 @@ config :covid19, Covid19Web.Endpoint,
   pubsub_server: Covid19.PubSub,
   live_view: [signing_salt: "vOqYjEvR"]
 
+# Nebulex
+config :covid19, Covid19.PartitionedCache,
+  primary: [
+    gc_interval: :timer.hours(12)
+  ]
+
 # Configures the mailer
 #
 # By default it uses the "Local" adapter which stores the emails

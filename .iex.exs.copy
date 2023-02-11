@@ -1,3 +1,4 @@
+alias Covid19.PartitionedCache, as: Cache
 alias Covid19.Queries
 alias Covid19.Schema.{DailyData, DailyDataUS}
 alias Covid19.Source

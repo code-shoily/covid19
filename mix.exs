@@ -39,35 +39,42 @@ defmodule Covid19.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:phoenix, "~> 1.7.0-rc.2", override: true},
-      {:phoenix_ecto, "~> 4.4"},
+      # DB
       {:ecto_sql, "~> 3.7"},
       {:postgrex, ">= 0.0.0"},
+      {:ecto_psql_extras, "~> 0.6"},
+      # Web
+      {:gettext, "~> 0.18"},
+      {:jason, "~> 1.2"},
+      {:plug_cowboy, "~> 2.5"},
+      # Phoenix and friends
+      {:phoenix, "~> 1.7.0-rc.2", override: true},
+      {:phoenix_ecto, "~> 4.4"},
       {:phoenix_html, "~> 3.2"},
       {:phoenix_live_reload, "~> 1.3", only: :dev},
       {:phoenix_live_view, "~> 0.18"},
       {:phoenix_view, "~> 2.0"},
-      {:floki, ">= 0.31.0", only: :test},
       {:phoenix_live_dashboard, "~> 0.7.2"},
-      {:esbuild, "~> 0.4", runtime: Mix.env() == :dev},
       {:swoosh, "~> 1.5"},
-      {:telemetry_metrics, "~> 0.6"},
-      {:telemetry_poller, "~> 1.0"},
-      {:gettext, "~> 0.18"},
-      {:jason, "~> 1.2"},
-      {:plug_cowboy, "~> 2.5"},
-      {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
-      {:countries, "~> 1.6"},
+      {:esbuild, "~> 0.4", runtime: Mix.env() == :dev},
+      # Scaping
+      {:floki, ">= 0.31.0", only: :test},
       {:nimble_csv, "~> 1.2"},
-      {:timex, "~> 3.7"},
-      {:stream_data, "~> 0.5", only: [:dev, :test]},
-      {:ex_machina, "~> 2.7"},
-      {:excoveralls, "~> 0.14", only: :test},
-      {:ecto_psql_extras, "~> 0.6"},
-      {:nebulex, "~> 2.2"},
+      # Caching and Telemetry
+      {:nebulex, "~> 2.4"},
       {:shards, "~> 1.0"},
       {:decorator, "~> 1.4"},
-      {:telemetry, "~> 1.0"}
+      {:telemetry, "~> 1.0"},
+      {:telemetry_metrics, "~> 0.6"},
+      {:telemetry_poller, "~> 1.0"},
+      # Helpers
+      {:countries, "~> 1.6"},
+      {:timex, "~> 3.7"},
+      # Dev and Testing
+      {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
+      {:stream_data, "~> 0.5", only: [:dev, :test]},
+      {:ex_machina, "~> 2.7"},
+      {:excoveralls, "~> 0.14", only: :test}
     ]
   end
 

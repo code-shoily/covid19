@@ -10,6 +10,8 @@ defmodule Covid19.Application do
     children = [
       # Start the Ecto repository
       Covid19.Repo,
+      # Start the ParitionedCache
+      Application.get_env(:covid19, :nebulex_cache, Covid19.PartitionedCache),
       # Start the Telemetry supervisor
       Covid19Web.Telemetry,
       # Start the PubSub system

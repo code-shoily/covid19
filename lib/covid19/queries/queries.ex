@@ -2,11 +2,16 @@ defmodule Covid19.Queries do
   @moduledoc """
   All schema related queries.
   """
+  use Nebulex.Caching
+
+  alias Covid19.PartitionedCache, as: Cache
   alias Covid19.Queries.Types
   alias Covid19.Repo
   alias Covid19.Schema.{DailyData, DailyDataUS}
 
   import Ecto.Query
+
+  @ttl :timer.hours(1)
 
   @doc """
   Returns a set of dates for which data is present in the database for either
@@ -36,6 +41,7 @@ defmodule Covid19.Queries do
   @doc """
   Returns all available dates, in descending order.
   """
+  @decorate cacheable(cache: cache(), key: {Query.Dates, type}, opts: [ttl: @ttl])
   @spec dates(Types.datasets()) :: Types.maybe_dates()
   def dates(type) do
     type
@@ -45,8 +51,9 @@ defmodule Covid19.Queries do
   end
 
   @doc """
-  Get datewise global summary. This will return global aggregate data per date.
+  Get datewise global summary. This will return global aggregate data by date.
   """
+  @decorate cacheable(cache: cache(), key: Query.SummaryByDates, opts: [ttl: @ttl])
   @spec summary_by_dates() :: Types.world_summary()
   def summary_by_dates do
     DailyData
@@ -80,6 +87,11 @@ defmodule Covid19.Queries do
   Get datewise country summary. This will return country-wise aggregate data per
   date.
   """
+  @decorate cacheable(
+              cache: cache(),
+              key: {Query.CountriesOrRegionsForDate, date},
+              opts: [ttl: @ttl]
+            )
   @spec countries_or_regions_for_date(Date.t()) :: Types.country_summary()
   def countries_or_regions_for_date(date) do
     previous_date = Date.add(date, -1)
@@ -114,6 +126,7 @@ defmodule Covid19.Queries do
   @doc """
   Get location summary. This will return data per location (Lat/Lng)
   """
+  @decorate cacheable(cache: cache(), key: {LocationsForDate, date}, opts: [ttl: @ttl])
   @spec locations_for_date(Date.t()) :: Types.location_summary()
   def locations_for_date(date) do
     previous_date = Date.add(date, -1)
@@ -137,6 +150,11 @@ defmodule Covid19.Queries do
   Get country data summarized by dates. This will return datewise data for a
   country.
   """
+  @decorate cacheable(
+              cache: cache(),
+              key: {Query.CountryOrRegionByDates, country},
+              opts: [ttl: @ttl]
+            )
   @spec country_or_region_by_dates(Types.country_name()) ::
           Types.country_summary()
   def country_or_region_by_dates(country) do
@@ -168,6 +186,11 @@ defmodule Covid19.Queries do
   Get province or state data summarized for date. This will return all province
   or state data for a country for a given date.
   """
+  @decorate cacheable(
+              cache: cache(),
+              key: {Query.ProvincesOrStatesForDate, country, date},
+              opts: [ttl: @ttl]
+            )
   @spec provinces_or_states_for_date(Types.country_name(), Date.t()) ::
           Types.province_or_state_summary()
   def provinces_or_states_for_date(country, date) do
@@ -210,4 +233,6 @@ defmodule Covid19.Queries do
 
   defp get_schema(:global), do: DailyData
   defp get_schema(:us), do: DailyDataUS
+
+  defp cache, do: Application.get_env(:covid19, :nebulex_cache, Cache)
 end

@@ -33,3 +33,6 @@ config :phoenix, :plug_init_mode, :runtime
 config :covid19, :data_source,
   daily_dir: "test/fixtures/daily_data/global",
   daily_dir_us: "test/fixtures/daily_data/us"
+
+# Nil Cache during tests
+config :covid19, nebulex_cache: Covid19.TestCache
