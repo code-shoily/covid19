@@ -30,6 +30,8 @@ defmodule Covid19Web.ConnCase do
 
       # The default endpoint for testing
       @endpoint Covid19Web.Endpoint
+
+      use Covid19Web, :verified_routes
     end
   end
 

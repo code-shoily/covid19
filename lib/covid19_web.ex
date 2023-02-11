@@ -17,6 +17,8 @@ defmodule Covid19Web do
   and import those modules here.
   """
 
+  def static_paths, do: ~w(assets fonts images favicon.ico robots.txt)
+
   def controller do
     quote do
       use Phoenix.Controller, namespace: Covid19Web
@@ -24,6 +26,8 @@ defmodule Covid19Web do
       import Plug.Conn
       import Covid19Web.Gettext
       alias Covid19Web.Router.Helpers, as: Routes
+
+      unquote(verified_routes())
     end
   end
 
@@ -82,7 +86,7 @@ defmodule Covid19Web do
       use Phoenix.HTML
 
       # Import LiveView and .heex helpers (live_render, live_patch, <.form>, etc)
-      import Phoenix.LiveView.Helpers
+      import Phoenix.Component
 
       # Import basic rendering functionality (render, render_layout, etc)
       import Phoenix.View
@@ -90,6 +94,17 @@ defmodule Covid19Web do
       import Covid19Web.ErrorHelpers
       import Covid19Web.Gettext
       alias Covid19Web.Router.Helpers, as: Routes
+
+      unquote(verified_routes())
+    end
+  end
+
+  def verified_routes do
+    quote do
+      use Phoenix.VerifiedRoutes,
+        endpoint: Covid19Web.Endpoint,
+        router: Covid19Web.Router,
+        statics: Covid19Web.static_paths()
     end
   end
 
