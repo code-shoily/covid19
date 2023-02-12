@@ -23,7 +23,7 @@ defmodule Covid19.Queries.QueriesTest do
 
     test "all inclusive dates will return to true for global",
          %{dates: {dates, _}} do
-      assert Queries.dates_loaded(:global) == MapSet.new(dates)
+      assert Queries.dates_loaded(:world) == MapSet.new(dates)
     end
 
     test "all inclusive dates will return to true for us",
@@ -45,18 +45,18 @@ defmodule Covid19.Queries.QueriesTest do
 
     test "all inclusive dates will be returned in reverse order for global",
          %{dates: {dates, _}} do
-      assert dates |> length() |> Queries.latest(:global) |> Enum.map(& &1.date) ==
+      assert dates |> length() |> Queries.latest(:world) |> Enum.map(& &1.date) ==
                Enum.reverse(dates)
     end
 
     test "date ranging going beyond start date will return all for global",
          %{dates: {dates, _}} do
-      assert Queries.latest(1000, :global) |> Enum.map(& &1.date) ==
+      assert Queries.latest(1000, :world) |> Enum.map(& &1.date) ==
                Enum.reverse(dates)
     end
 
     test "get last three dates global" do
-      assert Queries.latest(3, :global) |> Enum.map(& &1.date) == [
+      assert Queries.latest(3, :world) |> Enum.map(& &1.date) == [
                ~D[2020-01-15],
                ~D[2020-01-14],
                ~D[2020-01-13]
@@ -65,7 +65,7 @@ defmodule Covid19.Queries.QueriesTest do
 
     test "empty dataset will return empty list for global" do
       Repo.delete_all(DailyData)
-      assert Queries.latest(1, :global) |> Enum.map(& &1.date) == []
+      assert Queries.latest(1, :world) |> Enum.map(& &1.date) == []
     end
 
     test "all inclusive dates will be returned in reverse order for us",
@@ -107,12 +107,12 @@ defmodule Covid19.Queries.QueriesTest do
 
     test "gobal - all inclusive dates will be returned in reverse order",
          %{dates: {dates, _}} do
-      assert Queries.dates(:global) == Enum.reverse(dates)
+      assert Queries.dates(:world) == Enum.reverse(dates)
     end
 
     test "global - empty dataset will return empty list" do
       Repo.delete_all(DailyData)
-      assert Queries.dates(:global) == []
+      assert Queries.dates(:world) == []
     end
 
     test "us - all inclusive dates will be returned in reverse order",
@@ -199,7 +199,7 @@ defmodule Covid19.Queries.QueriesTest do
     end
 
     test "summarized data is presented correctly", %{transformed_data: data} do
-      Load.insert(data, :global)
+      Load.insert(data, :world)
 
       expected_summary = [
         %{
@@ -324,7 +324,7 @@ defmodule Covid19.Queries.QueriesTest do
     end
 
     test "summarized data is presented correctly", %{transformed_data: data} do
-      Load.insert(data, :global)
+      Load.insert(data, :world)
 
       expected_summary = [
         %{
@@ -440,7 +440,7 @@ defmodule Covid19.Queries.QueriesTest do
     end
 
     test "summarized data is presented correctly", %{transformed_data: data} do
-      Load.insert(data, :global)
+      Load.insert(data, :world)
 
       expected_summary = [
         %{
@@ -548,7 +548,7 @@ defmodule Covid19.Queries.QueriesTest do
     end
 
     test "summarized data is presented correctly", %{transformed_data: data} do
-      Load.insert(data, :global)
+      Load.insert(data, :world)
 
       expected_summary = [
         %{
@@ -685,7 +685,7 @@ defmodule Covid19.Queries.QueriesTest do
     end
 
     test "summarized data is presented correctly", %{transformed_data: data} do
-      Load.insert(data, :global)
+      Load.insert(data, :world)
 
       expected_summary = [
         %{
@@ -721,7 +721,7 @@ defmodule Covid19.Queries.QueriesTest do
     end
 
     test "summarizes data without province correctly", %{transformed_data: data} do
-      Load.insert(data, :global)
+      Load.insert(data, :world)
 
       expected_summary = [
         %{

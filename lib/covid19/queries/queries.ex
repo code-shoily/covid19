@@ -231,7 +231,7 @@ defmodule Covid19.Queries do
     |> order_by(desc: :date)
   end
 
-  defp get_schema(:global), do: DailyData
+  defp get_schema(:world), do: DailyData
   defp get_schema(:us), do: DailyDataUS
 
   defp cache, do: Application.get_env(:covid19, :nebulex_cache, Cache)

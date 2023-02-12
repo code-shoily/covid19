@@ -17,14 +17,14 @@ defmodule Covid19.SourceTest do
     end
 
     test "sync_all global does not sync anything if dates are already loaded" do
-      Source.sync_all(:global)
+      Source.sync_all(:world)
       assert Source.sync_all() == %{global: 0, us: 232}
     end
 
     test "global - syncs the last unloaded dates when called on partial db" do
       range = [~D[2021-01-01], ~D[2021-01-02], ~D[2021-01-03]]
 
-      Source.sync(range, :global)
+      Source.sync(range, :world)
       Source.sync(range, :us)
 
       assert Repo.aggregate(DailyData, :count) == 11_953
@@ -39,18 +39,18 @@ defmodule Covid19.SourceTest do
 
   describe "Source.sync_all/1" do
     test "sync_all syncs all global data with the database" do
-      assert Source.sync_all(:global) == 15_938
+      assert Source.sync_all(:world) == 15_938
     end
 
     test "sync_all global does not sync anything if dates are already loaded" do
-      Source.sync_all(:global)
-      assert 0 == Source.sync_all(:global)
+      Source.sync_all(:world)
+      assert 0 == Source.sync_all(:world)
     end
 
     test "global - syncs the last unloaded dates when called on partial db" do
-      Source.sync([~D[2021-01-01], ~D[2021-01-02], ~D[2021-01-03]], :global)
+      Source.sync([~D[2021-01-01], ~D[2021-01-02], ~D[2021-01-03]], :world)
       assert Repo.aggregate(DailyData, :count) == 11_953
-      Source.sync_all(:global)
+      Source.sync_all(:world)
       assert Repo.aggregate(DailyData, :count) == 15_938
     end
 
@@ -80,14 +80,14 @@ defmodule Covid19.SourceTest do
                  ~D[2021-01-02],
                  ~D[2021-01-03]
                ],
-               :global
+               :world
              ) == 11_953
 
       assert Repo.aggregate(DailyData, :count) == 11_953
     end
 
     test "global - syncing for inexistent date does nothing" do
-      assert Source.sync([~D[2022-01-01], ~D[2020-01-01]], :global) == 0
+      assert Source.sync([~D[2022-01-01], ~D[2020-01-01]], :world) == 0
       assert Repo.aggregate(DailyData, :count) == 0
     end
 
@@ -113,7 +113,7 @@ defmodule Covid19.SourceTest do
 
   describe "Source.rollback/2" do
     setup do
-      Source.sync_all(:global)
+      Source.sync_all(:world)
       Source.sync_all(:us)
 
       :ok
@@ -129,7 +129,7 @@ defmodule Covid19.SourceTest do
              |> MapSet.new()
              |> MapSet.member?(~D[2021-01-04])
 
-      Source.rollback(1, :global)
+      Source.rollback(1, :world)
 
       assert Repo.aggregate(DailyData, :count) == 11_953
 
@@ -166,7 +166,7 @@ defmodule Covid19.SourceTest do
     test "global - rollback for a range exceding added data will empty the db" do
       assert Repo.aggregate(DailyData, :count) == 15_938
 
-      Source.rollback(100, :global)
+      Source.rollback(100, :world)
 
       assert Repo.aggregate(DailyData, :count) == 0
     end

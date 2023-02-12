@@ -20,7 +20,7 @@ defmodule Covid19.Schema.OperationsTest do
     test "deletes all data that fall under within the dates given",
          %{dates: dates} do
       assert Repo.aggregate(DailyData, :count) == 15
-      assert Operations.delete_daily_data(dates, :global) == {15, nil}
+      assert Operations.delete_daily_data(dates, :world) == {15, nil}
       assert Repo.aggregate(DailyData, :count) == 0
     end
 
@@ -28,13 +28,13 @@ defmodule Covid19.Schema.OperationsTest do
       dates = Enum.to_list(Date.range(~D[2021-01-01], ~D[2021-01-15]))
       data = Repo.all(DailyData)
 
-      assert Operations.delete_daily_data(dates, :global) == {0, nil}
+      assert Operations.delete_daily_data(dates, :world) == {0, nil}
       assert Repo.all(DailyData) == data
     end
 
     test "deletes only the data that are inserted" do
       dates = [~D[2020-01-02], ~D[2020-01-05], ~D[2020-10-02]]
-      assert Operations.delete_daily_data(dates, :global) == {2, nil}
+      assert Operations.delete_daily_data(dates, :world) == {2, nil}
       assert Repo.aggregate(DailyData, :count) == 13
       assert DailyData |> where([row], row.date in ^dates) |> Repo.all() == []
     end

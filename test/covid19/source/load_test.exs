@@ -67,20 +67,20 @@ defmodule Covid19.Source.LoadTest do
     end
 
     test "returns 0 when nil is attempted" do
-      assert {0, nil} = Load.insert(nil, :global)
+      assert {0, nil} = Load.insert(nil, :world)
     end
 
     test "loads single data into table", %{single: single} do
-      assert {1, nil} = Load.insert(single, :global)
+      assert {1, nil} = Load.insert(single, :world)
     end
 
     test "loads multiple data into table", %{multiple: multiple} do
-      {data, nil} = Load.insert(multiple, :global)
+      {data, nil} = Load.insert(multiple, :world)
       assert data == length(multiple)
     end
 
     test "deduplicates incoming data", %{duplicate: duplicate} do
-      assert {1, nil} = Load.insert(duplicate, :global)
+      assert {1, nil} = Load.insert(duplicate, :world)
     end
   end
 

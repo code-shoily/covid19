@@ -6,7 +6,7 @@ defmodule Covid19.Source do
   alias Covid19.Queries
   alias Covid19.Schema.Operations
 
-  @type report_type :: :global | :us
+  @type report_type :: :world | :us
 
   @doc """
   Syncs all data from source with the database.
@@ -27,13 +27,13 @@ defmodule Covid19.Source do
   """
   @spec sync_all :: %{global: integer(), us: integer()}
   def sync_all do
-    %{global: sync_all(:global), us: sync_all(:us)}
+    %{global: sync_all(:world), us: sync_all(:us)}
   end
 
   @doc """
   Syncs all data from source with the database.
 
-  * type - Either `:global` or `:us`. Indicates which source we are pulling.
+  * type - Either `:world` or `:us`. Indicates which source we are pulling.
 
   This function fetches all the data from John Hopkins dataset that belong and
   loads them into the database if and only if there exists no such entry in the
@@ -59,7 +59,7 @@ defmodule Covid19.Source do
   Syncs the data for given dates with the source.
 
   * `dates` - Dates for which we are fetching the data
-  * `type` - Either `:global` or `:us`. Indicates which source we are pulling.
+  * `type` - Either `:world` or `:us`. Indicates which source we are pulling.
   * `returns` - The total number of rows added
 
   This function fetches all the data from John Hopkins dataset that belong to
@@ -83,7 +83,7 @@ defmodule Covid19.Source do
   Rolls back the data by days mentioned.
 
   * `number_of_days` - number of days to roll back to. `last_day - day..last_day`
-  * `type` - Either `:global` or `:us`. Indicates which source we are pulling.
+  * `type` - Either `:world` or `:us`. Indicates which source we are pulling.
   """
   @spec rollback(non_neg_integer(), report_type()) :: {integer(), any()}
   def rollback(number_of_days, type) do

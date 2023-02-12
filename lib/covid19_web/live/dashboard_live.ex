@@ -6,7 +6,7 @@ defmodule Covid19Web.DashboardLive do
   def mount(_, _, socket) do
     assigns = %{
       summary: Queries.summary_by_dates(),
-      dates: Queries.dates(:global),
+      dates: Queries.dates(:world),
       date_index: 0
     }
 

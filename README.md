@@ -32,8 +32,8 @@ To get the latest dataset from the repository, update the submodules with `git s
 
 Now, fire up `iex -S mix` and in the REPL, type `Covid19.Source.sync_all()` to 
 sync both global and US datasets. If you want to only sync US or Global datasets 
-then you can type `Covid19.Source.sync_all(:global)` for global and 
-`Covid19.Source.sync_all(:us)` for US.
+then you can type `Covid19.Source.sync_all(:world)` for world and 
+`Covid19.Source.sync_all(:us)` for US data.
 
 There are some sensible aliases in `.iex.exs.copy` file. If you wish you can
 append them in your own `.iex.exs`.
