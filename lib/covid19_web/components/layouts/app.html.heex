@@ -1,5 +1,4 @@
-<header class="px-4 sm:px-6 lg:px-8">
-</header>
+<header class="px-4 sm:px-6 lg:px-8"></header>
 <main class="px-4 py-10 sm:px-6 lg:px-8">
   <div class="container">
     <.flash kind={:info} title="Success!" flash={@flash} />
@@ -13,7 +12,7 @@
       phx-disconnected={show("#disconnected")}
       phx-connected={hide("#disconnected")}
     >
-      Attempting to reconnect <Heroicons.arrow_path class="ml-1 w-3 h-3 inline animate-spin" />
+      Attempting to reconnect...
     </.flash>
     <%= @inner_content %>
   </div>

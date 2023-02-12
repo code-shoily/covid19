@@ -55,10 +55,9 @@ defmodule Covid19.MixProject do
       {:phoenix_live_view, "~> 0.18"},
       {:phoenix_live_dashboard, "~> 0.7.2"},
       {:swoosh, "~> 1.5"},
-      {:heroicons, "~> 0.5"},
       {:esbuild, "~> 0.5", runtime: Mix.env() == :dev},
-      {:tailwind, "~> 0.1.8", runtime: Mix.env() == :dev},
       {:plug_cowboy, "~> 2.5"},
+      {:dart_sass, "~> 0.5", runtime: Mix.env() == :dev},
       # Scaping
       {:floki, ">= 0.31.0", only: :test},
       {:nimble_csv, "~> 1.2"},
@@ -92,8 +91,12 @@ defmodule Covid19.MixProject do
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
-      "assets.setup": ["tailwind.install --if-missing", "esbuild.install --if-missing"],
-      "assets.deploy": ["tailwind default --minify", "esbuild default --minify", "phx.digest"]
+      "assets.setup": ["esbuild.install --if-missing", "sass.install --if-missing"],
+      "assets.deploy": [
+        "esbuild default --minify",
+        "sass default --no-source-map --style=compressed",
+        "phx.digest"
+      ]
     ]
   end
 end
