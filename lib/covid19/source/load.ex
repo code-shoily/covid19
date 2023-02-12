@@ -13,7 +13,7 @@ defmodule Covid19.Source.Load do
   * type - dataset type either :us or :world
 
   """
-  @spec insert(map() | nil, type :: Types.datasets()) :: {integer(), any()}
+  @spec insert([map()] | nil, type :: Types.datasets()) :: {integer(), any()}
   def insert(nil, _), do: {0, nil}
   def insert(data, :world), do: insert_all(DailyData, data)
   def insert(data, :us), do: insert_all(DailyDataUS, data)

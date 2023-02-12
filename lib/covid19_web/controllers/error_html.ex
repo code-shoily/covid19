@@ -1,4 +1,5 @@
 defmodule Covid19Web.ErrorHTML do
+  @moduledoc false
   use Covid19Web, :html
 
   # If you want to customize your error pages,

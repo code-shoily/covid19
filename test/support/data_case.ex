@@ -14,6 +14,8 @@ defmodule Covid19.DataCase do
   this option is not recommended for other databases.
   """
 
+  alias Ecto.Adapters.SQL
+
   use ExUnit.CaseTemplate
 
   using do
@@ -36,8 +38,8 @@ defmodule Covid19.DataCase do
   Sets up the sandbox based on the test tags.
   """
   def setup_sandbox(tags) do
-    pid = Ecto.Adapters.SQL.Sandbox.start_owner!(Covid19.Repo, shared: not tags[:async])
-    on_exit(fn -> Ecto.Adapters.SQL.Sandbox.stop_owner(pid) end)
+    pid = SQL.Sandbox.start_owner!(Covid19.Repo, shared: not tags[:async])
+    on_exit(fn -> SQL.Sandbox.stop_owner(pid) end)
   end
 
   @doc """

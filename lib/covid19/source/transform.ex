@@ -35,7 +35,7 @@ defmodule Covid19.Source.Transform do
   Headings are fixed, any heading that is not handled in the heading map will
   raise an exception.
   """
-  @spec daily_data_to_map([[binary()]] | nil) :: [map()]
+  @spec daily_data_to_map([[binary()]] | nil) :: [map()] | nil
   def daily_data_to_map(nil), do: nil
 
   def daily_data_to_map([headers | rows]) when is_list(rows) do
