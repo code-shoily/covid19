@@ -12,10 +12,4 @@ defmodule Covid19Web.DashboardLive do
 
     {:ok, assign(socket, assigns)}
   end
-
-  def render(assigns) do
-    ~H"""
-    Total Rows in World Summary is: <%= Enum.count(@summary) %>
-    """
-  end
 end
