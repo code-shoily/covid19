@@ -1,0 +1,77 @@
+<div class="card">
+  <div class="card-content">
+    <p class="title is-5 is-uppercase has-text-centered">
+      <%= Helpers.format_date(@data.date) %>
+    </p>
+    <p class="subtitle has-text-centered">Summary</p>
+    <table class="table is-fullwidth">
+      <tbody>
+        <tr :if={Map.get(@data, :country_or_region)}>
+          <th class="has-text-left" style="vertical-align: middle">Countries/Regions</th>
+          <td class="has-text-right">
+            <p><%= Helpers.format_number(@data.country_or_region) %></p>
+            <p class="heading has-text-weight-bold has-text-danger">
+              (<%= Helpers.format_number(@data.province_or_state) %> areas)
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <th class="has-text-left" style="vertical-align: middle">Confirmed</th>
+          <td class="has-text-right">
+            <p><%= Helpers.format_number(@data.confirmed) %></p>
+            <p class="heading has-text-weight-bold">
+              (<%= Helpers.format_signed_number(@data.new_confirmed) %>)
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <th class="has-text-left" style="vertical-align: middle">Deaths</th>
+          <td class="has-text-right">
+            <p><%= Helpers.format_number(@data.deaths) %></p>
+            <p class="heading has-text-weight-bold has-text-danger">
+              (<%= Helpers.format_signed_number(@data.new_deaths) %>)
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <th class="has-text-left" style="vertical-align: middle">Source</th>
+          <td class="has-text-right">
+            <p><%= get_filename(@data.src) %></p>
+            <p class="heading has-text-weight-bold has-text-danger">
+              <a target="_blank" href={extract_link(@data.src)}>
+                <i class="fas fa-external-link-alt"></i> Link
+              </a>
+            </p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="buttons has-addons is-centered">
+      <button class="button is-danger is-small has-text-weight-semibold" phx-click="start">
+        <span class="icon">
+          <i class="fas fa-angle-double-left" />
+        </span>
+        <span>Start</span>
+      </button>
+      <button class="button is-info is-small has-text-weight-semibold" phx-click="prev">
+        <span class="icon">
+          <i class="fas fa-angle-left" />
+        </span>
+        <span>Prev</span>
+      </button>
+      <button class="button is-info is-small has-text-weight-semibold" phx-click="next">
+        <span>Next</span>
+        <span class="icon">
+          <i class="fas fa-angle-right" />
+        </span>
+      </button>
+      <button class="button is-danger is-small has-text-weight-semibold" phx-click="end">
+        <span>End</span>
+        <span class="icon">
+          <i class="fas fa-angle-double-right" />
+        </span>
+      </button>
+    </div>
+  </div>
+</div>
