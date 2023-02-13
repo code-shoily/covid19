@@ -71,6 +71,7 @@ defmodule Covid19.MixProject do
       # Helpers
       {:countries, "~> 1.6"},
       {:timex, "~> 3.7"},
+      {:number, "~> 1.0.1"},
       # Dev and Testing
       {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
       {:stream_data, "~> 0.5", only: [:dev, :test]},
