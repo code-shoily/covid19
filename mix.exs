@@ -56,8 +56,8 @@ defmodule Covid19.MixProject do
       {:phoenix_live_dashboard, "~> 0.7.2"},
       {:swoosh, "~> 1.5"},
       {:esbuild, "~> 0.5", runtime: Mix.env() == :dev},
+      {:tailwind, "~> 0.2.0", runtime: Mix.env() == :dev},
       {:plug_cowboy, "~> 2.5"},
-      {:dart_sass, "~> 0.5", runtime: Mix.env() == :dev},
       # Scaping
       {:floki, ">= 0.31.0", only: :test},
       {:nimble_csv, "~> 1.2"},
@@ -73,7 +73,7 @@ defmodule Covid19.MixProject do
       {:timex, "~> 3.7"},
       {:number, "~> 1.0.1"},
       # Dev and Testing
-      {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
+      {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:stream_data, "~> 0.5", only: [:dev, :test]},
       {:ex_machina, "~> 2.7"},
       {:excoveralls, "~> 0.14", only: :test}
@@ -88,14 +88,15 @@ defmodule Covid19.MixProject do
   # See the documentation for `Mix` for more info on aliases.
   defp aliases do
     [
-      setup: ["deps.get", "ecto.setup", "assets.setup"],
+      setup: ["deps.get", "ecto.setup", "assets.setup", "assets.build"],
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
-      "assets.setup": ["esbuild.install --if-missing", "sass.install --if-missing"],
+      "assets.setup": ["tailwind.install --if-missing", "esbuild.install --if-missing"],
+      "assets.build": ["tailwind default", "esbuild default"],
       "assets.deploy": [
+        "tailwind default --minify",
         "esbuild default --minify",
-        "sass default --no-source-map --style=compressed",
         "phx.digest"
       ]
     ]

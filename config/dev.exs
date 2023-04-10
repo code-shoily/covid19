@@ -25,11 +25,7 @@ config :covid19, Covid19Web.Endpoint,
   secret_key_base: "CuDle0tIjDL7K8qzmEhlW4zeOt8HGQ4HmoeiPCYH7L1pDqW0tPuUWTCC19yA6oK/",
   watchers: [
     esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]},
-    sass: {
-      DartSass,
-      :install_and_run,
-      [:default, ~w(--embed-source-map --source-map-urls=absolute --watch)]
-    }
+    tailwind: {Tailwind, :install_and_run, [:default, ~w(--watch)]}
   ]
 
 # ## SSL Support
