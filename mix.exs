@@ -5,7 +5,7 @@ defmodule Covid19.MixProject do
     [
       app: :covid19,
       version: "0.2.0",
-      elixir: "~> 1.14",
+      elixir: "~> 1.16",
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
@@ -50,15 +50,15 @@ defmodule Covid19.MixProject do
       # Phoenix and friends
       {:phoenix, "~> 1.7.0-rc.2", override: true},
       {:phoenix_ecto, "~> 4.4"},
-      {:phoenix_html, "~> 3.2"},
+      {:phoenix_html, "~> 4.0"},
       {:phoenix_live_reload, "~> 1.3", only: :dev},
-      {:phoenix_live_view, "~> 0.18"},
-      {:phoenix_live_dashboard, "~> 0.7.2"},
+      {:phoenix_live_view, "~> 0.20"},
+      {:phoenix_live_dashboard, "~> 0.8"},
       {:swoosh, "~> 1.5"},
       {:esbuild, "~> 0.5", runtime: Mix.env() == :dev},
       {:tailwind, "~> 0.2.0", runtime: Mix.env() == :dev},
       {:plug_cowboy, "~> 2.5"},
-      # Scaping
+      # Scraping
       {:floki, ">= 0.31.0", only: :test},
       {:nimble_csv, "~> 1.2"},
       # Caching and Telemetry
